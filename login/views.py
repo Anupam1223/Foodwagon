@@ -116,6 +116,14 @@ def UserRegister(request):
                     }
                     return JsonResponse(data)
 
+                address = request.POST.get("add")
+                print("address", address)
+                if not address:
+                    data = {
+                        'error': 'please enter address'
+                    }
+                    return JsonResponse(data)
+
                 password = request.POST.get("pass1")
                 if not password:
                     data = {

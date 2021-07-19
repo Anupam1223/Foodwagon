@@ -54,9 +54,11 @@
     .text-lg-center{
       padding-left: 5px;
     }
-.bg-light {
-    background-color: #373d4f !important;
-}
+    
+    .bg-light {
+        background-color: #373d4f !important;
+    }
+
     </style>
   </head>
 
@@ -94,16 +96,14 @@
             class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0"
             id="navbarSupportedContent"
           >
-          <!--
+          
             <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
               <p class="mb-0 fw-bold text-lg-center">
-                Deliver to:
                 <i class="fas fa-map-marker-alt text-warning mx-2"></i
-                ><span class="fw-normal">Current Location </span
-                ><span>Mirpur 1 Bus Stand, Dhaka</span>
+                ><span class="fw-normal" id="demo"> </span>
               </p>
             </div>
-          -->
+          
           {% if user.first_name %}
           <a  class="btn btn-white shadow-warning text-warning"
                 href="{% url 'user:userprofile' %}">
@@ -2685,8 +2685,6 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{%static 'vendors/fontawesome/all.min.js' %}"></script>
     <script src="{%static 'assets/js/theme.js' %}"></script>
-
-
     <link
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap"
       rel="stylesheet"

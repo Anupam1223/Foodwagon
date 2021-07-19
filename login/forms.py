@@ -60,6 +60,7 @@ class UserAddForm(forms.ModelForm):
         fields = [
             "email",
             "first_name",
+            "address",
             "password",
         ]
         widgets = {
@@ -88,4 +89,12 @@ class UserAddForm(forms.ModelForm):
                     "class":"username",
                 }
             ),
+            "address": forms.TextInput(
+                attrs={
+                    "placeholder": "address",
+                    "id": "address",
+                    "class":"address",
+                }
+            ),
+
         }

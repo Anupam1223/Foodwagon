@@ -26,9 +26,7 @@
 .right-side-nav a:active {
     color: #fff;
 }
-.right-side-nav a:visited {
-    color: #fff;
-}
+
 .right-side-nav nav i {
     position: absolute;
     padding-top: 4px;

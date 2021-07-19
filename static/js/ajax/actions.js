@@ -49,6 +49,7 @@ $(document).ready(function(){
         var password1 = $('.password').val();
         var name = $('.name').val();
         var password2 = $('.re-password').val();
+        var address = $('.address').val();
 
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
@@ -68,7 +69,7 @@ $(document).ready(function(){
         $.ajax({
             url:"",
             method: "POST",
-            data: {logins:'1',username:username,pass1:password1,pass2:password2, name:name},
+            data: {logins:'1',username:username,pass1:password1,pass2:password2, name:name, add:address},
             dataType: 'json',
             success: function(response){
                 $('.alert').hide();

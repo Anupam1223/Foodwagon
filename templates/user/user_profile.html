@@ -46,11 +46,71 @@
           color: white;
           padding-left: 5px;
       }
+
+      .edituser{
+          font-size: 25px;
+      }
+
       .alert-error {
       color: #fff;
       background-color: rgb(223, 199, 212);
       border-color: rgb(223, 199, 212);
       }
+
+      .image {
+        opacity: 1;
+        transition: .5s ease;
+        backface-visibility: hidden;
+      }
+
+      .middle {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .container:hover .image {
+        opacity: 0.3;
+      }
+
+      .container:hover .middle {
+        opacity: 1;
+      }
+
+      .text {
+        background-color: #373d4f;
+        color: white;
+        font-size: 10px;
+        margin-top: 1px;
+        margin-bottom: 5px;
+      }
+
+      .editimage span{
+        cursor: pointer;
+        text-align:center;
+      }
+      .editimage a {
+        position: relative;
+        overflow: hidden;
+        
+      }
+
+      .editimage span:hover a {
+        color: #ffdc2fc4;
+      }
+
+      .editimage a + input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
     </style>
     <title>Foodwagon | User Profile</title>
 </head>
@@ -155,8 +215,6 @@
                                                 class="fas fa-receipt"></i></i><span>Invoice</span> </a>
                                         <a data-toggle="tab" class="nav-link" href="#deleteAccount"><i
                                                 class="fas fa-trash-alt"></i><span>Delete Account</span> </a>
-                                        <a data-toggle="tab" class="nav-link" href="#logout"><i
-                                                class="fas fa-sign-out-alt"></i><span>Logout</span> </a>
                                     </nav>
 
                                 </div>
@@ -179,13 +237,38 @@
                                 <div class="tab-pane active" id="profile" >
                                     <h6>MY PROFILE</h6>
                                     <div class="text-center">
-                                    {% if user.profile_pic %}
-                                        <img class="img-fluid rounded-circle mt-5" height="160px" width="160px" src="{{ user.profile_pic.url }}" alt="customer pic">
-                                    {%else%}
-                                        <img class="img-fluid rounded-circle mt-5" height="160px" width="160px" src="{% static 'image/user.png' %}" alt="customer pic">
-                                    {%endif%}
-                                        <p>Name: {{user.first_name}} </p>
-                                        <p>Email: {{user.email}}</p>
+                                      {% if user.profile_pic %}
+                                      <div class="editimage">
+                                          <img class="img-fluid rounded-circle mt-5 image" height="160px" width="160px" src="{{ user.profile_pic.url }}" alt="customer pic">
+                                            <br/>
+                                            <div class="middle">
+
+                                        <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data" novalidate>
+                                        {% csrf_token %}
+                                           <span><a href="#"><i class="fas fa-user-edit edituser"></i></a> {{form.profile_pic}}</span>
+                                          </div>
+                                            <input type="submit" name="submit" class="btn btn-primary btn-sm text" value="change"> 
+                                        </form>
+                                      </div>
+                                            
+                                      {%else%}
+                                      <div class="editimage">
+                                          <img class="img-fluid rounded-circle mt-5 image" height="160px" width="160px" src="{% static 'image/user.png' %}" alt="customer pic">
+                                            <br/>
+                                            <div class="middle">
+                                              <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data" novalidate>
+                                              {% csrf_token %}
+                                                <span><a href="#"><i class="fas fa-user-edit edituser"></i></a> {{form.profile_pic}}</span>
+                                            </div>
+                                            <input type="submit" name="submit" class="btn btn-primary btn-sm text" value="change"> 
+                                        </form>
+                                      </div>
+
+                                        
+                                      {%endif%}
+                                          <p>Name: {{user.first_name}} </p>
+                                          <p>Email: {{user.email}}</p>
+                                          <p>Address: {{user.address}}</p>
                                     </div>
                                 </div>
 
@@ -193,11 +276,10 @@
                                     <!-- Update profile -->
                                     <div class="tab-pane" id="updateProfile">
                                         <h6>Update Profile</h6>
-                                        <form action={% url 'user:updateuser' %} method="POST" enctype="multipart/form-data" novalidate>
+                                        <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data" novalidate>
                                         {% csrf_token %}
                                             {{form.first_name}}
-                                            {{form.email}}
-                                            {{form.profile_pic}}
+                                            {{form.address}}
                                             <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Update Account"> 
                                         </form>
                                     </div>
@@ -231,14 +313,6 @@
                                     </form>
                                 </div>
                                 <!-- Delete Account Ends-->
-
-                                <!-- Logout -->
-                                <div class="tab-pane" id="logout">
-                                    <h6>Logout</h6>
-                                    <p>Are you sure you want to logout of your account</p>
-                                    <a class="btn btn-outline-dark btn-sm" href="{% url 'login:logout' %}"> Logout</a>
-                                </div>
-                                <!-- Logout Ends-->
                             </div>
                         </div>
                     </div>

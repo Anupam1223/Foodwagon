@@ -23,6 +23,18 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_staffuser(self, email, password):
+        """
+        Creates and saves a staff user with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            password=password,
+        )
+        user.is_staff = True
+        user.save(using=self._db)
+        return user
+
     def create_superuser(self, email, password):
         """
         Creates and saves a superuser with the given email and password.
@@ -31,7 +43,9 @@ class UserManager(BaseUserManager):
             email,
             password=password,
         )
+        user.is_staff = True
         user.admin = True
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -43,6 +57,7 @@ class User(AbstractBaseUser):
     address = models.TextField(max_length=30, blank=True)
     first_name = models.TextField(max_length=30, blank=True, default="eg aster")
     last_name = models.TextField(max_length=30, blank=True)
+    is_staff = models.BooleanField(default=False)  #non super-user
     is_active = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)  # a superuser
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="last login")

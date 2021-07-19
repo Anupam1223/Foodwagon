@@ -25,6 +25,7 @@ class UserUpdateForm(forms.ModelForm):
             "email",
             "profile_pic",
             "password",
+            "address",
         ]
         error_messages = {
             "first_name": {"required": ""},
@@ -47,7 +48,7 @@ class UserUpdateForm(forms.ModelForm):
             ),
             "profile_pic": forms.FileInput(
                 attrs={
-                    "class": "form-control mb-2 upload-image profile",
+                    "class": "profile",
                     "name":"image"
                 }
             ),
@@ -58,6 +59,13 @@ class UserUpdateForm(forms.ModelForm):
                     "class":"form-control form-control-sm mb-2 password",
                 }
             ),
+            "address": forms.TextInput(
+                attrs={
+                    "placeholder": "address",
+                    "name": "address",
+                    "class":"form-control form-control-sm mb-2",
+                }
+            ),
         }
 
 class UserUpdateeForm(forms.ModelForm):
@@ -65,13 +73,9 @@ class UserUpdateeForm(forms.ModelForm):
         model = User
         fields = [
             "first_name",
-            "email",
+            "address",
             "profile_pic",
         ]
-        error_messages = {
-            "first_name": {"required": ""},
-            "email": {"required": ""},
-        }
         widgets = {
             "first_name": forms.TextInput(
                 attrs={
@@ -80,11 +84,11 @@ class UserUpdateeForm(forms.ModelForm):
                     "name":"username"
                 }
             ),
-            "email": forms.EmailInput(
+            "address": forms.TextInput(
                 attrs={
-                    "class": "form-control form-control-sm mb-2 email",
-                    "placeholder": "email",
-                    "name":"email_id"
+                    "class": "form-control form-control-sm mb-2",
+                    "placeholder": "address",
+                    "name":"address"
                 }
             ),
             "profile_pic": forms.FileInput(
