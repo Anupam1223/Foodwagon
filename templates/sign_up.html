@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mulberry</title>
+
+    <!-- Font Icon -->
+    <link
+      rel="stylesheet"
+      href="{% static 'css/material-design-iconic-font.min.css' %}"
+    />
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="main">
+      <!-- Sign up form -->
+      <section class="signup">
+        <div class="container">
+          <div class="signup-content">
+
+            <div class="signup-form">
+              <h2 class="form-title">Sign up</h2>
+              <form class="register-form" id="register-form" novalidate>
+              {% csrf_token %}
+                <div class="form-group">
+                  <label for="name"><i class="nav-icon fas fa-edit"></i></label>
+                    {{form.first_name}}
+                </div>
+                <div class="form-group">
+                  <label for="email"
+                    ><i class="far fa-envelope-open"></i
+                  ></label>
+                {{form.email}}
+                </div>
+                <div class="form-group">
+                  <label for="pass"><i class="fas fa-unlock"></i></label>
+                {{form.password}}
+                </div>
+                <div class="form-group">
+                  <label for="re-pass"
+                    ><i class="fas fa-key"></i></i
+                  ></label>
+                  {{form.re_pass}}
+                </div>
+                <div class="form-group">
+                {{form.terms}}
+                  <label for="agree-term" class="label-agree-term"
+                    ><span><span></span></span>I agree all statements in
+                    <a href="#" class="term-service">Terms of service</a></label
+                  >
+                </div>
+                <div class="form-group form-button">
+                  <input
+                    type="submit"
+                    name="signup"
+                    id="signup"
+                    class="form-submit"
+                    value="Register"
+                  >
+                </div>
+                </form>
+            </div>
+            <div class="signup-image">
+              <figure>
+                <img
+                  src="{% static 'image/signup-image.jpg' %}"
+                  alt="sing up image"
+                />
+              </figure>
+              <a href="{% url 'login:signin' %}" class="signup-image-link">I am already member</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- JS -->
+    <script src="{%static 'js/jquery.min.js' %}"></script>
+    <script src="{%static 'js/main.js' %}"></script>
+    <script
+      src="https://kit.fontawesome.com/b45233a9f7.js"
+      crossorigin="anonymous"
+    ></script>
+    <script  src="{% static 'js/ajax/actions.js'%}"></script>  
+    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>  
+  </body>
+  <!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

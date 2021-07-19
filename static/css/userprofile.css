@@ -1,0 +1,52 @@
+.right-side-nav {
+    background-color: #1d2635c2 !important;
+}
+
+.customer-profile h6 {
+    text-transform: uppercase;
+}
+
+.customer-profile .active{
+    color: #fff;
+}
+.customer-profile .change-clr {
+    color: #474849;
+}
+
+.customer-profile .icons i {
+    color: #325C8C;
+}
+
+.right-side-nav a {
+    color: #ffdc2fc4;
+}
+.right-side-nav a:hover {
+    color: #c9ddf7;
+}
+.right-side-nav a:active {
+    color: #fff;
+}
+.right-side-nav a:visited {
+    color: #fff;
+}
+.right-side-nav nav i {
+    position: absolute;
+    padding-top: 4px;
+}
+
+.right-side-nav nav span {
+    position: relative;
+    left: 30px;
+}
+
+.customer-profile p {
+    font-size: 16px;
+    color: black
+}
+
+.upload-image {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
