@@ -1,10 +1,14 @@
 from login.models import User
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from .forms import  AdminAddForm, UserUpdateForm
+from .forms import  AdminAddForm, UserUpdateForm, UserProfileForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import check_password, make_password
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 
 # Create AdminView to see user value----------------------------------
 class AdminView(TemplateView):
@@ -38,9 +42,26 @@ def AdminAdd(request):
                 )
 
                 if useraddform.is_valid():
+                    
+                    pw = useraddform.cleaned_data["password"]
                     useradded = useraddform.save(commit=False)
                     useradded.set_password(useradded.password)
                     useradded.save()
+
+                    current_site = get_current_site(request)
+                    mail_subject = "Activate your account."
+                    message = render_to_string(
+                        "acc_for_vendor.html",
+                        {
+                            "user": useradded,
+                            "domain": current_site.domain,
+                            "username":useradded.email,
+                            "password":pw,
+                        },
+                    )
+                    to_email = useradded.email
+                    email = EmailMessage(mail_subject, message, to=[to_email])
+                    email.send()
 
                     messages.success(request, "User added sucessfully")
                     return HttpResponseRedirect("../admins/admin")
@@ -149,3 +170,21 @@ def ChangePass(request):
         else:
             messages.error(request, "old password didnt matched")
             return HttpResponseRedirect("../admin")
+
+
+# change profile image
+def Profile(request, id):
+    if request.method == "POST":
+        datas = User.objects.get(pk=id)
+        fm = UserProfileForm(
+            data=(request.POST or None), files=(request.FILES or None), instance=datas
+        )
+        if fm.is_valid():
+            fm.save()
+        else:
+            print("invalid form")
+
+    datas = User.objects.get(pk=id)
+    fm = UserProfileForm(instance=datas)
+
+    return render(request, "admin/admin_profile.html", {"form": fm})

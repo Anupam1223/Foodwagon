@@ -22,56 +22,6 @@ class UserProfile(TemplateView):
             return HttpResponseRedirect("../login/")  
 #---------------------------------------------------------------------
 
-# Create AdminView to see user value----------------------------------
-class AdminView(TemplateView):
-    # this view will render useradd template
-    template_name = "admin/useradd.html"
-
-    # when get request is requested by user than this method is runned
-    def get(self, request):
-        
-        if request.session.has_key("user"):
-            fm = AdminAddForm()
-        # rendering the userview template to see them
-            return render(request, self.template_name,{'form':fm})
-        else:
-            return HttpResponseRedirect("../login/")  
-
-#Admin Add helps admin to add the user as admin--------------------------------------------------
-def AdminAdd(request):
-    if request.session.has_key("user"):
-
-        # extract session value to extract the user password from database
-        semail = request.session["user"]
-
-        # extract the user with matching email taken from session
-        verifyUser = User.objects.filter(email=semail).first()
-        if verifyUser.admin:
-
-            if request.method == "POST":
-                useraddform = AdminAddForm(
-                    data=(request.POST or None), files=(request.FILES or None)
-                )
-
-                if useraddform.is_valid():
-                    useradded = useraddform.save(commit=False)
-                    useradded.set_password(useradded.password)
-                    useradded.save()
-
-                    messages.success(request, "User added sucessfully")
-                    return HttpResponseRedirect("../user/admin")
-                else:
-                    print("invalid form")
-            else:
-                useraddform = AdminAddForm()
-            return render(request, "useradd.html", {"form": useraddform})
-
-        else:
-            return HttpResponseRedirect("../user/admin/")
-    else:
-        return HttpResponseRedirect("../login/")
-
-
 # user with admin access can update other user
 def changePassword(request):
     if request.method == "POST":

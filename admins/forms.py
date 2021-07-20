@@ -146,3 +146,20 @@ class UserUpdateForm(forms.ModelForm):
         if not address:
             print("please provide address")
             raise forms.ValidationError("please provide address", code="invalid")
+
+
+# form to update user image
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "profile_pic",
+        ]
+
+        widgets = {
+            "profile_pic": forms.FileInput(
+                attrs={
+                    "class": "profile_pic",
+                }
+            ),
+        }

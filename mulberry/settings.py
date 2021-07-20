@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "delivery",
     "user",
     "admins",
+    "product",
 ]
 
 MIDDLEWARE = [

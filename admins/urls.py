@@ -14,4 +14,5 @@ urlpatterns = [
     path("deleteuser/<int:id>/", views.DeleteUser, name="deleteuser"),
     path("<int:id>/", views.UpdateUser, name="updateuser"),
     path("changePass/", views.ChangePass, name="changepass"),
+    path("profile/<int:id>/", views.Profile, name="profile"),
 ]

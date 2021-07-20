@@ -43,11 +43,8 @@
           <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Home</a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
-          </li>
 
-          <li class="nav-item d-none d-sm-inline-block"><a href="#" class="nav-link">Profile</a></li>
+          <li class="nav-item d-none d-sm-inline-block"><a href="{% url 'admins:profile' user.id %}" class="nav-link">Profile</a></li>
           <li class="nav-item d-none d-sm-inline-block"><a href="{% url 'login:logout' %}" class="nav-link">Logout</a></li>
           <li class="nav-item d-none d-sm-inline-block" data-toggle="modal" data-target="#myModal"  ><a href="#" class="nav-link">Change Password</a></li>
 
@@ -105,7 +102,7 @@
             <div class="image">
 
     {%if user.profile_pic %}
-              <img
+             <img
                 src="{{ user.profile_pic.url }}"
                 class="img-circle elevation-2"
                 alt="User Image"
@@ -119,7 +116,7 @@
       {% endif %}
             </div>
             <div class="info">
-              <a href="#" class="d-block">{{ user.first_name }}</a>
+              <a href="{% url 'admins:profile' user.id %}" class="d-block">{{ user.first_name }}</a>
             </div>
           </div>
 

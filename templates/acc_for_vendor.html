@@ -1,0 +1,7 @@
+{% load static %} {% autoescape off %} Hi {{ user.first_name }} welcomw to FOODWAGOn
+        your login credentials for foodwagon food delivery
+        username: {{username}}
+        password:{{password}}
+
+        click on this link to login
+        http://{{ domain }}{% url 'login:signin' %} {% endautoescape %}
