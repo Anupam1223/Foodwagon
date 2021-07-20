@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "login",
     "delivery",
     "user",
+    "admins",
 ]
 
 MIDDLEWARE = [

@@ -278,7 +278,6 @@
                                         <h6>Update Profile</h6>
                                         <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data" novalidate>
                                         {% csrf_token %}
-                                            {{form.first_name}}
                                             {{form.address}}
                                             <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Update Account"> 
                                         </form>

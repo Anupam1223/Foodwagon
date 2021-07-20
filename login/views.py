@@ -76,9 +76,23 @@ def loginUser(request):
             
             # session created
             request.session["user"] = verifyUser.email
+           
+            if verifyUser.admin:
+                
+                data = {
+                    'success': 'admin'
+                }
+                return JsonResponse(data)
+
+            if verifyUser.is_staff:
+                data = {
+                    'success': 'staff'
+                }
+                return JsonResponse(data)
+
 
             data = {
-                'success': ''
+                'success': 'user'
             }
             return JsonResponse(data)
 
@@ -208,3 +222,4 @@ def activate(request, uidb64, token):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect("../")
+

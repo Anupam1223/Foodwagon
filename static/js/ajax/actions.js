@@ -31,9 +31,26 @@ $(document).ready(function(){
                 //console.log(response);
                 var res = response;
                 if(res.hasOwnProperty('success')){
-                    $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
-                    setTimeout(function(){ location.reload(); }, 1000);
-                    window.location.href = '../';
+
+                    if(res.success == 'user'){
+                        console.log("user")
+                        $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
+                        setTimeout(function(){ location.reload(); }, 1000);
+                        window.location.href = '../';
+                    }
+                    else  if(res.success == 'admin'){
+                        console.log("admin")
+                        $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
+                        setTimeout(function(){ location.reload(); }, 1000);
+                        window.location.href = '../admins/admin';  
+                    }
+                    else{
+                        console.log("staff")
+                        $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
+                        setTimeout(function(){ location.reload(); }, 1000);
+                        window.location.href = '../admins/admin';  
+                    }       
+
                 }else if(res.hasOwnProperty('error')){
                     $('.sign-in .signin-form').prepend('<div class="alert alert-danger">'+res.error+'</div>');
                 }
