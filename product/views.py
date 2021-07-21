@@ -64,12 +64,15 @@ def delete_product(request, id):
 def update_product(request, id):
     if request.method == "POST":
         data = Product.objects.get(pk=id)
-        fm = ProductAddForm(request.POST, instance=data)
+        fm = ProductAddForm(data=(request.POST or None), files=(request.FILES or None))
         if fm.is_valid():
             fm.save()
             messages.success(request, "product updated")
             return HttpResponseRedirect("../productread")
+        else:
+            return render(request, "admin/updateproduct.html", {"forms": fm})
+        
     data = Product.objects.get(pk=id)
     fm = ProductAddForm(instance=data)
 
-    return render(request, "updateproduct.html", {"forms": fm})
+    return render(request, "admin/updateproduct.html", {"forms": fm})

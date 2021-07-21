@@ -17,6 +17,10 @@
       background-color: rgb(223, 199, 212);
       border-color: rgb(223, 199, 212);
     }
+    .elevation-2 {
+        height: 50px;
+    }
+
     </style>
 
   </head>
@@ -80,11 +84,33 @@
                   <tbody>
                   {% for user in users %}
                     <tr>
-                      <td>{{user.address}}</td>
+                      <td>
+                        {%if user.address%}  
+                          {{user.address}}
+                        {%else%}
+                          none
+                        {%endif%}
+                      </td>
                       <td>{{user.first_name}}</td>
-                      <td>{{user.last_name}}</td>
+                      <td>
+                        {%if user.last_name%}  
+                          {{user.last_name}}
+                        {%else%}
+                          none
+                        {%endif%}
+                      </td>
                       <td>{{user.email}}</td>
-                      <td>{{user.profile_pic}}</td>
+                      <td>    
+                        {%if user.profile_pic%}  
+                          <img
+                            src="{{user.profile_pic.url}}"
+                            class="img-circle elevation-2"
+                            alt="User Image"
+                          />
+                        {%else%}
+                        none
+                        {%endif%}
+                      </td>
                       <td>{{user.is_staff}}</td>
                       <td>{{user.is_active}}</td>
                       <td>{{user.admin}}</td>
