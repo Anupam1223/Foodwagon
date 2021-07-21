@@ -20,7 +20,9 @@ class CategoryView(TemplateView):
             if verifyUser.admin or verifyUser.is_staff:
                 return HttpResponseRedirect("../admins/admin")  
 
+        
+        #return render(request, self.template_name, {'product':product})
         product = Product.objects.all()
-        #trader = User.objects.filter(is_staff=True)
-
-        return render(request, self.template_name, {'product':product})
+        trader = User.objects.filter(is_staff=True)
+        return render(request, self.template_name, {'trader':trader, 'product':product})
+        
