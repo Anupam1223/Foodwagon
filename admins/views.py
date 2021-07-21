@@ -63,7 +63,7 @@ def AdminAdd(request):
                     email = EmailMessage(mail_subject, message, to=[to_email])
                     email.send()
 
-                    messages.success(request, "User added sucessfully")
+                    messages.success(request, "User added sucessfully, email is sent to the trader")
                     return HttpResponseRedirect("../admins/admin")
                 else:
                     print("invalid form")

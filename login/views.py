@@ -22,6 +22,7 @@ from django.contrib.auth import (
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 
+
 # ------------------ Views for logging in --------------------------
 def loginUser(request):
 
@@ -74,7 +75,7 @@ def loginUser(request):
             user = authenticate(username=valemail, password=valpassword)
             login(request, user)
             
-            # session created
+            # session created 
             request.session["user"] = verifyUser.email
            
             if verifyUser.admin:

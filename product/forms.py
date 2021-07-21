@@ -5,36 +5,56 @@ from .models import Product
 class ProductAddForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "quantity", "stock", "price"]
+        fields = ["name", "quantity", "stock", "price",'image']
         error_messages = {
-            "name": {"required": "please enter product name"},
-            "quantity": {"required": "please enter quantity"},
-            "stock": {"required": "please enter stock"},
-            "price": {"required": "please enter price"},
+            "name": {"required": ""},
+            "quantity": {"required": ""},
+            "stock": {"required": ""},
+            "price": {"required": ""},
+            "image":{"required":"please provide image"},
         }
         widgets = {
             "name": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter product name",
+                    "placeholder": "name",
                 }
             ),
             "quantity": forms.NumberInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "please enter total quantity",
+                    "placeholder": "quantity",
                 }
             ),
             "stock": forms.NumberInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "please enter total stock",
+                    "placeholder": "stock",
                 }
             ),
             "price": forms.NumberInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "please enter price",
+                    "placeholder": "price",
                 }
             ),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        name = self.cleaned_data.get("name", None)
+        if not name:
+            raise forms.ValidationError("please provide product name", code="invalid")
+
+        quantity = self.cleaned_data.get("quantity", None)
+        if not quantity:
+            raise forms.ValidationError("please provide quantity", code="invalid")
+
+        stock = self.cleaned_data.get("stock", None)
+        if not stock:
+            raise forms.ValidationError("please provide stock", code="invalid")
+
+        price = self.cleaned_data.get("price", None)
+        if not price:
+            raise forms.ValidationError("please provide price", code="invalid")
