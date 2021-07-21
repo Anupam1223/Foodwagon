@@ -63,8 +63,8 @@ def delete_product(request, id):
 
 def update_product(request, id):
     if request.method == "POST":
-        data = Product.objects.get(pk=id)
-        fm = ProductAddForm(data=(request.POST or None), files=(request.FILES or None))
+        datas = Product.objects.get(pk=id)
+        fm = ProductAddForm(data=(request.POST or None), files=(request.FILES or None), instance=datas)
         if fm.is_valid():
             fm.save()
             messages.success(request, "product updated")

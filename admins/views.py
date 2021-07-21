@@ -27,6 +27,7 @@ class AdminView(TemplateView):
 
 #Admin Add helps admin to add the user as admin--------------------------------------------------
 def AdminAdd(request):
+    
     if request.session.has_key("user"):
 
         # extract session value to extract the user password from database
