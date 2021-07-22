@@ -78,6 +78,14 @@ def delete_product(request, id):
         return HttpResponseRedirect("/product/productread")
 
 
+def delete_offer(request, id):
+    if request.method == "POST":
+        data = Offer.objects.get(pk=id)
+        data.delete()
+        messages.success(request, "offer deleted")
+        return HttpResponseRedirect("/product/productread")
+
+
 def update_product(request, id):
     if request.method == "POST":
         datas = Product.objects.get(pk=id)
@@ -102,21 +110,41 @@ def add_offer(request):
     if request.method == "POST":
 
         offer = request.POST.get("offerAmount")
-
         product = request.POST.get("product_offer")
 
-        # extract session value to extract the user password from database
-        semail = request.session["user"]
+        if offer and product:
+            # extract session value to extract the user password from database
+            semail = request.session["user"]
 
-        # extract the user with matching email taken from session
-        trader_instance = users.objects.filter(email=semail).first()
-        product_instance = Product.objects.filter(id=product).first()
+            # extract the user with matching email taken from session
+            trader_instance = users.objects.filter(email=semail).first()
+            product_instance = Product.objects.filter(id=product).first()
 
-        offer = Offer(
-            offer_amount=offer,
-            product_offer=product_instance,
-            trader_offer=trader_instance,
-        )
-        offer.save()
-        messages.success(request, "product offer added sucessfully")
-        return HttpResponseRedirect("/product/productread")
+            offer = Offer(
+                offer_amount=offer,
+                product_offer=product_instance,
+                trader_offer=trader_instance,
+            )
+            offer.save()
+            messages.success(request, "product offer added sucessfully")
+            return HttpResponseRedirect("/product/productread")
+        else:
+            messages.error(request, "add offer amount")
+            return HttpResponseRedirect("/product/productread")
+
+
+def edit_offer(request):
+    if request.method == "POST":
+
+        offer = request.POST.get("offerAmount")
+        offer_id = request.POST.get("product_offer")
+
+        if offer and offer_id:
+            offerr = Offer.objects.filter(id=offer_id).first()
+            offerr.offer_amount = offer
+            offerr.save()
+            messages.success(request, "product offer updated sucessfully")
+            return HttpResponseRedirect("/product/productread")
+        else:
+            messages.error(request, "add new offer amount")
+            return HttpResponseRedirect("/product/productread")

@@ -78,7 +78,7 @@
                             </button>
                           </div>
 
-                          <form method="POST" action="{% url 'product:addoffer' %}">
+                          <form method="POST" action="{% url 'product:addoffer' %}" novalidate>
                             {% csrf_token %}
                             <div class="modal-body">
 
@@ -179,13 +179,59 @@
                   <!-- /.card-header -->
                   <div class="card-body">
 
+
                     <!--code for modal starts here-->
+                    <div class="mb-2 d-flex justify-content-end btn-color">
+                      <a href="" class="btn btn-outline-dark " data-toggle="modal" data-target="#editoffer"><i
+                          class="fas fa-gift mr-1"></i>Edit Offer</a>
+                    </div>
+
+                    <div class="modal fade" id="editoffer" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Edit Offer Amount</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+
+                          <form method="POST" action="{% url 'product:editoffer' %}" novalidate>
+                            {% csrf_token %}
+                            <div class="modal-body">
+
+                              <select name="product_offer" class="form-control">
+
+                                <option value="" required>
+                                  Choose Product </option>
+                                {% for offers in offer %}
+
+                                <option value="{{offers.id}}">{{offers.product_offer.name}}</option>
+                                {% endfor %}
+                              </select>
+
+                              <label for="text" class="mt-3">Discount Amount</label>
+
+                              <input type="text" name="offerAmount" value="" class="form-control" required><br>
+                              <div>
+                                <button type="submit" class="btn btn-primary btn-sm mb-2 w-100" name="offer"
+                                  value="">Edit Offer</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!--code for modal ends here-->
 
                     <table id="example2" class="table table-bordered table-hover">
                       <thead>
                         <tr>
                           <th>Product Name</th>
+                          {% if user.admin%}
                           <th>Trader Name</th>
+                          {%endif%}
                           <th>Offer Amount</th>
                           <th>Action</th>
                         </tr>
@@ -194,12 +240,12 @@
                         {% for offers in offer %}
                         <tr>
                           <td>{{offers.product_offer.name}}</td>
+                          {% if user.admin%}
                           <td>{{offers.trader_offer.first_name}}</td>
+                          {%endif%}
                           <td>{{offers.offer_amount}}</td>
                           <td>
-                            <a class="mr-3 text-muted" href="" title="Edit"><i class="fas fa-edit"></i></a>
-
-                            <form action="" method="POST" class=d-inline>
+                            <form action="{% url 'product:deleteoffer' offers.id %}" method="POST" class=d-inline>
                               {% csrf_token %}
                               <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>
                             </form>
