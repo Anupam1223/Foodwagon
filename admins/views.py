@@ -1,9 +1,11 @@
+from product.forms import ProductAddForm
 from login.models import User
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from .forms import  AdminAddForm, UserUpdateForm, UserProfileForm
+from .forms import AdminAddForm, UserUpdateForm, UserProfileForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from product.forms import ProductAddForm
 from django.contrib.auth.hashers import check_password, make_password
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -17,17 +19,28 @@ class AdminView(TemplateView):
 
     # when get request is requested by user than this method is runned
     def get(self, request):
-        
-        if request.session.has_key("user"):
-            fm = AdminAddForm()
-        # rendering the userview template to see them
-            return render(request, self.template_name,{'form':fm})
-        else:
-            return HttpResponseRedirect("../login/")  
 
-#Admin Add helps admin to add the user as admin--------------------------------------------------
+        if request.session.has_key("user"):
+
+            semail = request.session["user"]
+            verifyUser = User.objects.filter(email=semail).first()
+
+            if verifyUser.admin:
+                fm = AdminAddForm()
+                # rendering the userview template to see them
+                return render(request, self.template_name, {"form": fm})
+            else:
+                fm = ProductAddForm()
+                # rendering the userview template to see them
+                return render(request, "admin/productadd.html", {"form": fm})
+
+        else:
+            return HttpResponseRedirect("../login/")
+
+
+# Admin Add helps admin to add the user as admin--------------------------------------------------
 def AdminAdd(request):
-    
+
     if request.session.has_key("user"):
 
         # extract session value to extract the user password from database
@@ -43,7 +56,7 @@ def AdminAdd(request):
                 )
 
                 if useraddform.is_valid():
-                    
+
                     pw = useraddform.cleaned_data["password"]
                     useradded = useraddform.save(commit=False)
                     useradded.set_password(useradded.password)
@@ -56,15 +69,17 @@ def AdminAdd(request):
                         {
                             "user": useradded,
                             "domain": current_site.domain,
-                            "username":useradded.email,
-                            "password":pw,
+                            "username": useradded.email,
+                            "password": pw,
                         },
                     )
                     to_email = useradded.email
                     email = EmailMessage(mail_subject, message, to=[to_email])
                     email.send()
 
-                    messages.success(request, "User added sucessfully, email is sent to the trader")
+                    messages.success(
+                        request, "User added sucessfully, email is sent to the trader"
+                    )
                     return HttpResponseRedirect("../admins/admin")
                 else:
                     print("invalid form")
@@ -75,6 +90,7 @@ def AdminAdd(request):
             return HttpResponseRedirect("../admins/admins/")
     else:
         return HttpResponseRedirect("../login/")
+
 
 # Create UserView to see user value
 class AdminUserView(TemplateView):
@@ -88,6 +104,7 @@ class AdminUserView(TemplateView):
         # rendering the userview template to see them
         return render(request, self.template_name, {"users": user})
 
+
 # user with admin access can delete other user
 def DeleteUser(request, id):
     if request.method == "POST":
@@ -97,6 +114,7 @@ def DeleteUser(request, id):
         return HttpResponseRedirect("../../userread")
 
     return HttpResponseRedirect("../admins")
+
 
 # user with admin access can update other user
 def UpdateUser(request, id):
@@ -113,6 +131,7 @@ def UpdateUser(request, id):
     fm = UserUpdateForm(instance=data)
 
     return render(request, "admin/updateuser.html", {"form": fm})
+
 
 # ChangePass view will take in the request body with old and new password
 def ChangePass(request):
