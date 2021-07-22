@@ -17,15 +17,17 @@ class UserProfile(TemplateView):
         if request.session.has_key("user"):
             fm = UserUpdateForm()
             # rendering the userview template to see them
-            return render(request, self.template_name, {"form":fm})
+            return render(request, self.template_name, {"form": fm})
         else:
-            return HttpResponseRedirect("../login/")  
-#---------------------------------------------------------------------
+            return HttpResponseRedirect("../login/")
+
+
+# ---------------------------------------------------------------------
 
 # user with admin access can update other user
 def changePassword(request):
     if request.method == "POST":
-        
+
         fpassword = request.POST.get("pass")
 
         password1 = request.POST.get("pass1")
@@ -34,23 +36,17 @@ def changePassword(request):
 
         # if user submit empty old password then the program will raise validation error
         if not fpassword:
-            data = {
-                'error': 'please enter your old password'
-            }
+            data = {"error": "please enter your old password"}
             return JsonResponse(data)
 
         # if user submit empty new password then the program will raise validation error
         if not password1:
-            data = {
-                'error': 'please enter new password'
-            }
+            data = {"error": "please enter new password"}
             return JsonResponse(data)
 
         # if user submit empty new re-password then the program will raise validation error
         if not password2:
-            data = {
-                'error': 'please re-enter new password'
-            }
+            data = {"error": "please re-enter new password"}
             return JsonResponse(data)
 
         # extract session value to extract the user password from database
@@ -61,7 +57,7 @@ def changePassword(request):
 
         # userid of extracted user
         userid = verifyUser.id
-          # password of extracted pasword
+        # password of extracted pasword
         userpass = verifyUser.password
 
         # checks whether the password given by user and actual password matches or not
@@ -73,20 +69,15 @@ def changePassword(request):
                 # update the passowrd
                 User.objects.filter(id=userid).update(password=password_to_save)
                 # if updated than message is shown in the dashboard
-                data = {
-                    'success': 'password changed successfully'
-                }
+                data = {"success": "password changed successfully"}
                 return JsonResponse(data)
             else:
-                data = {
-                    'error': 're-entered password didnt matched'
-                }
+                data = {"error": "re-entered password didnt matched"}
                 return JsonResponse(data)
         else:
-            data = {
-                'error': 'old password didnt matched'
-            }
+            data = {"error": "old password didnt matched"}
             return JsonResponse(data)
+
 
 # user with admin access can update other user
 def updateUser(request):
@@ -103,7 +94,9 @@ def updateUser(request):
 
         datas = User.objects.get(pk=userid)
 
-        fm = UserUpdateeForm(data=(request.POST or None), files=(request.FILES or None), instance=datas)
+        fm = UserUpdateeForm(
+            data=(request.POST or None), files=(request.FILES or None), instance=datas
+        )
 
         if fm.is_valid():
             fm.save()

@@ -7,8 +7,14 @@ class Product(models.Model):
     quantity = models.CharField(max_length=10)
     stock = models.IntegerField()
     price = models.FloatField(max_length=100)
-    image = models.ImageField(upload_to = 'images/')
-    trader = models.ForeignKey(User, on_delete= models.CASCADE)
+    image = models.ImageField(upload_to="images/")
+    trader = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+
+
+class Offer(models.Model):
+    offer_amount = models.FloatField()
+    trader_offer = models.ForeignKey(User, on_delete=models.CASCADE)
+    product_offer = models.ForeignKey(Product, on_delete=models.CASCADE)
