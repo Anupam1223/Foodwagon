@@ -60,7 +60,6 @@ def AdminAdd(request):
                 useraddform = AdminAddForm(
                     data=(request.POST or None), files=(request.FILES or None)
                 )
-                vendorinfo = VendorInfo(request.POST or None)
 
                 if useraddform.is_valid():
 
@@ -72,8 +71,8 @@ def AdminAdd(request):
                     trader_email = useraddform.cleaned_data["email"]
                     trader = User.objects.filter(email=trader_email).first()
                     if trader.is_staff:
-                        vat = vendorinfo.cleaned_data["vat"]
-                        tax = vendorinfo.cleaned_data["tax"]
+                        vat = request.POST.get("vat")
+                        tax = request.POST.get("tax")
 
                         extrainfo = VendorInfo(vat=vat, tax=tax, user=trader)
                         extrainfo.save()
