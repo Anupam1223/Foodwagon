@@ -146,6 +146,7 @@
                           <td>{{products.trader}}</td>
                           {%endif%}
                           <td>
+                            {%if products.trader.is_active %}
                             <a class="mr-3 text-muted" href="{% url 'product:updateproduct' products.id %}"
                               title="Edit"><i class="fas fa-edit"></i></a>
 
@@ -157,6 +158,7 @@
                               <button type="submit"><i class="fas fa-lock-open text-danger"></i></button>
                               {%endif%}
                             </form>
+                            {%endif%}
                           </td>
                         </tr>
                         {% endfor%}
