@@ -1,103 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Mulberry</title>
 
-    <!-- Font Icon -->
-    <link
-      rel="stylesheet"
-      href="{% static 'css/material-design-iconic-font.min.css' %}"
-    />
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  </head>
-  <body>
-    <div class="main">
-      <!-- Sing in  Form -->
-      <section class="sign-in">
-        <div class="container">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Mulberry</title>
 
-          <div class="signin-content">
+  <!-- Font Icon -->
+  <link rel="stylesheet" href="{% static 'css/material-design-iconic-font.min.css' %}" />
+  <!-- Main css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
 
-            <div class="signin-image">
-              <figure>
-                <img
-                  src="{% static 'image/vendor-signin.jpg' %}"
-                  alt="sing up image"
-                />
-              </figure>
-              <a href="{% url 'login:register' %}" class="signup-image-link">Create an account</a>
-            </div>
+<body>
+  <div class="main">
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+      <div class="container">
 
-            <div class="signin-form">
-              <h2 class="form-title">Sign in</h2>
-              <form class="register-form" id="login-form" novalidate>
-              {% csrf_token %}
-                <div class="form-group">
-                  <label for="your_name"
-                    ><i class="nav-icon fas fa-edit"></i
-                  ></label>
-                {{form.email}}
-                </div>
-                <div class="form-group">
-                  <label for="your_pass"><i class="fas fa-unlock"></i></i></label>
-                {{form.password}}
-                </div>
-                <div class="form-group">
-                {{form.rememberMe}}
-                  <label for="remember-me" class="label-agree-term"
-                    ><span><span></span></span>Remember me</label
-                  >
-                </div>
-                <div class="form-group form-button">
-                  <input
-                    type="submit"
-                    name="signin"
-                    id="signin"
-                    class="form-submit"
-                    value="Log in"
-                  />
-                </div>
-              </form>
-              <div class="social-login">
-                <span class="social-label">Or login with</span>
-                <ul class="socials">
-                  <li>
-                    <a href="#"
-                      ><i class="display-flex-center zmdi zmdi-facebook"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="display-flex-center zmdi zmdi-twitter"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a href="#"
-                      ><i class="display-flex-center zmdi zmdi-google"></i
-                    ></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+        <div class="signin-content">
+
+          <div class="signin-image">
+            <figure>
+              <img src="{% static 'image/vendor-signin.jpg' %}" alt="sing up image" />
+            </figure>
+            <a href="{% url 'login:register' %}" class="signup-image-link">Create an account</a>
           </div>
 
+          <div class="signin-form">
+            <h2 class="form-title">Sign in</h2>
+            <form class="register-form" id="login-form" novalidate>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="your_name"><i class="nav-icon fas fa-edit"></i></label>
+                {{form.email}}
+              </div>
+              <div class="form-group">
+                <label for="your_pass"><i class="fas fa-unlock"></i></i></label>
+                {{form.password}}
+              </div>
+              <div class="form-group">
+                {{form.rememberMe}}
+                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+              </div>
+              <div class="form-group form-button">
+                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+              </div>
+            </form>
+            <div class="social-login">
+              <span class="social-label">Or login with</span>
+              <ul class="socials">
+                <li>
+                  <a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </section>
-    </div>
 
-    <!-- JS -->
-    <script src="{%static 'js/jquery.min.js' %}"></script>
-    <script src="{%static 'js/main.js' %}"></script>
-    <script
-      src="https://kit.fontawesome.com/b45233a9f7.js"
-      crossorigin="anonymous"
-    ></script>
-    <script  src="{% static 'js/ajax/actions.js'%}"></script>  
-    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-  </body>
-  <!-- This templates was made by Colorlib (https://colorlib.com) -->
+      </div>
+    </section>
+  </div>
+
+  <!-- JS -->
+  <script src="{%static 'js/jquery.min.js' %}"></script>
+  <script src="{%static 'js/main.js' %}"></script>
+  <script src="https://kit.fontawesome.com/b45233a9f7.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/ajax/actions.js'%}"></script>
+  <script src="http://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+</body>
+<!-- This templates was made by Colorlib (https://colorlib.com) -->
+
 </html>

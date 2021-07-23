@@ -13,7 +13,7 @@
 <style>
   .alert-error {
     color: #fff;
-    background-color: rgb(223, 199, 212);
+    background-color: rgb(221, 105, 105);
     border-color: rgb(223, 199, 212);
   }
 
@@ -122,6 +122,7 @@
                           <th>Product Quantity</th>
                           <th>Stock</th>
                           <th>Price</th>
+                          <th>Status</th>
                           <th>Image</th>
                           {% if user.admin%}
                           <th>Trader</th>
@@ -136,6 +137,7 @@
                           <td>{{products.quantity}}</td>
                           <td>{{products.stock}}</td>
                           <td>£ {{products.price}}</td>
+                          <td>{{products.status}}</td>
                           <td>
                             <img src="{{products.image.url}}" class="img-circle elevation-2" alt="User Image" />
 
@@ -149,7 +151,11 @@
 
                             <form action="{% url 'product:deleteproduct' products.id %}" method="POST" class=d-inline>
                               {% csrf_token %}
-                              <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>
+                              {%if products.status %}
+                              <button type="submit"><i class="fas fa-lock text-danger"></i></button>
+                              {%else%}
+                              <button type="submit"><i class="fas fa-lock-open text-danger"></i></button>
+                              {%endif%}
                             </form>
                           </td>
                         </tr>

@@ -9,6 +9,7 @@ class Product(models.Model):
     price = models.FloatField(max_length=100)
     image = models.ImageField(upload_to="images/")
     trader = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

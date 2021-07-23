@@ -1,5 +1,6 @@
 from product.forms import ProductAddForm
 from login.models import User
+from product.models import Product
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from .forms import AdminAddForm, UserUpdateForm, UserProfileForm
@@ -108,10 +109,20 @@ class AdminUserView(TemplateView):
 # user with admin access can delete other user
 def DeleteUser(request, id):
     if request.method == "POST":
-        data = User.objects.get(pk=id)
-        data.delete()
-        messages.success(request, "user deleted")
-        return HttpResponseRedirect("../../userread")
+        userstatus = User.objects.filter(id=id).first()
+        product = Product.objects.filter(trader=userstatus.id)
+        if userstatus.is_active == True:
+
+            User.objects.filter(id=id).update(is_active=False)
+            for products in product:
+                Product.objects.filter(id=products.id).update(status=False)
+
+            messages.success(request, "user disabled")
+            return HttpResponseRedirect("../../userread")
+        else:
+            User.objects.filter(id=id).update(is_active=True)
+            messages.success(request, "user activated")
+            return HttpResponseRedirect("../../userread")
 
     return HttpResponseRedirect("../admins")
 

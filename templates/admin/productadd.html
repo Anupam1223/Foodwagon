@@ -18,6 +18,12 @@
     padding: 0px;
     margin-bottom: 0px;
   }
+
+  .alert-error {
+    color: #fff;
+    background-color: rgb(223, 199, 212);
+    border-color: rgb(223, 199, 212);
+  }
 </style>
 </head>
 {% endblock csspart %}
@@ -44,6 +50,14 @@
         </div>
         <!-- /.container-fluid -->
       </section>
+      {% for message in messages %}
+      <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+      {% endfor %}
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
@@ -55,6 +69,8 @@
                 <div class="card-header">
                   <h3 class="card-title">Add Product</h3>
                 </div>
+
+
                 <!-- /.card-header -->
                 <!-- form start -->
                 <form method="POST" action="{% url 'product:productadd' %}" enctype="multipart/form-data" novalidate>
@@ -68,6 +84,7 @@
                     </ul>
                     {% endif %}
                   </div>
+
                   <div class="card-body">
                     {%for formfield in form %}
                     <div class="form-group">

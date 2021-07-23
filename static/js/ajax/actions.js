@@ -1,6 +1,6 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    $('#login-form').submit(function(e){
+    $('#login-form').submit(function (e) {
         e.preventDefault();
         var username = $('.username').val();
         var password = $('.password').val();
@@ -14,7 +14,7 @@ $(document).ready(function(){
         }
         // set csrf header
         $.ajaxSetup({
-            beforeSend: function(e, settings) {
+            beforeSend: function (e, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     e.setRequestHeader("X-CSRFToken", csrftoken);
                 }
@@ -22,37 +22,37 @@ $(document).ready(function(){
         });
 
         $.ajax({
-            url:"",
+            url: "",
             method: "POST",
-            data: {logins:'1',username:username,password:password,rememberMe:remember},
+            data: { logins: '1', username: username, password: password, rememberMe: remember },
             dataType: 'json',
-            success: function(response){
+            success: function (response) {
                 $('.alert').hide();
                 //console.log(response);
                 var res = response;
-                if(res.hasOwnProperty('success')){
+                if (res.hasOwnProperty('success')) {
 
-                    if(res.success == 'user'){
+                    if (res.success == 'user') {
                         console.log("user")
                         $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
-                        setTimeout(function(){ location.reload(); }, 1000);
+                        setTimeout(function () { location.reload(); }, 1000);
                         window.location.href = '../';
                     }
-                    else  if(res.success == 'admin'){
+                    else if (res.success == 'admin') {
                         console.log("admin")
                         $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
-                        setTimeout(function(){ location.reload(); }, 1000);
-                        window.location.href = '../admins/admin';  
+                        setTimeout(function () { location.reload(); }, 1000);
+                        window.location.href = '../admins/admin';
                     }
-                    else{
+                    else {
                         console.log("staff")
                         $('.sign-in .signin-form').prepend('<div class="alert alert-success">LoggedIn Successfully.</div>');
-                        setTimeout(function(){ location.reload(); }, 1000);
-                        window.location.href = '../admins/admin';  
-                    }       
+                        setTimeout(function () { location.reload(); }, 1000);
+                        window.location.href = '../admins/admin';
+                    }
 
-                }else if(res.hasOwnProperty('error')){
-                    $('.sign-in .signin-form').prepend('<div class="alert alert-danger">'+res.error+'</div>');
+                } else if (res.hasOwnProperty('error')) {
+                    $('.sign-in .signin-form').prepend('<div class="alert alert-danger">' + res.error + '</div>');
                 }
 
             }
@@ -60,7 +60,7 @@ $(document).ready(function(){
     });
 
 
-    $('#register-form').submit(function(e){
+    $('#register-form').submit(function (e) {
         e.preventDefault();
         var username = $('.username').val();
         var password1 = $('.password').val();
@@ -76,7 +76,7 @@ $(document).ready(function(){
         }
         // set csrf header
         $.ajaxSetup({
-            beforeSend: function(e, settings) {
+            beforeSend: function (e, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     e.setRequestHeader("X-CSRFToken", csrftoken);
                 }
@@ -84,27 +84,27 @@ $(document).ready(function(){
         });
 
         $.ajax({
-            url:"",
+            url: "",
             method: "POST",
-            data: {logins:'1',username:username,pass1:password1,pass2:password2, name:name, add:address},
+            data: { logins: '1', username: username, pass1: password1, pass2: password2, name: name, add: address },
             dataType: 'json',
-            success: function(response){
+            success: function (response) {
                 $('.alert').hide();
                 //console.log(response);
                 var res = response;
-                if(res.hasOwnProperty('success')){
+                if (res.hasOwnProperty('success')) {
                     $('.signup-form').prepend('<div class="alert alert-success">check mail to verify account</div>');
-                    setTimeout(function(){ location.reload(); }, 1000);
+                    setTimeout(function () { location.reload(); }, 1000);
                     window.location.href = '../';
-                }else if(res.hasOwnProperty('error')){
-                    $('.signup-form').prepend('<div class="alert alert-danger">'+res.error+'</div>');
+                } else if (res.hasOwnProperty('error')) {
+                    $('.signup-form').prepend('<div class="alert alert-danger">' + res.error + '</div>');
                 }
 
             }
         });
     });
 
-    $('#changePassword2').submit(function(e){
+    $('#changePassword2').submit(function (e) {
         e.preventDefault();
         var password = $('.password').val();
         var password1 = $('.newpassword').val();
@@ -118,7 +118,7 @@ $(document).ready(function(){
         }
         // set csrf header
         $.ajaxSetup({
-            beforeSend: function(e, settings) {
+            beforeSend: function (e, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     e.setRequestHeader("X-CSRFToken", csrftoken);
                 }
@@ -126,24 +126,24 @@ $(document).ready(function(){
         });
 
         $.ajax({
-            url:"changepassword",
+            url: "changepassword",
             method: "POST",
-            data: {pass:password,pass1:password1,pass2:password2},
+            data: { pass: password, pass1: password1, pass2: password2 },
             dataType: 'json',
-            success: function(response){
+            success: function (response) {
                 $('.alert').hide();
                 //console.log(response);
                 var res = response;
-                if(res.hasOwnProperty('success')){
+                if (res.hasOwnProperty('success')) {
                     $('#changePassword2').prepend('<div class="alert alert-success">password changed successfully</div>');
-                    setTimeout(function(){ location.reload(); }, 1000);
+                    setTimeout(function () { location.reload(); }, 1000);
                     window.location.href = '../';
-                }else if(res.hasOwnProperty('error')){
-                    $('#changePassword2').prepend('<div class="alert alert-danger">'+res.error+'</div>');
+                } else if (res.hasOwnProperty('error')) {
+                    $('#changePassword2').prepend('<div class="alert alert-danger">' + res.error + '</div>');
                 }
 
             }
         });
     });
-    
+
 });

@@ -57,7 +57,7 @@ class User(AbstractBaseUser):
     address = models.TextField(max_length=30, blank=True)
     first_name = models.TextField(max_length=30, blank=True, default="eg aster")
     last_name = models.TextField(max_length=30, blank=True)
-    is_staff = models.BooleanField(default=False)  #non super-user
+    is_staff = models.BooleanField(default=False)  # non super-user
     is_active = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)  # a superuser
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="last login")

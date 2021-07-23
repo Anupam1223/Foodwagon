@@ -5,13 +5,13 @@ from .models import Product
 class ProductAddForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "quantity", "stock", "price",'image']
+        fields = ["name", "quantity", "stock", "price", "image"]
         error_messages = {
             "name": {"required": ""},
             "quantity": {"required": ""},
             "stock": {"required": ""},
             "price": {"required": ""},
-            "image":{"required":"please provide image"},
+            "image": {"required": "please provide image"},
         }
         widgets = {
             "name": forms.TextInput(

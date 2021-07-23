@@ -5,7 +5,11 @@ from login.models import User
 class UserUpdateForm(forms.ModelForm):
     newpassword = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={"name": "newpass1", "placeholder": "re-enter password", "class":"form-control form-control-sm mb-2 newpassword",}
+            attrs={
+                "name": "newpass1",
+                "placeholder": "re-enter password",
+                "class": "form-control form-control-sm mb-2 newpassword",
+            }
         )
     )
 
@@ -13,11 +17,12 @@ class UserUpdateForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 "name": "newpass2",
-                "class":"form-control form-control-sm mb-2 renewpassword",
+                "class": "form-control form-control-sm mb-2 renewpassword",
                 "placeholder": "re-newpassword",
             }
         )
     )
+
     class Meta:
         model = User
         fields = [
@@ -36,37 +41,33 @@ class UserUpdateForm(forms.ModelForm):
                 attrs={
                     "class": "form-control form-control-sm mb-2 firstname",
                     "placeholder": "Name",
-                    "name":"username"
+                    "name": "username",
                 }
             ),
             "email": forms.EmailInput(
                 attrs={
                     "class": "form-control form-control-sm mb-2 email",
                     "placeholder": "email",
-                    "name":"email_id"
+                    "name": "email_id",
                 }
             ),
-            "profile_pic": forms.FileInput(
-                attrs={
-                    "class": "profile",
-                    "name":"image"
-                }
-            ),
+            "profile_pic": forms.FileInput(attrs={"class": "profile", "name": "image"}),
             "password": forms.PasswordInput(
                 attrs={
                     "placeholder": "Old password",
                     "name": "oldpass",
-                    "class":"form-control form-control-sm mb-2 password",
+                    "class": "form-control form-control-sm mb-2 password",
                 }
             ),
             "address": forms.TextInput(
                 attrs={
                     "placeholder": "address",
                     "name": "address",
-                    "class":"form-control form-control-sm mb-2",
+                    "class": "form-control form-control-sm mb-2",
                 }
             ),
         }
+
 
 class UserUpdateeForm(forms.ModelForm):
     class Meta:
@@ -81,23 +82,24 @@ class UserUpdateeForm(forms.ModelForm):
                 attrs={
                     "class": "form-control form-control-sm mb-2 firstname",
                     "placeholder": "Name",
-                    "name":"username"
+                    "name": "username",
                 }
             ),
             "address": forms.TextInput(
                 attrs={
                     "class": "form-control form-control-sm mb-2",
                     "placeholder": "address",
-                    "name":"address"
+                    "name": "address",
                 }
             ),
             "profile_pic": forms.FileInput(
                 attrs={
                     "class": "form-control mb-2 upload-image profile",
-                    "name":"image"
+                    "name": "image",
                 }
             ),
         }
+
 
 # form to add user
 class AdminAddForm(forms.ModelForm):

@@ -1,4 +1,3 @@
-from collections import UserList
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from .models import Product, Offer
@@ -6,7 +5,7 @@ from .forms import ProductAddForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import User as users
-
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 def ProductAdd(request):
@@ -19,8 +18,15 @@ def ProductAdd(request):
 
                 semail = request.session["user"]
                 verifyUser = users.objects.filter(email=semail).first()
+                product_in_trader = Product.objects.filter(trader=verifyUser)
                 trader = verifyUser
+
                 name = productaddform.cleaned_data["name"]
+                for products in product_in_trader:
+                    if products.name == name:
+                        messages.error(request, "product already exists")
+                        return HttpResponseRedirect("/product/productadd")
+
                 quantity = productaddform.cleaned_data["quantity"]
                 stock = productaddform.cleaned_data["stock"]
                 price = productaddform.cleaned_data["price"]
@@ -72,10 +78,16 @@ class ProductView(TemplateView):
 
 def delete_product(request, id):
     if request.method == "POST":
-        data = Product.objects.get(pk=id)
-        data.delete()
-        messages.success(request, "product deleted")
-        return HttpResponseRedirect("/product/productread")
+
+        productstatus = Product.objects.filter(id=id).first()
+        if productstatus.status == True:
+            Product.objects.filter(id=id).update(status=False)
+            messages.success(request, "product disabled")
+            return HttpResponseRedirect("/product/productread")
+        else:
+            Product.objects.filter(id=id).update(status=True)
+            messages.success(request, "product activated")
+            return HttpResponseRedirect("/product/productread")
 
 
 def delete_offer(request, id):
@@ -129,7 +141,7 @@ def add_offer(request):
             messages.success(request, "product offer added sucessfully")
             return HttpResponseRedirect("/product/productread")
         else:
-            messages.error(request, "add offer amount")
+            messages.error(request, "product offer aborted, add offer amount")
             return HttpResponseRedirect("/product/productread")
 
 
@@ -146,5 +158,5 @@ def edit_offer(request):
             messages.success(request, "product offer updated sucessfully")
             return HttpResponseRedirect("/product/productread")
         else:
-            messages.error(request, "add new offer amount")
+            messages.error(request, "product offer aborted, add new offer amount")
             return HttpResponseRedirect("/product/productread")

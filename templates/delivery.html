@@ -227,6 +227,7 @@
           {% for offers in offer%}
           {% for products in product %}
           {%if offers.product_offer_id == products.id%}
+          {%if products.status == True %}
           <div class="col-sm-6 col-lg-3 mb-3 mb-md-0 h-100 pb-4">
             <div class="card card-span h-100">
               <div class="position-relative">
@@ -259,6 +260,7 @@
               <a class="stretched-link" href="#"></a>
             </div>
           </div>
+          {%endif%}
           {%endif%}
           {%endfor%}
           {%endfor%}
@@ -341,6 +343,7 @@
                 <div class="carousel-item active" data-bs-interval="10000">
                   <div class="row gx-3 h-100 align-items-center">
                     {% for products in product%}
+                    {%if products.status == True%}
                     <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
                       <div class="card card-span h-100 rounded-3">
                         <div class="foodimg">
@@ -366,6 +369,7 @@
                         <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
                       </div>
                     </div>
+                    {%endif%}
                     {%endfor%}
                   </div>
                 </div>
@@ -400,6 +404,7 @@
         </div>
         <div class="row gx-2">
           {% for traders in trader%}
+          {%if traders.is_active %}
           <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
 
             <div class="card card-span h-100 text-white rounded-3">
@@ -426,6 +431,7 @@
             </div>
 
           </div>
+          {% endif %}
           {%endfor%}
 
         </div>
