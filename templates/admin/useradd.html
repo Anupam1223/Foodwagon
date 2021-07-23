@@ -7,6 +7,8 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="{%static 'dist/css/adminlte.min.css' %}" />
 
+<link rel="stylesheet" href="{%static 'css/slide_out_form.css' %}" />
+
 <style>
   .list li {
     list-style: none;
@@ -99,6 +101,28 @@
                     {% endfor%}
                   </div>
               </div>
+
+              <section class="toggle-form">
+                <div class="formwrap px-4">
+                  <div class="icon-close pos-a"><img src="https://www.solodev.com/_/images/cross.png"
+                      alt="Close Button"></div>
+                  <p class="text-white mt-4 h3">Additional Vendor Info</p>
+
+                  <div class="form-group margin-top-m">
+                    <div class="card-body">
+                      {%for additionals in additional %}
+                      <div class="form-group">
+                        {{additionals.label_tag}}
+                        {{additionals}}
+                      </div>
+                      {% endfor%}
+                    </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="toggle-bg"></div>
+              </section>
+
               <!-- /.card-body -->
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">
@@ -112,6 +136,7 @@
         </div>
         <!-- /.row -->
     </div>
+
     <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -132,6 +157,7 @@
   <script src="{%static 'dist/js/demo.js' %}"></script>
   <!-- Page specific script -->
   <script src="https://kit.fontawesome.com/b45233a9f7.js" crossorigin="anonymous"></script>
+  <script src="{%static 'js/slide_out_form/slide_out_form.js' %}"></script>
   <script>
     $(function () {
       bsCustomFileInput.init();

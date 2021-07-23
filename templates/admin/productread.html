@@ -89,7 +89,10 @@
                                 <option value="" required>
                                   Choose Product </option>
                                 {% for products in product %}
-                                <option value="{{products.id}}">{{products.name}}</option>
+                                {%if products.trader.is_active%}
+                                <option value="{{products.id}}">{{products.name}} -> {{products.trader.first_name}}
+                                </option>
+                                {%endif%}
                                 {% endfor %}
                               </select>
 
@@ -216,8 +219,10 @@
                                 <option value="" required>
                                   Choose Product </option>
                                 {% for offers in offer %}
-
-                                <option value="{{offers.id}}">{{offers.product_offer.name}}</option>
+                                {% if offers.trader_offer.is_active%}
+                                <option value="{{offers.id}}">{{offers.product_offer.name}} ->
+                                  {{offers.trader_offer.first_name}}</option>
+                                {%endif%}
                                 {% endfor %}
                               </select>
 
@@ -255,10 +260,12 @@
                           {%endif%}
                           <td>{{offers.offer_amount}}</td>
                           <td>
+                            {%if offers.trader_offer.is_active %}
                             <form action="{% url 'product:deleteoffer' offers.id %}" method="POST" class=d-inline>
                               {% csrf_token %}
                               <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>
                             </form>
+                            {%endif%}
                           </td>
                         </tr>
                         {% endfor%}

@@ -1,5 +1,5 @@
 from django import forms
-from login.models import User
+from login.models import User, VendorInfo
 
 # form to add user
 class AdminAddForm(forms.ModelForm):
@@ -53,6 +53,11 @@ class AdminAddForm(forms.ModelForm):
                     "placeholder": "lastname",
                 }
             ),
+            "is_staff": forms.CheckboxInput(
+                attrs={
+                    "class": "cta-open",
+                }
+            ),
         }
 
     def clean(self):
@@ -77,6 +82,7 @@ class AdminAddForm(forms.ModelForm):
         password = self.cleaned_data.get("password", None)
         if not password:
             raise forms.ValidationError("please provide password", code="invalid")
+
 
 # form to update user
 class UserUpdateForm(forms.ModelForm):
@@ -163,3 +169,53 @@ class UserProfileForm(forms.ModelForm):
                 }
             ),
         }
+
+
+# form to add user
+class AdditionalInfoForm(forms.ModelForm):
+    class Meta:
+        model = VendorInfo
+        fields = [
+            "vat",
+            "tax",
+        ]
+        error_messages = {
+            "vat": {"required": ""},
+            "tax": {"required": ""},
+        }
+        widgets = {
+            "vat": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+            "tax": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+        }
+
+
+"""    def clean(self):
+        cleaned_data = super().clean()
+
+        address = self.cleaned_data.get("address", None)
+        if not address:
+            raise forms.ValidationError("please provide address", code="invalid")
+
+        first_name = self.cleaned_data.get("first_name", None)
+        if not first_name:
+            raise forms.ValidationError("please provide firstname", code="invalid")
+
+        last_name = self.cleaned_data.get("last_name", None)
+        if not last_name:
+            raise forms.ValidationError("please provide lastname", code="invalid")
+
+        email = self.cleaned_data.get("email", None)
+        if not email:
+            raise forms.ValidationError("please provide email", code="invalid")
+
+        password = self.cleaned_data.get("password", None)
+        if not password:
+            raise forms.ValidationError("please provide password", code="invalid")"""

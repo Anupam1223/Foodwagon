@@ -81,3 +81,9 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return self.is_admin
+
+
+class VendorInfo(models.Model):
+    tax = models.FloatField()
+    vat = models.FloatField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -1,9 +1,9 @@
 from product.forms import ProductAddForm
-from login.models import User
+from login.models import User, VendorInfo
 from product.models import Product
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from .forms import AdminAddForm, UserUpdateForm, UserProfileForm
+from .forms import AdminAddForm, UserUpdateForm, UserProfileForm, AdditionalInfoForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from product.forms import ProductAddForm
@@ -28,8 +28,13 @@ class AdminView(TemplateView):
 
             if verifyUser.admin:
                 fm = AdminAddForm()
+                additionalinfo = AdditionalInfoForm()
                 # rendering the userview template to see them
-                return render(request, self.template_name, {"form": fm})
+                return render(
+                    request,
+                    self.template_name,
+                    {"form": fm, "additional": additionalinfo},
+                )
             else:
                 fm = ProductAddForm()
                 # rendering the userview template to see them
@@ -55,6 +60,7 @@ def AdminAdd(request):
                 useraddform = AdminAddForm(
                     data=(request.POST or None), files=(request.FILES or None)
                 )
+                vendorinfo = VendorInfo(request.POST or None)
 
                 if useraddform.is_valid():
 
@@ -62,6 +68,15 @@ def AdminAdd(request):
                     useradded = useraddform.save(commit=False)
                     useradded.set_password(useradded.password)
                     useradded.save()
+
+                    trader_email = useraddform.cleaned_data["email"]
+                    trader = User.objects.filter(email=trader_email).first()
+                    if trader.is_staff:
+                        vat = vendorinfo.cleaned_data["vat"]
+                        tax = vendorinfo.cleaned_data["tax"]
+
+                        extrainfo = VendorInfo(vat=vat, tax=tax, user=trader)
+                        extrainfo.save()
 
                     current_site = get_current_site(request)
                     mail_subject = "Activate your account."

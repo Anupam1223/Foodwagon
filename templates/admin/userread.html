@@ -119,9 +119,9 @@
                             <form action="{% url 'admins:deleteuser' user.id %}" method="POST" class=d-inline>
                               {% csrf_token %}
                               {%if user.is_active %}
-                              <button type="submit"><i class="fas fa-lock text-danger"></i></button>
-                              {%else%}
                               <button type="submit"><i class="fas fa-lock-open text-danger"></i></button>
+                              {%else%}
+                              <button type="submit"><i class="fas fa-lock text-danger"></i></button>
                               {%endif%}
 
 
