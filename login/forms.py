@@ -1,6 +1,7 @@
 from django import forms
 from .models import User
 
+
 class LoginForm(forms.Form):
 
     email = forms.EmailField(
@@ -10,7 +11,7 @@ class LoginForm(forms.Form):
                 "placeholder": "Enter Email",
                 "name": "your_name",
                 "id": "your_name",
-                "class":"username",
+                "class": "username",
             }
         ),
     )
@@ -22,7 +23,7 @@ class LoginForm(forms.Form):
                 "placeholder": "Enter password",
                 "name": "your_password",
                 "id": "your_password",
-                "class":"password",
+                "class": "password",
             }
         ),
     )
@@ -41,7 +42,11 @@ class LoginForm(forms.Form):
 class UserAddForm(forms.ModelForm):
     re_pass = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={"id": "re_pass", "placeholder": "re-enter password", "class":"re-password",}
+            attrs={
+                "id": "re_pass",
+                "placeholder": "re-enter password",
+                "class": "re-password",
+            }
         )
     )
 
@@ -69,7 +74,7 @@ class UserAddForm(forms.ModelForm):
                     "placeholder": "password",
                     "name": "pass",
                     "id": "pass",
-                    "class":"form-control form-control-sm mb-2 password",
+                    "class": "form-control form-control-sm mb-2 password",
                 }
             ),
             "first_name": forms.TextInput(
@@ -77,8 +82,7 @@ class UserAddForm(forms.ModelForm):
                     "placeholder": "firstname",
                     "name": "name",
                     "id": "name",
-                    "class":"name",
-                    
+                    "class": "name",
                 }
             ),
             "email": forms.EmailInput(
@@ -86,15 +90,14 @@ class UserAddForm(forms.ModelForm):
                     "placeholder": "email",
                     "name": "email",
                     "id": "email",
-                    "class":"username",
+                    "class": "username",
                 }
             ),
             "address": forms.TextInput(
                 attrs={
                     "placeholder": "address",
                     "id": "address",
-                    "class":"address",
+                    "class": "address",
                 }
             ),
-
         }

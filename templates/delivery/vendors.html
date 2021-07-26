@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static '/css/vendors.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        referrerpolicy="no-referrer" rel="stylesheet" />
+    <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
+
+    <style>
+        .text-lg-center {
+            padding-left: 5px;
+        }
+
+        .bg-light {
+            background-color: #373d4f !important;
+        }
+
+        .fabb {
+            font-size: 40px;
+            color: white;
+            padding-left: 5px;
+        }
+
+        .pe-2 {
+            padding-left: 0.8rem !important;
+        }
+
+        .img-thumbnail {
+            max-width: 50px;
+        }
+
+        .profilepic img {
+            width: 300px;
+            /* You can set the dimensions to whatever you want */
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .foodimg img {
+            width: 200px;
+            /* You can set the dimensions to whatever you want */
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .shownimage img {
+            width: 350px;
+            /* You can set the dimensions to whatever you want */
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .fs-2 {
+            font-size: 2rem !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar section -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
+        <div class="container">
+            <a class="navbar-brand d-inline-flex" href="{% url 'delivery:delivery' %}"><img class="d-inline-block"
+                    src="{%static 'assets/img/gallery/logo.svg' %}" alt="logo" /><span
+                    class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"> </span>
+            </button>
+            <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
+                <a class="btn btn-white shadow-warning text-warning" href="{% url 'user:userprofile' %}">
+                    {% if user.first_name %}
+                    <p class="mb-0 fw-bold text-lg-center shadow-warning text-warning">
+                        <i class="fas fa-user me-2"></i>
+                        hello! {{user.first_name}}
+                    </p>
+                    {% endif %}
+                </a>
+                <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
+                    <div class="input-group-icon pe-2">
+                        <i class="fas fa-search input-box-icon text-primary"></i>
+                        <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food"
+                            aria-label="Search" />
+                    </div>
+                    {% if user.first_name %}
+                    <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:logout' %}">
+                        <i class="fas fa-user me-2"></i>Logout
+                    </a>
+                    {% elif not user.first_name %}
+                    <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:signin' %}">
+                        <i class="fas fa-user me-2"></i>Login
+                    </a>
+                    {% endif%}
+                </form>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <div class="filter"> <button class="btn btn-default" type="button" data-toggle="collapse"
+            data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filters<span
+                class="fa fa-filter pl-1"></span></button>
+    </div>
+    <div id="mobile-filter">
+        <p class="pl-sm-0 pl-2"> Home | <b>All Breads</b></p>
+        <div class="border-bottom pb-2 ml-2">
+            <h4 id="burgundy">Filters</h4>
+        </div>
+        <div class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold">Categories</h6>
+            <div id="orange"><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Fresh Artisan
+                        Breads</label> </div>
+                <div class="form-group"> <input type="checkbox" id="breakfast"> <label for="breakfast">Breakfast
+                        Breads</label> </div>
+                <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Healthy
+                        Breads</label>
+                </div>
+            </form>
+        </div>
+        <div class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold">Accompainments</h6>
+            <div id="orange"><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group"> <input type="checkbox" id="tea"> <label for="tea">Tea Cakes</label> </div>
+                <div class="form-group"> <input type="checkbox" id="cookies"> <label for="cookies">Cookies</label>
+                </div>
+                <div class="form-group"> <input type="checkbox" id="pastries"> <label for="pastries">Pastries</label>
+                </div>
+                <div class="form-group"> <input type="checkbox" id="dough"> <label for="dough">Cookie Dough</label>
+                </div>
+                <div class="form-group"> <input type="checkbox" id="choco"> <label for="choco">Chocolates</label> </div>
+            </form>
+        </div>
+        <div class="py-2 ml-3">
+            <h6 class="font-weight-bold">Top Offers</h6>
+            <div id="orange"><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
+                <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan
+                        breads</label> </div>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar filter section -->
+    <section id="sidebar">
+        <p> Home | <b>All Restaurants</b></p>
+        <div class="border-bottom pb-2 ml-2">
+            <h4 id="burgundy">Filters</h4>
+        </div>
+        <div class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold">Categories</h6>
+            <div id="orange"><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Fresh Artisan
+                        Breads</label> </div>
+                <div class="form-group"> <input type="checkbox" id="breakfast"> <label for="breakfast">Breakfast
+                        Breads</label> </div>
+                <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Healthy
+                        Breads</label>
+                </div>
+            </form>
+        </div>
+
+        <div class="py-2 ml-3">
+            <h6 class="font-weight-bold">Top Offers</h6>
+            <div id="orange"><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
+                <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan
+                        breads</label> </div>
+            </form>
+        </div>
+    </section>
+    <!-- products section -->
+    <section id="products">
+        <div class="container">
+            <div class="d-flex flex-row">
+                <div class="text-muted m-2" id="res">Showing {{total_trader}} results</div>
+                <div class="ml-auto mr-lg-4">
+                    <div id="sorting" class="border rounded p-1 m-1"> <span class="text-muted">Sort by</span> <select
+                            name="sort" id="sort">
+                            <option value="popularity"><b>Popularity</b></option>
+                            <option value="prcie"><b>Price</b></option>
+                            <option value="rating"><b>Rating</b></option>
+                        </select> </div>
+                </div>
+            </div>
+            <section id="testimonial">
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-lg-7 mx-auto text-center mb-6">
+                            <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">
+                                Featured Restaurants
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="row gx-2">
+                        {% for traders in trader%}
+                        {%if traders.is_active %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
+
+                            <div class="card card-span h-100 text-white rounded-3">
+                                <div class="profilepic">
+                                    <img class="img-fluid rounded-3" src="{{traders.profile_pic.url}}" alt="..." />
+                                </div>
+                                <div class="card-img-overlay ps-0">
+                                    <span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span
+                                            class="fs-0">20%
+                                            off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i
+                                            class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span>
+                                </div>
+                                <div class="card-body ps-0">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img class="img-thumbnail" src="{{traders.profile_pic.url}}" alt="" />
+                                        <div class="flex-1 ms-3">
+                                            <h5 class="mb-0 fw-bold text-1000">{{traders.first_name}}</h5>
+                                            <span class="text-primary fs--1 me-1"><i
+                                                    class="fas fa-star"></i></span><span
+                                                class="mb-0 text-primary">46</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span
+                                        class="text-primary">{{traders.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens
+                                            Tomorrow</span></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endif %}
+                        {%endfor%}
+
+                    </div>
+                </div>
+        </div>
+    </section>
+</body>
+
+</html>

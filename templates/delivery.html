@@ -254,7 +254,7 @@
                 <h5 class="fw-bold text-1000 text-truncate">
                   {{products.name}}
                 </h5>
-                <span class="badge bg-soft-danger py-2 px-3"><span class="fs-1 text-danger">6 days
+                <span class="badge bg-soft-danger py-2 px-3"><span class="fs-1 text-danger">{{offers.offer_time}} days
                     Remaining</span></span>
               </div>
               <a class="stretched-link" href="#"></a>
@@ -342,7 +342,40 @@
               <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="10000">
                   <div class="row gx-3 h-100 align-items-center">
-                    {% for products in product%}
+                    {% for products in product1%}
+                    {%if products.status == True%}
+                    <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
+                      <div class="card card-span h-100 rounded-3">
+                        <div class="foodimg">
+                          <img class="img-fluid rounded-3" src="{{products.image.url}}" alt="..." />
+                        </div>
+                        <div class="card-body ps-0">
+                          <h5 class="fw-bold text-1000 text-truncate mb-1">
+                            {{products.name}}
+                          </h5>
+                          <div>
+
+                            {% for traders in trader%}
+                            {%if products.trader_id == traders.id%}
+                            <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span
+                              class="text-primary">{{traders.address}}</span>
+                            {%endif%}
+                            {%endfor%}
+                          </div>
+                          <span class="text-1000 fw-bold">£ {{products.price}}</span>
+                        </div>
+                      </div>
+                      <div class="d-grid gap-2">
+                        <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
+                      </div>
+                    </div>
+                    {%endif%}
+                    {%endfor%}
+                  </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                  <div class="row gx-3 h-100 align-items-center">
+                    {% for products in product2%}
                     {%if products.status == True%}
                     <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
                       <div class="card card-span h-100 rounded-3">
@@ -425,8 +458,6 @@
                       class="mb-0 text-primary">46</span>
                   </div>
                 </div>
-                <span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens
-                    Tomorrow</span></span>
               </div>
             </div>
 
@@ -436,7 +467,8 @@
 
         </div>
         <div class="col-12 d-flex justify-content-center mt-5">
-          <a class="btn btn-lg btn-primary" href="#!">View All <i class="fas fa-chevron-right ms-2"> </i></a>
+          <a class="btn btn-lg btn-primary" href="{% url 'delivery:viewalltrader'%}">View All <i
+              class="fas fa-chevron-right ms-2"> </i></a>
         </div>
       </div>
       </div>

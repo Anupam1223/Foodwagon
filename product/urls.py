@@ -11,4 +11,7 @@ urlpatterns = [
     path("addoffer/", views.add_offer, name="addoffer"),
     path("deleteoffer/<int:id>/", views.delete_offer, name="deleteoffer"),
     path("editoffer/", views.edit_offer, name="editoffer"),
+    path("addcategory/", views.add_category, name="addcategory"),
+    path("viewcategory/", views.category_view.as_view(), name="viewcategory"),
+    path("updatecategory/<int:id>/", views.update_category, name="updatecategory"),
 ]

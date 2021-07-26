@@ -97,9 +97,11 @@
                               </select>
 
                               <label for="text" class="mt-3">Discount Amount</label>
-
-                              <input type="text" name="offerAmount" value="" class="form-control" required><br>
+                              <input type="text" name="offerAmount" value="" class="form-control" required>
+                              <label for="text" class="mt-3">Valid Until</label>
+                              <input type="text" name="validtime" value="" class="form-control" required><br>
                               <div>
+
                                 <button type="submit" class="btn btn-primary btn-sm mb-2 w-100" name="offer"
                                   value="">Add Offer</button>
                               </div>
@@ -130,6 +132,7 @@
                           {% if user.admin%}
                           <th>Trader</th>
                           {%endif%}
+                          <th>Category</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -148,6 +151,7 @@
                           {% if user.admin%}
                           <td>{{products.trader}}</td>
                           {%endif%}
+                          <td>{{products.category}}</td>
                           <td>
                             {%if products.trader.is_active %}
                             <a class="mr-3 text-muted" href="{% url 'product:updateproduct' products.id %}"
@@ -179,7 +183,7 @@
           <!-- /.container-fluid -->
         </section>
 
-        {% if offer%}
+        {% if offer %}
         <!--content for offer-->
         <section class="content">
           <div class="container-fluid">
@@ -198,6 +202,39 @@
                       <a href="" class="btn btn-outline-dark " data-toggle="modal" data-target="#editoffer"><i
                           class="fas fa-gift mr-1"></i>Edit Offer</a>
                     </div>
+                    <table id="example2" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>Product Name</th>
+                          {% if user.admin%}
+                          <th>Trader Name</th>
+                          {%endif%}
+                          <th>Offer Amount</th>
+                          <th>Offer Time</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for offers in offer %}
+                        <tr>
+                          <td>{{offers.product_offer.name}}</td>
+                          {% if user.admin%}
+                          <td>{{offers.trader_offer.first_name}}</td>
+                          {%endif%}
+                          <td>{{offers.offer_amount}}</td>
+                          <td>{{offers.offer_time}}</td>
+                          <td>
+                            {%if offers.trader_offer.is_active %}
+                            <form action="{% url 'product:deleteoffer' offers.id %}" method="POST" class=d-inline>
+                              {% csrf_token %}
+                              <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>
+                            </form>
+                            {%endif%}
+                          </td>
+                        </tr>
+                        {% endfor%}
+                      </tbody>
+                    </table>
 
                     <div class="modal fade" id="editoffer" tabindex="-1" role="dialog"
                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -227,50 +264,20 @@
                               </select>
 
                               <label for="text" class="mt-3">Discount Amount</label>
-
-                              <input type="text" name="offerAmount" value="" class="form-control" required><br>
+                              <input type="text" name="offerAmount" value="" class="form-control" required>
+                              <label for="text" class="mt-3">Valid Until</label>
+                              <input type="text" name="validtime" value="" class="form-control" required><br>
                               <div>
-                                <button type="submit" class="btn btn-primary btn-sm mb-2 w-100" name="offer"
-                                  value="">Edit Offer</button>
+                                <div>
+                                  <button type="submit" class="btn btn-primary btn-sm mb-2 w-100" name="offer"
+                                    value="">Edit Offer</button>
+                                </div>
                               </div>
-                            </div>
                           </form>
                         </div>
                       </div>
                     </div>
                     <!--code for modal ends here-->
-
-                    <table id="example2" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>Product Name</th>
-                          {% if user.admin%}
-                          <th>Trader Name</th>
-                          {%endif%}
-                          <th>Offer Amount</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for offers in offer %}
-                        <tr>
-                          <td>{{offers.product_offer.name}}</td>
-                          {% if user.admin%}
-                          <td>{{offers.trader_offer.first_name}}</td>
-                          {%endif%}
-                          <td>{{offers.offer_amount}}</td>
-                          <td>
-                            {%if offers.trader_offer.is_active %}
-                            <form action="{% url 'product:deleteoffer' offers.id %}" method="POST" class=d-inline>
-                              {% csrf_token %}
-                              <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>
-                            </form>
-                            {%endif%}
-                          </td>
-                        </tr>
-                        {% endfor%}
-                      </tbody>
-                    </table>
                   </div>
                   <!-- /.card-body -->
                 </div>

@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from .models import Product, Offer
-from .forms import ProductAddForm
+from .models import Categories, Product, Offer
+from .forms import ProductAddForm, CategoryAddForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import User as users
-from django.core.exceptions import ValidationError
 
 # Create your views here.
 def ProductAdd(request):
@@ -31,6 +30,7 @@ def ProductAdd(request):
                 stock = productaddform.cleaned_data["stock"]
                 price = productaddform.cleaned_data["price"]
                 image = productaddform.cleaned_data["image"]
+                category = productaddform.cleaned_data["category"]
 
                 product = Product(
                     name=name,
@@ -39,6 +39,7 @@ def ProductAdd(request):
                     price=price,
                     image=image,
                     trader=trader,
+                    category=category,
                 )
                 product.save()
 
@@ -123,6 +124,7 @@ def add_offer(request):
 
         offer = request.POST.get("offerAmount")
         product = request.POST.get("product_offer")
+        offertime = request.POST.get("validtime")
 
         if offer and product:
             # extract session value to extract the user password from database
@@ -136,6 +138,7 @@ def add_offer(request):
                 offer_amount=offer,
                 product_offer=product_instance,
                 trader_offer=trader_instance,
+                offer_time=offertime,
             )
             offer.save()
             messages.success(request, "product offer added sucessfully")
@@ -150,8 +153,16 @@ def edit_offer(request):
 
         offer = request.POST.get("offerAmount")
         offer_id = request.POST.get("product_offer")
+        offertime = request.POST.get("validtime")
 
-        if offer and offer_id:
+        if offer and offer_id and offertime:
+            offerr = Offer.objects.filter(id=offer_id).first()
+            offerr.offer_amount = offer
+            offerr.offer_time = offertime
+            offerr.save()
+            messages.success(request, "product offer updated sucessfully")
+            return HttpResponseRedirect("/product/productread")
+        elif offer and offer_id:
             offerr = Offer.objects.filter(id=offer_id).first()
             offerr.offer_amount = offer
             offerr.save()
@@ -160,3 +171,66 @@ def edit_offer(request):
         else:
             messages.error(request, "product offer aborted, add new offer amount")
             return HttpResponseRedirect("/product/productread")
+
+
+# Create your views here.
+def add_category(request):
+    if request.session.has_key("user"):
+        if request.method == "POST":
+            categoryaddform = CategoryAddForm(
+                data=(request.POST or None), files=(request.FILES or None)
+            )
+            if categoryaddform.is_valid():
+                name = categoryaddform.cleaned_data["name"]
+
+                categories = Categories.objects.filter(name=name)
+                for category in categories:
+                    if category.name == name:
+                        messages.error(request, "category already exists")
+                        return HttpResponseRedirect("/product/viewcategory")
+
+                name = categoryaddform.cleaned_data["name"]
+
+                category = Categories(
+                    name=name,
+                )
+                category.save()
+
+                messages.success(request, "product added sucessfully")
+                return HttpResponseRedirect("/product/viewcategory")
+            else:
+                print("invalid form")
+        else:
+            productaddform = CategoryAddForm()
+    else:
+        return HttpResponseRedirect("../../login/")
+
+    return render(request, "admin/categoryadd.html", {"form": productaddform})
+
+
+class category_view(TemplateView):
+    template_name = "admin/viewcategory.html"
+
+    def get(self, request):
+
+        category = Categories.objects.all()
+        return render(request, self.template_name, {"category": category})
+
+
+def update_category(request, id):
+    if request.method == "POST":
+        datas = Categories.objects.get(pk=id)
+        fm = CategoryAddForm(
+            data=(request.POST or None), files=(request.FILES or None), instance=datas
+        )
+        if fm.is_valid():
+            fm.save()
+            messages.success(request, "category updated")
+            return HttpResponseRedirect("/product/viewcategory")
+        else:
+            return render(request, "admin/updatecategory.html", {"forms": fm})
+
+    data = Categories.objects.get(pk=id)
+    fm = CategoryAddForm(instance=data)
+
+    return render(request, "admin/updatecategory.html", {"forms": fm})
