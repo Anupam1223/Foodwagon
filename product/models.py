@@ -4,6 +4,7 @@ from login.models import User
 
 class Categories(models.Model):
     name = models.CharField(max_length=100, default="street food", unique=True)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -22,6 +23,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        unique_together = ("name", "trader")
 
 
 class Offer(models.Model):

@@ -234,3 +234,19 @@ def update_category(request, id):
     fm = CategoryAddForm(instance=data)
 
     return render(request, "admin/updatecategory.html", {"forms": fm})
+
+
+def delete_category(request, id):
+    if request.method == "POST":
+
+        categorystatus = Categories.objects.filter(id=id).first()
+        if categorystatus.status == True:
+            Categories.objects.filter(id=id).update(status=False)
+            messages.success(request, "category disabled")
+            return HttpResponseRedirect("/product/viewcategory")
+        else:
+            Categories.objects.filter(id=id).update(status=True)
+            messages.success(request, "category activated")
+            return HttpResponseRedirect("/product/viewcategory")
+
+

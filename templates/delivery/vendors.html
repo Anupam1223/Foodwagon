@@ -63,6 +63,11 @@
         .fs-2 {
             font-size: 2rem !important;
         }
+
+        section {
+            padding-top: 0.5rem;
+
+        }
     </style>
 </head>
 
@@ -113,6 +118,8 @@
             data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filters<span
                 class="fa fa-filter pl-1"></span></button>
     </div>
+    <!-- Mobile view -->
+    <!--
     <div id="mobile-filter">
         <p class="pl-sm-0 pl-2"> Home | <b>All Breads</b></p>
         <div class="border-bottom pb-2 ml-2">
@@ -154,34 +161,69 @@
                         breads</label> </div>
             </form>
         </div>
-    </div>
+    </div> -->
     <!-- Sidebar filter section -->
     <section id="sidebar">
+        {% if not selected_category%}
         <p> Home | <b>All Restaurants</b></p>
+        {%else%}
+        <p> Home | <b>{{selected_category.name}}</b></p>
+        {%endif%}
         <div class="border-bottom pb-2 ml-2">
             <h4 id="burgundy">Filters</h4>
         </div>
         <div class="py-2 border-bottom ml-3">
             <h6 class="font-weight-bold">Categories</h6>
             <div id="orange"><span class="fa fa-minus"></span></div>
-            <form>
-                <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Fresh Artisan
-                        Breads</label> </div>
-                <div class="form-group"> <input type="checkbox" id="breakfast"> <label for="breakfast">Breakfast
-                        Breads</label> </div>
-                <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Healthy
-                        Breads</label>
+            <form method="POST" action="{% url 'delivery:filter'%}">
+                {% csrf_token %}
+                {% for categories in category%}
+                {%if selected_category.id == categories.id%}
+                <div class="form-group"><input type="radio" value="{{categories.id}}" id="{{categories.id}}"
+                        name="categoryid" checked>
+                    <label for="{{categories.id}}">{{categories.name}}</label>
                 </div>
-            </form>
+                {%else%}
+                <div class="form-group"><input type="radio" value="{{categories.id}}" id="{{categories.id}}"
+                        name="categoryid">
+                    <label for="{{categories.id}}">{{categories.name}}</label>
+                </div>
+                {%endif%}
+                {%endfor%}
+                {%if not selected_category%}
+                <div class="form-group"><input type="radio" value="all" name="categoryid" checked>
+                    <label for="categoryid">All Restaurants</label>
+                </div>
+                {%else%}
+                <div class="form-group"><input type="radio" value="all" name="categoryid">
+                    <label for="categoryid">All Restaurants</label>
+                </div>
+                {%endif%}
+                <input type="submit" value="Done">
+        </div>
+        </form>
         </div>
 
         <div class="py-2 ml-3">
             <h6 class="font-weight-bold">Top Offers</h6>
             <div id="orange"><span class="fa fa-minus"></span></div>
-            <form>
-                <div class="form-group"> <input type="checkbox" id="25off"> <label for="25">25% off</label> </div>
-                <div class="form-group"> <input type="checkbox" id="5off"> <label for="5off" id="off">5% off on artisan
-                        breads</label> </div>
+            <form method="POST" action="{% url 'delivery:filteroffer'%}">
+                {% csrf_token %}
+                {% for offers in offer%}
+                {%if selected_category.id == offers.id%}
+                <div class="form-group"> <input type="radio" name="offerid" value="{{offers.id}}" id="{{offers.id}}"
+                        checked>
+                    <label for="{{offers.id}}">£
+                        {{offers.offer_amount}} off</label>
+                </div>
+                {%else%}
+                <div class="form-group"> <input type="radio" name="offerid" value="{{offers.id}}" id="{{offers.id}}">
+                    <label for="{{offers.id}}">£
+                        {{offers.offer_amount}} off</label>
+                </div>
+                {%endif%}
+                {%endfor%}
+                <input type="submit" value="Done">
             </form>
         </div>
     </section>
@@ -234,7 +276,7 @@
                                         </div>
                                     </div>
                                     <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span
-                                        class="text-primary">{{traders.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        class="text-primary">{{traders.address}}</span>
                                     <span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens
                                             Tomorrow</span></span>
                                 </div>

@@ -59,6 +59,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Category name</th>
+                                                    <th>Category Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -66,14 +67,16 @@
                                                 {% for categories in category %}
                                                 <tr>
                                                     <td>{{categories.name}}</td>
+                                                    <td>{{categories.status}}</td>
                                                     <td>
                                                         <a class="mr-3 text-muted"
                                                             href="{% url 'product:updatecategory' categories.id %}"
                                                             title="Edit"><i class="fas fa-edit"></i></a>
 
-                                                        <form action="" method="POST" class=d-inline>
+                                                        <form action="{% url 'product:deletecategory' categories.id %}"
+                                                            method="POST" class=d-inline>
                                                             {% csrf_token %}
-                                                            {%if user.is_active %}
+                                                            {%if categories.status %}
                                                             <button type="submit"><i
                                                                     class="fas fa-lock text-danger"></i></button>
                                                             {%else%}
