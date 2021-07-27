@@ -136,9 +136,17 @@
                 <span class="navbar-toggler-icon"> </span>
               </button>
               <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-                <a class="btn btn-white shadow-warning text-warning" href="{% url 'user:userprofile' %}">
+
+                <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+                  <p class="mb-0 fw-bold text-lg-center">
+                    <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo">
+                    </span>
+                  </p>
+                </div>
+
+                <a class="btn btn-white text-warning" href="{% url 'user:userprofile' %}">
                   {% if user.first_name %}
-                  <p class="mb-0 fw-bold text-lg-center shadow-warning text-warning">
+                  <p class="mb-0 fw-bold text-lg-center text-warning">
                     <i class="fas fa-user me-2"></i>
                     hello! {{user.first_name}}
                   </p>
