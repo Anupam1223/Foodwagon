@@ -25,7 +25,7 @@ class CategoryView(TemplateView):
 
         # return render(request, self.template_name, {'product':product})
         product = Product.objects.all()
-        traders = User.objects.filter(is_staff=True)
+        traders = User.objects.filter(is_staff=True, is_active=True)
         trader = traders[0:4]
         offerss = Offer.objects.all()
         offer = offerss[0:4]
@@ -62,8 +62,13 @@ class VendorView(TemplateView):
 
         # return render(request, self.template_name, {'product':product})
         product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True)
+        trader = User.objects.filter(is_staff=True, is_active=True)
         total_trader_count = trader.count()
+        # paginaton code--------------------------
+        paginator = Paginator(trader, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        # ----------------------------------------
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
@@ -72,7 +77,7 @@ class VendorView(TemplateView):
             request,
             self.template_name,
             {
-                "trader": trader,
+                "trader": page_obj,
                 "product": product,
                 "total_trader": total_trader_count,
                 "category": category,
@@ -87,15 +92,28 @@ def filter_category(request):
         categoryid = request.POST.get("categoryid")
 
         if categoryid == "all":
-            trader = User.objects.filter(is_staff=True)
+            trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
             selected_category = None
             total_trader_count = trader.count()
+            # paginaton code--------------------------
+            paginator = Paginator(trader, 4)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            # ----------------------------------------
         else:
             products = Product.objects.filter(category=categoryid)
             traders = []
             for product in products:
                 traders.append(product.trader)
-            trader = set(traders)
+            trade = set(traders)
+            trader = list(trade)
+
+            # paginaton code--------------------------
+            paginator = Paginator(trader, 4)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            # ----------------------------------------
+
             selected_category = Categories.objects.filter(id=categoryid).first()
             count = 0
             for traders in trader:
@@ -109,7 +127,7 @@ def filter_category(request):
             request,
             "delivery/vendors.html",
             {
-                "trader": trader,
+                "trader": page_obj,
                 "category": category,
                 "offer": offer,
                 "selected_category": selected_category,
@@ -118,17 +136,19 @@ def filter_category(request):
         )
     else:
         product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True)
+        trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
         total_trader_count = trader.count()
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
-        paginator = Paginator()
+        paginator = Paginator(trader, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
         return render(
             request,
             "delivery/vendors.html",
             {
-                "trader": trader,
+                "trader": page_obj,
                 "product": product,
                 "total_trader": total_trader_count,
                 "category": category,
@@ -143,15 +163,27 @@ def filter_offer(request):
         offerid = request.POST.get("offerid")
 
         if offerid == "all":
-            trader = User.objects.filter(is_staff=True)
+            trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
             selected_category = None
             total_trader_count = trader.count()
+            # paginaton code--------------------------
+            paginator = Paginator(trader, 4)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            # ----------------------------------------
         else:
             offersss = Offer.objects.filter(id=offerid)
             traders = []
             for product in offersss:
                 traders.append(product.trader_offer)
-            trader = set(traders)
+            trade = set(traders)
+            trader = list(trade)
+
+            # paginaton code--------------------------
+            paginator = Paginator(trader, 4)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            # ----------------------------------------
 
             selected_category = Offer.objects.filter(id=offerid).first()
             count = 0
@@ -166,7 +198,7 @@ def filter_offer(request):
             request,
             "delivery/vendors.html",
             {
-                "trader": trader,
+                "trader": page_obj,
                 "category": category,
                 "offer": offer,
                 "selected_category": selected_category,
@@ -175,17 +207,20 @@ def filter_offer(request):
         )
     else:
         product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True)
+        trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
         total_trader_count = trader.count()
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
+        paginator = Paginator(trader, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
 
         return render(
             request,
             "delivery/vendors.html",
             {
-                "trader": trader,
+                "trader": page_obj,
                 "product": product,
                 "total_trader": total_trader_count,
                 "category": category,
