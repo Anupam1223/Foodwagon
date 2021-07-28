@@ -248,5 +248,3 @@ def delete_category(request, id):
             Categories.objects.filter(id=id).update(status=True)
             messages.success(request, "category activated")
             return HttpResponseRedirect("/product/viewcategory")
-
-

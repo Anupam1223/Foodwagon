@@ -1,0 +1,11 @@
+.banner {
+    /* The image used */
+    background-image:
+    url('/static/image/kfcbanner.jpg');
+    /*background-attachment: fixed;
+    /* Prevent image from repeating */
+    background-repeat: no-repeat;
+    height: 500px;
+    background-size:cover;  
+    background-position: center center;
+  }

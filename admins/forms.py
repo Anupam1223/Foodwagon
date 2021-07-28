@@ -176,46 +176,28 @@ class AdditionalInfoForm(forms.ModelForm):
     class Meta:
         model = VendorInfo
         fields = [
-            "vat",
-            "tax",
+            "additional_vat",
+            "additional_service_charge",
+            "banner",
         ]
         error_messages = {
-            "vat": {"required": ""},
-            "tax": {"required": ""},
+            "additional_vat": {"required": ""},
+            "additional_service_charge": {"required": ""},
         }
         widgets = {
-            "vat": forms.NumberInput(
+            "additional_vat": forms.NumberInput(
                 attrs={
                     "class": "form-control",
                 }
             ),
-            "tax": forms.NumberInput(
+            "additional_service_charge": forms.NumberInput(
                 attrs={
                     "class": "form-control",
+                }
+            ),
+            "banner": forms.FileInput(
+                attrs={
+                    "class": "banner",
                 }
             ),
         }
-
-
-"""    def clean(self):
-        cleaned_data = super().clean()
-
-        address = self.cleaned_data.get("address", None)
-        if not address:
-            raise forms.ValidationError("please provide address", code="invalid")
-
-        first_name = self.cleaned_data.get("first_name", None)
-        if not first_name:
-            raise forms.ValidationError("please provide firstname", code="invalid")
-
-        last_name = self.cleaned_data.get("last_name", None)
-        if not last_name:
-            raise forms.ValidationError("please provide lastname", code="invalid")
-
-        email = self.cleaned_data.get("email", None)
-        if not email:
-            raise forms.ValidationError("please provide email", code="invalid")
-
-        password = self.cleaned_data.get("password", None)
-        if not password:
-            raise forms.ValidationError("please provide password", code="invalid")"""

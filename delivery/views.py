@@ -7,8 +7,6 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 
 # Create your views here.
-
-
 class CategoryView(TemplateView):
     template_name = "delivery.html"
 
@@ -46,24 +44,35 @@ class CategoryView(TemplateView):
         )
 
 
-class VendorView(TemplateView):
-    template_name = "delivery/vendors.html"
+def filter_category(request):
+    if request.method == "POST":
 
-    def get(self, request):
+        categoryid = request.POST.get("categoryid")
+        offerid = request.POST.get("offerid")
 
-        if request.session.has_key("user"):
-            # extract session value to extract the user password from database
-            semail = request.session["user"]
+        if categoryid == "all" or offerid == "all":
+            trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
+            selected_category = None
+            total_trader_count = trader.count()
+        else:
+            traders = []
+            if categoryid:
+                selected_category = Categories.objects.filter(id=categoryid).first()
+                products = Product.objects.filter(category=categoryid)
+                for product in products:
+                    traders.append(product.trader)
+            else:
+                selected_category = Offer.objects.filter(id=offerid).first()
+                offersss = Offer.objects.filter(id=offerid)
+                for product in offersss:
+                    traders.append(product.trader_offer)
+            trade = set(traders)
+            trader = list(trade)
 
-            # extract the user with matching email taken from session
-            verifyUser = User.objects.filter(email=semail).first()
-            if verifyUser.admin or verifyUser.is_staff:
-                return HttpResponseRedirect("../admins/admin")
-
-        # return render(request, self.template_name, {'product':product})
-        product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True, is_active=True)
-        total_trader_count = trader.count()
+            count = 0
+            for traders in trader:
+                count = count + 1
+            total_trader_count = count
         # paginaton code--------------------------
         paginator = Paginator(trader, 4)
         page_number = request.GET.get("page")
@@ -72,10 +81,32 @@ class VendorView(TemplateView):
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
-
         return render(
             request,
-            self.template_name,
+            "delivery/vendors.html",
+            {
+                "trader": page_obj,
+                "category": category,
+                "offer": offer,
+                "selected_category": selected_category,
+                "total_trader": total_trader_count,
+            },
+        )
+    else:
+        product = Product.objects.all()
+        trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
+        total_trader_count = trader.count()
+        category = Categories.objects.all()
+        offerss = Offer.objects.all()
+        offer = offerss[0:4]
+        # paginaton code--------------------------
+        paginator = Paginator(trader, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        # ----------------------------------------
+        return render(
+            request,
+            "delivery/vendors.html",
             {
                 "trader": page_obj,
                 "product": product,
@@ -86,117 +117,46 @@ class VendorView(TemplateView):
         )
 
 
-def filter_category(request):
+def filter_product(request, id):
     if request.method == "POST":
 
         categoryid = request.POST.get("categoryid")
-
-        if categoryid == "all":
-            trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
-            selected_category = None
-            total_trader_count = trader.count()
-            # paginaton code--------------------------
-            paginator = Paginator(trader, 4)
-            page_number = request.GET.get("page")
-            page_obj = paginator.get_page(page_number)
-            # ----------------------------------------
-        else:
-            products = Product.objects.filter(category=categoryid)
-            traders = []
-            for product in products:
-                traders.append(product.trader)
-            trade = set(traders)
-            trader = list(trade)
-
-            # paginaton code--------------------------
-            paginator = Paginator(trader, 4)
-            page_number = request.GET.get("page")
-            page_obj = paginator.get_page(page_number)
-            # ----------------------------------------
-
-            selected_category = Categories.objects.filter(id=categoryid).first()
-            count = 0
-            for traders in trader:
-                count = count + 1
-            total_trader_count = count
-
-        category = Categories.objects.all()
-        offerss = Offer.objects.all()
-        offer = offerss[0:4]
-        return render(
-            request,
-            "delivery/vendors.html",
-            {
-                "trader": page_obj,
-                "category": category,
-                "offer": offer,
-                "selected_category": selected_category,
-                "total_trader": total_trader_count,
-            },
-        )
-    else:
-        product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
-        total_trader_count = trader.count()
-        category = Categories.objects.all()
-        offerss = Offer.objects.all()
-        offer = offerss[0:4]
-        paginator = Paginator(trader, 4)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
-        return render(
-            request,
-            "delivery/vendors.html",
-            {
-                "trader": page_obj,
-                "product": product,
-                "total_trader": total_trader_count,
-                "category": category,
-                "offer": offer,
-            },
-        )
-
-
-def filter_offer(request):
-    if request.method == "POST":
-
         offerid = request.POST.get("offerid")
 
-        if offerid == "all":
+        if categoryid == "all" or offerid == "all":
             trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
             selected_category = None
             total_trader_count = trader.count()
-            # paginaton code--------------------------
-            paginator = Paginator(trader, 4)
-            page_number = request.GET.get("page")
-            page_obj = paginator.get_page(page_number)
-            # ----------------------------------------
         else:
-            offersss = Offer.objects.filter(id=offerid)
             traders = []
-            for product in offersss:
-                traders.append(product.trader_offer)
+            if categoryid:
+                selected_category = Categories.objects.filter(id=categoryid).first()
+                products = Product.objects.filter(category=categoryid)
+                for product in products:
+                    traders.append(product.trader)
+            else:
+                selected_category = Offer.objects.filter(id=offerid).first()
+                offersss = Offer.objects.filter(id=offerid)
+                for product in offersss:
+                    traders.append(product.trader_offer)
             trade = set(traders)
             trader = list(trade)
 
-            # paginaton code--------------------------
-            paginator = Paginator(trader, 4)
-            page_number = request.GET.get("page")
-            page_obj = paginator.get_page(page_number)
-            # ----------------------------------------
-
-            selected_category = Offer.objects.filter(id=offerid).first()
             count = 0
             for traders in trader:
                 count = count + 1
             total_trader_count = count
-
+        # paginaton code--------------------------
+        paginator = Paginator(trader, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        # ----------------------------------------
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
         return render(
             request,
-            "delivery/vendors.html",
+            "delivery/productpage.html",
             {
                 "trader": page_obj,
                 "category": category,
@@ -206,19 +166,21 @@ def filter_offer(request):
             },
         )
     else:
-        product = Product.objects.all()
-        trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
-        total_trader_count = trader.count()
-        category = Categories.objects.all()
-        offerss = Offer.objects.all()
-        offer = offerss[0:4]
-        paginator = Paginator(trader, 4)
+        product = Product.objects.filter(trader_id=id)
+        total_trader_count = product.count()
+
+        # paginaton code--------------------------
+        paginator = Paginator(product, 4)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
+        # ----------------------------------------
+
+        category = Categories.objects.all()
+        offer = Offer.objects.all()
 
         return render(
             request,
-            "delivery/vendors.html",
+            "delivery/productpage.html",
             {
                 "trader": page_obj,
                 "product": product,

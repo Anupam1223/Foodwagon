@@ -84,6 +84,7 @@ class User(AbstractBaseUser):
 
 
 class VendorInfo(models.Model):
-    tax = models.FloatField()
-    vat = models.FloatField()
+    additional_service_charge = models.FloatField()
+    additional_vat = models.FloatField()
+    banner = models.ImageField(blank=True, null=True, upload_to="images/banner/")
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -71,10 +71,11 @@ def AdminAdd(request):
                     trader_email = useraddform.cleaned_data["email"]
                     trader = User.objects.filter(email=trader_email).first()
                     if trader.is_staff:
-                        vat = request.POST.get("vat")
-                        tax = request.POST.get("tax")
-
-                        extrainfo = VendorInfo(vat=vat, tax=tax, user=trader)
+                        userextrainfo = AdditionalInfoForm(
+                            data=(request.POST or None), files=(request.FILES or None)
+                        )
+                        extrainfo = userextrainfo.save(commit=False)
+                        extrainfo.user = trader
                         extrainfo.save()
 
                     current_site = get_current_site(request)

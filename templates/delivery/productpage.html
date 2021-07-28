@@ -15,7 +15,7 @@
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         referrerpolicy="no-referrer" rel="stylesheet" />
     <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
-
+    <link href="{%static 'css/productpage.css' %}" rel="stylesheet" />
     <style>
         .text-lg-center {
             padding-left: 5px;
@@ -235,80 +235,68 @@
         </div>
         </form>
         </div>
-
-        <div class="py-2 border-bottom  ml-3">
-            <h6 class="font-weight-bold">Top Offers</h6>
-            <div id="orange"><span class="fa fa-minus"></span></div>
-            <form method="POST" action="{% url 'delivery:filter'%}">
-                {% csrf_token %}
-                {% for offers in offer%}
-                {%if selected_category.id == offers.id%}
-                <div class="form-group"> <input type="radio" name="offerid" value="{{offers.id}}" id="{{offers.id}}"
-                        checked>
-                    <label for="{{offers.id}}">£
-                        {{offers.offer_amount}} off</label>
-                </div>
-                {%else%}
-                <div class="form-group"> <input type="radio" name="offerid" value="{{offers.id}}" id="{{offers.id}}">
-                    <label for="{{offers.id}}">£
-                        {{offers.offer_amount}} off</label>
-                </div>
-                {%endif%}
-                {%endfor%}
-                <input type="submit" value="Done">
-            </form>
-        </div>
     </section>
     <!-- products section -->
     <section id="products">
         <div class="container">
             <div class="d-flex flex-row">
                 <div class="text-muted m-2" id="res">Showing {{total_trader}} results</div>
+                <div class="ml-auto mr-lg-4">
+                    <div id="sorting" class="border rounded p-1 m-1"> <span class="text-muted">Sort by</span> <select
+                            name="sort" id="sort">
+                            <option value="popularity"><b>Price[high-low]</b></option>
+                            <option value="popularity"><b>Price[low-high]</b></option>
+                            <option value="prcie"><b>Name[A-Z]</b></option>
+                            <option value="rating"><b>Name[Z-A]</b></option>
+                        </select> </div>
+                </div>
             </div>
             <section id="testimonial">
                 <div class="container">
+                    <div class="banner">
+
+                        <div>
+                            <h1>Welcome to the site</h1>
+                            <h5>Sign up for free today</h5>
+                            <button>Get started</button>
+                        </div>
+                    </div>
                     <div class="row h-100">
                         <div class="col-lg-7 mx-auto text-center mb-6">
                             <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">
-                                Featured Restaurants
+                                Featured Foods
                             </h5>
                         </div>
                     </div>
                     <div class="row gx-2">
                         {% for traders in trader%}
-                        {%if traders.is_active %}
+                        {%if traders.status %}
                         <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-                            <a href="{% url 'delivery:productpage' traders.id %}">
-                                <div class="card card-span h-100 text-white rounded-3">
-                                    <div class="profilepic">
-                                        <img class="img-fluid rounded-3" src="{{traders.profile_pic.url}}" alt="..." />
 
-                                    </div>
-                                    <div class="card-img-overlay ps-0">
-                                        <span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span
-                                                class="fs-0">20%
-                                                off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i
-                                                class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span>
-                                    </div>
-                                    <div class="card-body ps-0">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <img class="img-thumbnail" src="{{traders.profile_pic.url}}" alt="" />
-                                            <div class="flex-1 ms-3">
-                                                <h5 class="mb-0 fw-bold text-1000">{{traders.first_name}}</h5>
-                                                <span class="text-primary fs--1 me-1"><i
-                                                        class="fas fa-star"></i></span><span
-                                                    class="mb-0 text-primary">46</span>
-                                            </div>
+                            <div class="card card-span h-100 text-white rounded-3">
+                                <div class="profilepic">
+                                    <img class="img-fluid rounded-3" src="{{traders.image.url}}" alt="..." />
+                                </div>
+                                <div class="card-img-overlay ps-0">
+
+                                    {% for offers in offer%}
+                                    {%if offers.product_offer_id == traders.id%}
+                                    <span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span
+                                            class="fs-0">{{offers.offer_amount}}% off</span></span>
+                                    {%endif%}
+                                    {%endfor%}
+                                </div>
+                                <div class="card-body ps-0">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="flex-1 ms-3">
+                                            <h5 class="mb-0 fw-bold text-1000">{{traders.name}}</h5>
                                         </div>
-                                        <span class="text-warning me-2"><i
-                                                class="fas fa-map-marker-alt"></i></span><span
-                                            class="text-primary">{{traders.address}}</span>
-                                        <span class="badge bg-soft-danger p-2"><span
-                                                class="fw-bold fs-1 text-danger">Opens
-                                                Tomorrow</span></span>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
 
                         </div>
                         {% endif %}
