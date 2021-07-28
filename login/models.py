@@ -61,7 +61,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)  # a superuser
     last_login = models.DateTimeField(blank=True, null=True, verbose_name="last login")
-    profile_pic = models.ImageField(blank=True, null=True, upload_to="images/")
+    profile_pic = models.ImageField(blank=True, null=True, upload_to="images/user/")
 
     # email will be used for login credentials
     USERNAME_FIELD = "email"
