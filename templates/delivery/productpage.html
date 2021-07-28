@@ -111,7 +111,7 @@
 
                 <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
                     <p class="mb-0 fw-bold text-lg-center">
-                        <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo">
+                        <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo"></span>
                         </span>
                     </p>
                 </div>
@@ -196,11 +196,7 @@
     </div> -->
     <!-- Sidebar filter section -->
     <section id="sidebar">
-        {% if not selected_category%}
-        <p> Home | <b>All Restaurants</b></p>
-        {%else%}
-        <p> Home | <b>{{selected_category.name}}</b></p>
-        {%endif%}
+        <p> Home | <b>{{trader.first_name}}</b></p>
         <div class="border-bottom pb-2 ml-2">
             <h4 id="burgundy">Filters</h4>
         </div>
@@ -253,14 +249,31 @@
             </div>
             <section id="testimonial">
                 <div class="container">
-                    <div class="banner">
+                    <div class="banner-conatiner">
 
-                        <div>
-                            <h1>Welcome to the site</h1>
-                            <h5>Sign up for free today</h5>
-                            <button>Get started</button>
+                        <!-- background image -->
+                        <img class="gfg" src="{{user_info.banner.url}}">
+
+                        <!-- title and tag line with button -->
+                        <div class="logo">
+
+                            <img src="{{trader.profile_pic.url}}">
+                            <h3>{{trader.first_name}}</h3>
+                            <p><i class="fas fa-map-marker-alt text-warning mx-2"></i>{{trader.address}}</p>
+
+                            <div class="extra">
+                                <p>{{user_info.additional_vat}} % Additional Service Charge
+                                    <br>
+                                    {{user_info.additional_service_charge}} % Additional Service Charge
+                                </p>
+                            </div>
+
+
+
                         </div>
                     </div>
+
+                    <br>
                     <div class="row h-100">
                         <div class="col-lg-7 mx-auto text-center mb-6">
                             <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">
@@ -269,18 +282,18 @@
                         </div>
                     </div>
                     <div class="row gx-2">
-                        {% for traders in trader%}
-                        {%if traders.status %}
+                        {% for products in product%}
+                        {%if products.status %}
                         <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
 
                             <div class="card card-span h-100 text-white rounded-3">
                                 <div class="profilepic">
-                                    <img class="img-fluid rounded-3" src="{{traders.image.url}}" alt="..." />
+                                    <img class="img-fluid rounded-3" src="{{products.image.url}}" alt="..." />
                                 </div>
                                 <div class="card-img-overlay ps-0">
 
                                     {% for offers in offer%}
-                                    {%if offers.product_offer_id == traders.id%}
+                                    {%if offers.product_offer_id == products.id%}
                                     <span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span
                                             class="fs-0">{{offers.offer_amount}}% off</span></span>
                                     {%endif%}
@@ -289,7 +302,7 @@
                                 <div class="card-body ps-0">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="flex-1 ms-3">
-                                            <h5 class="mb-0 fw-bold text-1000">{{traders.name}}</h5>
+                                            <h5 class="mb-0 fw-bold text-1000">{{products.name}}</h5>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2">
@@ -307,14 +320,14 @@
                     <div class="pagination">
                         <span>
 
-                            {%if trader.has_previous%}
-                            <a href="?page={{trader.previous_page_number}}"> Previous </a>
+                            {%if product.has_previous%}
+                            <a href="?page={{product.previous_page_number}}"> Previous </a>
                             {%endif%}
 
-                            <a><span>{{trader.number}}</span></a>
+                            <a><span>{{product.number}}</span></a>
 
-                            {%if trader.has_next%}
-                            <a href="?page={{trader.next_page_number}}"> Next </a>
+                            {%if product.has_next%}
+                            <a href="?page={{product.next_page_number}}"> Next </a>
                             {%endif%}
 
                         </span>

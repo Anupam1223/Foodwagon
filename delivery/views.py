@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from login.models import User
+from login.models import User, VendorInfo
 from product.models import Categories, Product
 from product.models import Offer
 from django.http import HttpResponseRedirect
@@ -168,7 +168,8 @@ def filter_product(request, id):
     else:
         product = Product.objects.filter(trader_id=id)
         total_trader_count = product.count()
-
+        user = VendorInfo.objects.filter(user_id=id).first()
+        trader = User.objects.filter(id=id).first()
         # paginaton code--------------------------
         paginator = Paginator(product, 4)
         page_number = request.GET.get("page")
@@ -182,10 +183,11 @@ def filter_product(request, id):
             request,
             "delivery/productpage.html",
             {
-                "trader": page_obj,
-                "product": product,
+                "product": page_obj,
+                "user_info": user,
                 "total_trader": total_trader_count,
                 "category": category,
                 "offer": offer,
+                "trader": trader,
             },
         )

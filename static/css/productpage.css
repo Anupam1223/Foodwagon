@@ -1,11 +1,68 @@
-.banner {
-    /* The image used */
-    background-image:
-    url('/static/image/kfcbanner.jpg');
-    /*background-attachment: fixed;
-    /* Prevent image from repeating */
-    background-repeat: no-repeat;
-    height: 500px;
-    background-size:cover;  
-    background-position: center center;
-  }
+    /* bluring the image */
+    .gfg {
+      filter: blur(2px);
+      width: 100%;
+      height: 500px;
+    }
+            
+  /* designing title and tag line 
+  .logo {
+      text-align:center;
+      position: absolute;
+      font-size: 18px;
+      top: 390px;
+      left: 2%;
+      color: white;
+    }     */   
+    
+    /*.logo p{
+        color: white;
+        margin-top: 300px;
+        margin-right:20px;
+    }*/
+
+    .logo{
+        text-align:center;
+        position: absolute;
+        font-size: 18px;
+        top: 390px;
+        left: 2%;
+        color: white;
+    }
+    .logo img{
+        width: 100px;
+        /* You can set the dimensions to whatever you want */
+        height: 100px;
+        object-fit: cover;
+        border-radius: 3px;
+
+    }
+    .logo h3{
+        text-align:center;
+        position: absolute;
+        font-size: 18px;
+        top: 10px;
+        left: 110%;
+        color: #f6a84c;
+        width: 150px;
+    }
+    .logo p{
+        text-align:center;
+        position: absolute;
+        font-size: 18px;
+        top: 40px;
+        left: 110%;
+        color: #f6a84c;
+        width: 150px;
+        font-weight: bold;
+    }
+    .extra p{
+        text-align:center;
+        position: absolute;
+        font-size: 18px;
+        top: 5px;
+        left: 1100%;
+        color: #f6a84c;
+        width: 300px;
+        font-weight: bold;
+    }
