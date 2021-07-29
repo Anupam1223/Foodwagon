@@ -224,3 +224,22 @@ def add_to_cart(request):
             request.session["cart_content"] = user_cart
             data = {"sucess": total_element_count}
             return JsonResponse(data)
+
+
+def cart(request):
+    if request.method == "POST":
+        pass
+    else:
+        # if request.session.has_key("user"):
+        product_objects = []
+        cart_values = request.session["cart_content"]
+        for values in cart_values:
+            product = Product.objects.filter(id=values).first()
+            product_objects.append(product)
+        offer = Offer.objects.all()
+
+        return render(
+            request,
+            "delivery/cartpage.html",
+            {"product": product_objects, "offer": offer},
+        )
