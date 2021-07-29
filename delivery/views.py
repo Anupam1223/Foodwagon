@@ -237,9 +237,11 @@ def cart(request):
             product = Product.objects.filter(id=values).first()
             product_objects.append(product)
         offer = Offer.objects.all()
-
+        paginator = Paginator(product_objects, 4)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
         return render(
             request,
             "delivery/cartpage.html",
-            {"product": product_objects, "offer": offer},
+            {"product": page_obj, "offer": offer},
         )
