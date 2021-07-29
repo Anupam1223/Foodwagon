@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>All Products</title>
     <link rel="stylesheet" href="{% static '/css/vendors.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -116,14 +116,21 @@
                     </p>
                 </div>
 
+                <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
+                    <p class="mb-0 fw-bold text-lg-center">
+                        <i class="fas fa-shopping-cart text-warning mx-2"></i><span class="fw-normal" id="demo"></span>
+                        </span>
+                    </p>
+                </div>
+
+                {% if user.first_name %}
                 <a class="btn btn-white text-warning" href="{% url 'user:userprofile' %}">
-                    {% if user.first_name %}
                     <p class="mb-0 fw-bold text-lg-center text-warning">
                         <i class="fas fa-user me-2"></i>
                         hello! {{user.first_name}}
                     </p>
-                    {% endif %}
                 </a>
+                {% endif %}
                 <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
                     <div class="input-group-icon pe-2">
                         <i class="fas fa-search input-box-icon text-primary"></i>
@@ -238,13 +245,16 @@
             <div class="d-flex flex-row">
                 <div class="text-muted m-2" id="res">Showing {{total_trader}} results</div>
                 <div class="ml-auto mr-lg-4">
-                    <div id="sorting" class="border rounded p-1 m-1"> <span class="text-muted">Sort by</span> <select
-                            name="sort" id="sort">
-                            <option value="popularity"><b>Price[high-low]</b></option>
-                            <option value="popularity"><b>Price[low-high]</b></option>
-                            <option value="prcie"><b>Name[A-Z]</b></option>
-                            <option value="rating"><b>Name[Z-A]</b></option>
-                        </select> </div>
+                    <div id="sorting" class="border rounded p-1 m-1">
+
+                        <span class="text-muted">Sort by</span>
+                        <select name="sort" id="sort">
+                            <option value="price"><b>Price[high-low]</b></option>
+                            <option value="-price"><b>Price[low-high]</b></option>
+                            <option value="name"><b>Name[A-Z]</b></option>
+                            <option value="-name"><b>Name[Z-A]</b></option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <section id="testimonial">
@@ -262,7 +272,7 @@
                             <p><i class="fas fa-map-marker-alt text-warning mx-2"></i>{{trader.address}}</p>
 
                             <div class="extra">
-                                <p>{{user_info.additional_vat}} % Additional Service Charge
+                                <p>{{user_info.additional_vat}} % Vat
                                     <br>
                                     {{user_info.additional_service_charge}} % Additional Service Charge
                                 </p>
@@ -303,6 +313,7 @@
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="flex-1 ms-3">
                                             <h5 class="mb-0 fw-bold text-1000">{{products.name}}</h5>
+                                            <h5 class="mb-0 fw-bold text-1000">£ {{products.price}}</h5>
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2">
@@ -337,6 +348,29 @@
             </section>
         </div>
     </section>
+    <script>
+        $(document).ready(function () {
+
+            $('.add-to-cart').click(function (e) {
+                e.preventDefault();
+                var p_id = $(this).attr('data-id');
+
+                $.ajax({
+                    url: '',
+                    method: 'POST',
+                    data: {
+                        addCart: p_id
+                    },
+                    success: function (data) {
+                        $('#navbar').load('delivery.html #navbar', function () {
+                            setTimeout(10);
+                        });
+                        setTimeout(8000);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

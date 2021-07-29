@@ -99,7 +99,12 @@
               <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo"> </span>
             </p>
           </div>
-
+          <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block showcart">
+            <p class="mb-0 fw-bold text-lg-center cart">
+              <span class="fw-normal" id="item-holder"></span>
+              <i class="fas fa-shopping-cart text-warning mx-2"></i>
+            </p>
+          </div>
 
           {% if user.first_name %}
           <a class="btn btn-white text-warning" href="{% url 'user:userprofile' %}">
@@ -367,8 +372,10 @@
                           <span class="text-1000 fw-bold">£ {{products.price}}</span>
                         </div>
                       </div>
-                      <div class="d-grid gap-2">
-                        <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
+                      <div class="d-grid">
+                        <a class="btn btn-lg btn-primary add-to-cart" href="" data-id={{products.id}}
+                          role="button">Order
+                          now</a>
                       </div>
                     </div>
                     {%endif%}
@@ -400,8 +407,10 @@
                           <span class="text-1000 fw-bold">£ {{products.price}}</span>
                         </div>
                       </div>
-                      <div class="d-grid gap-2">
-                        <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
+                      <div class="d-grid">
+                        <a class="btn btn-lg btn-primary add-to-cart" href="" data-id={{products.id}}
+                          role="button">Order
+                          now</a>
                       </div>
                     </div>
                     {%endif%}
@@ -669,7 +678,7 @@
                       pops. Try it with the best deals.
                     </p>
                     <div class="d-grid bottom-0">
-                      <a class="btn btn-lg btn-primary mt-xl-6" href="#!">PROCEED TO ORDER<i
+                      <a class="btn btn-lg btn-primary mt-xl-6" href="#">PROCEED TO ORDER<i
                           class="fas fa-chevron-right ms-2"></i></a>
                     </div>
                   </div>
@@ -817,6 +826,10 @@
   <script src="{%static 'assets/js/theme.js' %}"></script>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap"
     rel="stylesheet" />
+
+  <script src="http://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script src="{% static 'js/ajax/cart_related.js'%}"></script>
 </body>
 
 </html>

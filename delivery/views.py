@@ -5,6 +5,7 @@ from product.models import Categories, Product
 from product.models import Offer
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -166,7 +167,13 @@ def filter_product(request, id):
             },
         )
     else:
-        product = Product.objects.filter(trader_id=id)
+
+        sort = request.GET.get("sort")
+        print(sort)
+        if sort:
+            product = Product.objects.filter(trader_id=id).order_by(sort)
+        else:
+            product = Product.objects.filter(trader_id=id)
         total_trader_count = product.count()
         user = VendorInfo.objects.filter(user_id=id).first()
         trader = User.objects.filter(id=id).first()
@@ -191,3 +198,29 @@ def filter_product(request, id):
                 "trader": trader,
             },
         )
+
+
+def add_to_cart(request):
+    if not request.session.has_key("user"):
+        data = {"error": "login"}
+        return JsonResponse(data)
+
+    if request.method == "GET":
+        p_id = request.GET.get("addCart")
+        if p_id:
+            if request.session.has_key("cart_content"):
+                cart = request.session["cart_content"]
+            else:
+                cart = []
+
+            cart.append(p_id)
+            ucart = set(cart)
+            user_cart = list(ucart)
+            count = 0
+            for no_of_element in user_cart:
+                count = count + 1
+            total_element_count = count
+            request.session["cart_count"] = total_element_count
+            request.session["cart_content"] = user_cart
+            data = {"sucess": total_element_count}
+            return JsonResponse(data)
