@@ -190,5 +190,7 @@ def activate(request, uidb64, token):
 
 # ------------------ function for logout --------------------------
 def user_logout(request):
+    del request.session["cart_count"]
+    del request.session["cart_content"]
     logout(request)
     return HttpResponseRedirect("../")

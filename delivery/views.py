@@ -230,18 +230,42 @@ def cart(request):
     if request.method == "POST":
         pass
     else:
-        # if request.session.has_key("user"):
-        product_objects = []
-        cart_values = request.session["cart_content"]
-        for values in cart_values:
-            product = Product.objects.filter(id=values).first()
-            product_objects.append(product)
-        offer = Offer.objects.all()
-        paginator = Paginator(product_objects, 4)
-        page_number = request.GET.get("page")
-        page_obj = paginator.get_page(page_number)
-        return render(
-            request,
-            "delivery/cartpage.html",
-            {"product": page_obj, "offer": offer},
-        )
+        if request.session.has_key("cart_content"):
+            product_objects = []
+            cart_values = request.session["cart_content"]
+            for values in cart_values:
+                product = Product.objects.filter(id=values).first()
+                product_objects.append(product)
+            offer = Offer.objects.all()
+            paginator = Paginator(product_objects, 4)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            return render(
+                request,
+                "delivery/cartpage.html",
+                {"product": page_obj, "offer": offer},
+            )
+        else:
+            return render(
+                request,
+                "delivery/cartpage.html",
+            )
+
+
+def remove_from_cart(request):
+    if request.method == "GET":
+        p_id = request.GET.get("removeCartItem")
+        if p_id:
+            items_in_cart = request.session["cart_content"]
+            cart = list(items_in_cart)
+            cart.remove(p_id)
+            count = 0
+            for no_of_element in cart:
+                count = count + 1
+            total_element_count = count
+            del request.session["cart_count"]
+            del request.session["cart_content"]
+            request.session["cart_count"] = total_element_count
+            request.session["cart_content"] = cart
+            data = {"sucess": total_element_count}
+            return JsonResponse(data)
