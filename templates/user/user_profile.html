@@ -1,182 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static%}
+{%extends '../base.html'%}{% load static%}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-    referrerpolicy="no-referrer" rel="stylesheet" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'css/userprofile.css' %}" />
-  <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
-  <style>
-    .btn:not(:disabled):not(.disabled) {
-      cursor: pointer;
-    }
+{%block csspart%}
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+  referrerpolicy="no-referrer" rel="stylesheet" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/userprofile.css' %}" />
+<link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
+<style>
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
 
-    .btn:not(:disabled):not(.disabled) {
-      cursor: pointer;
-    }
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
 
-    .btn-group-sm>.btn,
-    .btn-sm {
-      padding: .25rem .5rem;
-      font-size: .875rem;
-      line-height: 1.5;
-      border-radius: .2rem;
-    }
+  .btn-group-sm>.btn,
+  .btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+  }
 
-    .btn-outline-dark {
-      color: #343a40;
-      background-color: transparent;
-      background-image: none;
-      border-color: #343a40;
-    }
+  .btn-outline-dark {
+    color: #343a40;
+    background-color: transparent;
+    background-image: none;
+    border-color: #343a40;
+  }
 
-    .bg-light {
-      background-color: #373d4f !important;
-    }
+  .bg-light {
+    background-color: #373d4f !important;
+  }
 
-    .border {
-      border: 1px solid #b4c0e6 !important;
-    }
+  .border {
+    border: 1px solid #b4c0e6 !important;
+  }
 
-    .fab {
-      font-size: 40px;
-      color: white;
-      padding-left: 5px;
-    }
+  .fab {
+    font-size: 40px;
+    color: white;
+    padding-left: 5px;
+  }
 
-    .edituser {
-      font-size: 25px;
-    }
+  .edituser {
+    font-size: 25px;
+  }
 
-    .alert-error {
-      color: #fff;
-      background-color: rgb(223, 199, 212);
-      border-color: rgb(223, 199, 212);
-    }
+  .alert-error {
+    color: #fff;
+    background-color: rgb(223, 199, 212);
+    border-color: rgb(223, 199, 212);
+  }
 
-    .image {
-      opacity: 1;
-      transition: .5s ease;
-      backface-visibility: hidden;
-    }
+  .image {
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+  }
 
-    .middle {
-      transition: .5s ease;
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      text-align: center;
-    }
+  .middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
 
-    .editimage:hover .image {
-      opacity: 0.3;
-    }
+  .editimage:hover .image {
+    opacity: 0.3;
+  }
 
-    .editimage:hover .middle {
-      opacity: 1;
-    }
+  .editimage:hover .middle {
+    opacity: 1;
+  }
 
-    .text {
-      background-color: #373d4f;
-      color: white;
-      font-size: 10px;
-      margin-top: 1px;
-      margin-bottom: 5px;
-    }
+  .text {
+    background-color: #373d4f;
+    color: white;
+    font-size: 10px;
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
 
-    .editimage span {
-      cursor: pointer;
-      text-align: center;
-    }
+  .editimage span {
+    cursor: pointer;
+    text-align: center;
+  }
 
-    .editimage a {
-      position: relative;
-      overflow: hidden;
+  .editimage a {
+    position: relative;
+    overflow: hidden;
 
-    }
+  }
 
-    .editimage span:hover a {
-      color: #ffdc2fc4;
-    }
+  .editimage span:hover a {
+    color: #ffdc2fc4;
+  }
 
-    .editimage a+input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-    }
-  </style>
-  <title>Foodwagon | User Profile</title>
+  .editimage a+input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+</style>
+{%endblock csspart%}
 </head>
 
 <body>
+  {%block body%}
   <section class="customer-profile">
     <div class="container mt-3">
       <div class="row">
         <div class="col-md-12 col-12">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
-            data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container">
-              <a class="navbar-brand d-inline-flex" href="{% url 'delivery:delivery' %}"><img class="d-inline-block"
-                  src="{%static 'assets/img/gallery/logo.svg' %}" alt="logo" /><span
-                  class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"> </span>
-              </button>
-              <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-
-                <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-                  <p class="mb-0 fw-bold text-lg-center">
-                    <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo">
-                    </span>
-                  </p>
-                </div>
-                <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-                  <p class="mb-0 fw-bold text-lg-center">
-                    <i class="fas fa-shopping-cart text-warning mx-2"></i><span class="fw-normal" id="demo"></span>
-                    </span>
-                  </p>
-                </div>
-                <a class="btn btn-white text-warning" href="{% url 'user:userprofile' %}">
-                  {% if user.first_name %}
-                  <p class="mb-0 fw-bold text-lg-center text-warning">
-                    <i class="fas fa-user me-2"></i>
-                    hello! {{user.first_name}}
-                  </p>
-                  {% endif %}
-                </a>
-                <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
-                  <div class="input-group-icon pe-2">
-                    <i class="fas fa-search input-box-icon text-primary"></i>
-                    <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food"
-                      aria-label="Search" />
-                  </div>
-                  {% if user.first_name %}
-                  <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:logout' %}">
-                    <i class="fas fa-user me-2"></i>Logout
-                  </a>
-                  {% elif not user.first_name %}
-                  <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:signin' %}">
-                    <i class="fas fa-user me-2"></i>Login
-                  </a>
-                  {% endif%}
-                </form>
-              </div>
-            </div>
-          </nav>
-
           <div class="row">
             <!-- right side user setting -->
             <div class="col-lg-3 col-md-4 d-md-block d-none ">
@@ -302,98 +245,8 @@
       </div>
     </div>
   </section>
-  <section class="py-0 pt-7 bg-1000">
-    <div class="container">
-      <div class="row">
-        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-          <h5 class="lh-lg fw-bold text-white">COMPANY</h5>
-          <ul class="list-unstyled mb-md-4 mb-lg-0">
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">About Us</a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Team</a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">blog</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 col-lg-3 mb-3">
-          <h5 class="lh-lg fw-bold text-white">CONTACT</h5>
-          <ul class="list-unstyled mb-md-4 mb-lg-0">
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Help &amp; Support</a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Partner with us
-              </a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Ride with us</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-          <h5 class="lh-lg fw-bold text-white">LEGAL</h5>
-          <ul class="list-unstyled mb-md-4 mb-lg-0">
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Terms &amp; Conditions</a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Refund &amp; Cancellation</a>
-            </li>
-            <li class="lh-lg">
-              <a class="text-200 text-decoration-none" href="#!">Privacy Policy</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-12 col-md-8 col-lg-6 col-xxl-4">
-          <h5 class="lh-lg fw-bold text-500">FOLLOW US</h5>
-          <i class="fab fa-instagram"></i>
-          <i class="fab fa-facebook"></i>
-          <i class="fab fa-twitter"></i>
-          <h3 class="text-500 my-4">
-            Receive exclusive offers and <br />discounts in your mailbox
-          </h3>
-          <div class="row input-group-icon mb-5">
-            <div class="col-auto">
-              <i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
-              <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email"
-                aria-label="email" />
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-primary" type="submit">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="border border-800" />
-      <div class="row flex-center pb-3">
-        <div class="col-md-6 order-0">
-          <p class="text-200 text-center text-md-start">
-            All rights Reserved &copy; @anupamsiwakotico, 2021
-          </p>
-        </div>
-        <div class="col-md-6 order-1">
-          <p class="text-200 text-center text-md-end">
-            Made with&nbsp;
-            <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="#FFB30E"
-              viewBox="0 0 16 16">
-              <path
-                d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
-              </path>
-            </svg>&nbsp;by&nbsp;<a class="text-200 fw-bold" href="https://themewagon.com/" target="_blank">@anupam
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-    <!-- end of .container-->
-  </section>
-
+  {%endblock body%}
+  {%block script%}
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -406,6 +259,7 @@
   <script src="{% static 'js/ajax/actions.js'%}"></script>
   <script src="http://code.jquery.com/jquery-3.4.0.min.js"
     integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  {%endblock script%}
 </body>
 
 </html>

@@ -1,155 +1,91 @@
-<!doctype html>
-<html lang="en">
-{% load static %}
+{% extends '../base.html' %}{% load static %}
 
-<head>
-    <title>Table 06</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{%block csspart%}
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{%static 'css/cartpage.css' %}">
+<link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
+<style>
+    .pagination {
+        display: inline-block;
+        width: 80%;
+        margin-left: 50%;
+    }
 
-    <link rel="stylesheet" href="{%static 'css/cartpage.css' %}">
-    <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
-    <style>
-        .pagination {
-            display: inline-block;
-            width: 80%;
-            margin-left: 50%;
-        }
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+    }
 
-        .pagination a {
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            transition: background-color .3s;
-            border: 1px solid #ddd;
-        }
+    .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+    }
 
-        .pagination a.active {
-            background-color: #4CAF50;
-            color: white;
-            border: 1px solid #4CAF50;
-        }
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-        }
+    .text-lg-center {
+        padding-left: 5px;
+    }
 
-        .text-lg-center {
-            padding-left: 5px;
-        }
+    .bg-light {
+        background-color: #373d4f !important;
+    }
 
-        .bg-light {
-            background-color: #373d4f !important;
-        }
+    @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
 
-        @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+    body {
+        background-color: #eee;
+        font-family: 'Calibri', sans-serif !important
+    }
 
-        body {
-            background-color: #eee;
-            font-family: 'Calibri', sans-serif !important
-        }
+    .mt-100 {
+        margin-top: 100px
+    }
 
-        .mt-100 {
-            margin-top: 100px
-        }
+    .card {
+        margin-bottom: 30px;
+        border: 0;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+        letter-spacing: .5px;
+        border-radius: 8px;
+        -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+        box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05)
+    }
 
-        .card {
-            margin-bottom: 30px;
-            border: 0;
-            -webkit-transition: all .3s ease;
-            transition: all .3s ease;
-            letter-spacing: .5px;
-            border-radius: 8px;
-            -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
-            box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05)
-        }
+    .card .card-header {
+        background-color: #fff;
+        border-bottom: none;
+        padding: 24px;
+        border-bottom: 1px solid #f6f7fb;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px
+    }
 
-        .card .card-header {
-            background-color: #fff;
-            border-bottom: none;
-            padding: 24px;
-            border-bottom: 1px solid #f6f7fb;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px
-        }
+    .card-header:first-child {
+        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
+    }
 
-        .card-header:first-child {
-            border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
-        }
-
-        .card .card-body {
-            padding: 30px;
-            background-color: transparent
-        }
-    </style>
-</head>
+    .card .card-body {
+        padding: 30px;
+        background-color: transparent
+    }
+</style>
+{%endblock csspart%}
 
 <body>
+    {%block body%}
     <section class="ftco-section">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
-            data-navbar-on-scroll="data-navbar-on-scroll">
-            <div class="container">
-                <a class="navbar-brand d-inline-flex" href="{% url 'delivery:delivery' %}"><img class="d-inline-block"
-                        src="{%static 'assets/img/gallery/logo.svg' %}" alt="logo" /><span
-                        class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"> </span>
-                </button>
-                <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-
-                    <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-                        <p class="mb-0 fw-bold text-lg-center">
-                            <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal" id="demo">
-                            </span>
-                        </p>
-                    </div>
-                    <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block showcart">
-                        <p class="mb-0 fw-bold text-lg-center cart">
-                            {%if cart_count%}
-                            <span class="fw-normal" id="item-holder">
-                                <h5 style="color:#ffb30e; margin:0; padding:0; font-size: 0.8rem; ">{{cart_count}}</h5>
-                            </span>
-                            {%else%}
-                            <span class="fw-normal" id="item-holder"></span>
-                            {%endif%}
-                            <a href="{% url 'delivery:cart' %}"> <i
-                                    class="fas fa-shopping-cart text-warning mx-2"></i></a>
-                        </p>
-                    </div>
-                    <a class="btn btn-white text-warning" href="{% url 'user:userprofile' %}">
-                        {% if user.first_name %}
-                        <p class="mb-0 fw-bold text-lg-center text-warning">
-                            <i class="fas fa-user me-2"></i>
-                            hello! {{user.first_name}}
-                        </p>
-                        {% endif %}
-                    </a>
-                    <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
-                        <div class="input-group-icon pe-2">
-                            <i class="fas fa-search input-box-icon text-primary"></i>
-                            <input class="form-control border-0 input-box bg-100" type="search"
-                                placeholder="Search Food" aria-label="Search" />
-                        </div>
-                        {% if user.first_name %}
-                        <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:logout' %}">
-                            <i class="fas fa-user me-2"></i>Logout
-                        </a>
-                        {% elif not user.first_name %}
-                        <a class="btn btn-white shadow-warning text-warning" href="{% url 'login:signin' %}">
-                            <i class="fas fa-user me-2"></i>Login
-                        </a>
-                        {% endif%}
-                    </form>
-                </div>
-            </div>
-        </nav>
         <div class="container">
             <div class="row justify-content-center">
             </div>
@@ -248,104 +184,7 @@
             </div>
         </div>
     </section>
-    <section class="py-0 pt-7 bg-1000">
-        <div class="container">
-            <div class="row">
-                <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-                    <h5 class="lh-lg fw-bold text-white">COMPANY</h5>
-                    <ul class="list-unstyled mb-md-4 mb-lg-0">
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">About Us</a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Team</a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">blog</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 col-xxl-2 col-lg-3 mb-3">
-                    <h5 class="lh-lg fw-bold text-white">CONTACT</h5>
-                    <ul class="list-unstyled mb-md-4 mb-lg-0">
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Help &amp; Support</a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Partner with us
-                            </a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Ride with us</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-                    <h5 class="lh-lg fw-bold text-white">LEGAL</h5>
-                    <ul class="list-unstyled mb-md-4 mb-lg-0">
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Terms &amp; Conditions</a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Refund &amp; Cancellation</a>
-                        </li>
-                        <li class="lh-lg">
-                            <a class="text-200 text-decoration-none" href="#!">Privacy Policy</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-12 col-md-8 col-lg-6 col-xxl-4">
-                    <h5 class="lh-lg fw-bold text-500">FOLLOW US</h5>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-twitter"></i>
-                    <h3 class="text-500 my-4">
-                        Receive exclusive offers and <br />discounts in your mailbox
-                    </h3>
-                    <div class="row input-group-icon mb-5">
-                        <div class="col-auto">
-                            <i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
-                            <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email"
-                                aria-label="email" />
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-primary" type="submit">
-                                Subscribe
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr class="border border-800" />
-            <div class="row flex-center pb-3">
-                <div class="col-md-6 order-0">
-                    <p class="text-200 text-center text-md-start">
-                        All rights Reserved &copy; @anupamsiwakotico, 2021
-                    </p>
-                </div>
-                <div class="col-md-6 order-1">
-                    <p class="text-200 text-center text-md-end">
-                        Made with&nbsp;
-                        <svg class="bi bi-suit-heart-fill" xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-                            fill="#FFB30E" viewBox="0 0 16 16">
-                            <path
-                                d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z">
-                            </path>
-                        </svg>&nbsp;by&nbsp;<a class="text-200 fw-bold" href="https://themewagon.com/"
-                            target="_blank">@anupam
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- end of .container-->
-    </section>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&amp;display=swap"
-        rel="stylesheet" />
-    <script src="{%static 'vendors/fontawesome/all.min.js' %}"></script>
-    <script src="http://code.jquery.com/jquery-3.4.0.min.js"
-        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/ajax/cart_related.js'%}"></script>
+    {%endblock body%}
 </body>
 
 </html>

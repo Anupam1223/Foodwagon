@@ -16,8 +16,19 @@ class UserProfile(TemplateView):
     def get(self, request):
         if request.session.has_key("user"):
             fm = UserUpdateForm()
+            if request.session.has_key("cart_count"):
+                no_of_item_in_cart = request.session["cart_count"]
+            else:
+                no_of_item_in_cart = None
             # rendering the userview template to see them
-            return render(request, self.template_name, {"form": fm})
+            return render(
+                request,
+                self.template_name,
+                {
+                    "form": fm,
+                    "cart_count": no_of_item_in_cart,
+                },
+            )
         else:
             return HttpResponseRedirect("../login/")
 
