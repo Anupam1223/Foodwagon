@@ -16,9 +16,7 @@ $(document).ready(function () {
                     window.location.href = '../login';
                 }
                 else if (data.hasOwnProperty('sucess')) {
-                    $('.showcart').load(' .cart', function () {
-                        $('#item-holder').append('<h5 style="color:#ffb30e; margin:0; padding:0; font-size: 0.8rem; ">' + data.sucess + '</h5>');
-                    });
+                    location.reload();
                 }
 
             }

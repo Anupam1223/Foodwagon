@@ -30,6 +30,10 @@ class CategoryView(TemplateView):
         offer = offerss[0:4]
         product1 = product[0:5]
         product2 = product[5:10]
+        if request.session.has_key("cart_count"):
+            no_of_item_in_cart = request.session["cart_count"]
+        else:
+            no_of_item_in_cart = None
 
         return render(
             request,
@@ -41,6 +45,7 @@ class CategoryView(TemplateView):
                 "product1": product1,
                 "product2": product2,
                 "traderss": traders,
+                "cart_count": no_of_item_in_cart,
             },
         )
 
@@ -105,6 +110,10 @@ def filter_category(request):
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         # ----------------------------------------
+        if request.session.has_key("cart_count"):
+            no_of_item_in_cart = request.session["cart_count"]
+        else:
+            no_of_item_in_cart = None
         return render(
             request,
             "delivery/vendors.html",
@@ -114,6 +123,7 @@ def filter_category(request):
                 "total_trader": total_trader_count,
                 "category": category,
                 "offer": offer,
+                "cart_count": no_of_item_in_cart,
             },
         )
 
@@ -177,6 +187,10 @@ def filter_product(request, id):
         total_trader_count = product.count()
         user = VendorInfo.objects.filter(user_id=id).first()
         trader = User.objects.filter(id=id).first()
+        if request.session.has_key("cart_count"):
+            no_of_item_in_cart = request.session["cart_count"]
+        else:
+            no_of_item_in_cart = None
         # paginaton code--------------------------
         paginator = Paginator(product, 4)
         page_number = request.GET.get("page")
@@ -196,6 +210,7 @@ def filter_product(request, id):
                 "category": category,
                 "offer": offer,
                 "trader": trader,
+                "cart_count": no_of_item_in_cart,
             },
         )
 
@@ -240,10 +255,18 @@ def cart(request):
             paginator = Paginator(product_objects, 4)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
+            if request.session.has_key("cart_count"):
+                no_of_item_in_cart = request.session["cart_count"]
+            else:
+                no_of_item_in_cart = None
             return render(
                 request,
                 "delivery/cartpage.html",
-                {"product": page_obj, "offer": offer},
+                {
+                    "product": page_obj,
+                    "offer": offer,
+                    "cart_count": no_of_item_in_cart,
+                },
             )
         else:
             return render(

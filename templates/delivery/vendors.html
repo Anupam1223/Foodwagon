@@ -116,9 +116,15 @@
                     </p>
                 </div>
                 <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-                    <p class="mb-0 fw-bold text-lg-center">
-                        <i class="fas fa-shopping-cart text-warning mx-2"></i><span class="fw-normal" id="demo"></span>
+                    <p class="mb-0 fw-bold text-lg-center cart">
+                        {%if cart_count%}
+                        <span class="fw-normal" id="item-holder">
+                            <h5 style="color:#ffb30e; margin:0; padding:0; font-size: 0.8rem; ">{{cart_count}}</h5>
                         </span>
+                        {%else%}
+                        <span class="fw-normal" id="item-holder"></span>
+                        {%endif%}
+                        <a href="{% url 'delivery:cart' %}"> <i class="fas fa-shopping-cart text-warning mx-2"></i></a>
                     </p>
                 </div>
 

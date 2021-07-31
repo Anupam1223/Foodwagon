@@ -14,8 +14,9 @@
     <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         referrerpolicy="no-referrer" rel="stylesheet" />
-    <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
     <link href="{%static 'css/productpage.css' %}" rel="stylesheet" />
+    <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
+
     <style>
         .text-lg-center {
             padding-left: 5px;
@@ -118,7 +119,13 @@
 
                 <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block showcart">
                     <p class="mb-0 fw-bold text-lg-center cart">
+                        {%if cart_count%}
+                        <span class="fw-normal" id="item-holder">
+                            <h5 style="color:#ffb30e; margin:0; padding:0; font-size: 0.8rem; ">{{cart_count}}</h5>
+                        </span>
+                        {%else%}
                         <span class="fw-normal" id="item-holder"></span>
+                        {%endif%}
                         <a href="{% url 'delivery:cart' %}"> <i class="fas fa-shopping-cart text-warning mx-2"></i></a>
                     </p>
                 </div>
@@ -350,6 +357,7 @@
             </section>
         </div>
     </section>
+
     <script src="http://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script src="{% static 'js/ajax/cart_related.js'%}"></script>
