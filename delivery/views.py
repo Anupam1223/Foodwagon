@@ -249,6 +249,7 @@ def cart(request):
         if request.session.has_key("cart_content"):
             product_objects = []
             cart_values = request.session["cart_content"]
+
             for values in cart_values:
                 product = Product.objects.filter(id=values).first()
                 product_objects.append(product)
@@ -270,9 +271,13 @@ def cart(request):
                 },
             )
         else:
+            user = request.session["user"]
             return render(
                 request,
                 "delivery/cartpage.html",
+                {
+                    "user": user,
+                },
             )
 
 

@@ -5,6 +5,7 @@ from .forms import ProductAddForm, CategoryAddForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import User as users
+from django.core.paginator import Paginator
 
 # Create your views here.
 def ProductAdd(request):
@@ -65,15 +66,27 @@ class ProductView(TemplateView):
         if verifyUser.admin:
             product = Product.objects.all()
             offer = Offer.objects.all()
+
+            paginator = Paginator(product, 5)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
             return render(
-                request, self.template_name, {"product": product, "offer": offer}
+                request,
+                self.template_name,
+                {"product": page_obj, "product_offer": product, "offer": offer},
             )
         else:
             id = verifyUser.id
             product = Product.objects.filter(trader=id)
             offer = Offer.objects.filter(trader_offer=id)
+
+            paginator = Paginator(product, 5)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
             return render(
-                request, self.template_name, {"product": product, "offer": offer}
+                request,
+                self.template_name,
+                {"product": page_obj, "product_offer": product, "offer": offer},
             )
 
 

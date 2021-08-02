@@ -25,6 +25,32 @@
     outline: none;
     border: none;
   }
+
+  .pagination {
+    display: inline-block;
+    width: 80%;
+    margin-left: 50%;
+    margin-bottom: 2%;
+  }
+
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+  }
+
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
 </style>
 </head>
 {% endblock csspart %}
@@ -88,7 +114,7 @@
 
                                 <option value="" required>
                                   Choose Product </option>
-                                {% for products in product %}
+                                {% for products in product_offer %}
                                 {%if products.trader.is_active%}
                                 <option value="{{products.id}}">{{products.name}} -> {{products.trader.first_name}}
                                 </option>
@@ -173,6 +199,22 @@
                     </table>
                   </div>
                   <!-- /.card-body -->
+                  <div class="pagination">
+                    <span>
+
+                      {%if product.has_previous%}
+                      <a href="?page={{product.previous_page_number}}"> Previous </a>
+                      {%endif%}
+
+                      <a><span>{{product.number}}</span></a>
+
+                      {%if product.has_next%}
+                      <a href="?page={{product.next_page_number}}"> Next </a>
+                      {%endif%}
+
+                    </span>
+
+                  </div>
                 </div>
                 <!-- /.card -->
               </div>
