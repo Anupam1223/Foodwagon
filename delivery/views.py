@@ -261,6 +261,7 @@ def cart(request):
                 no_of_item_in_cart = request.session["cart_count"]
             else:
                 no_of_item_in_cart = None
+
             return render(
                 request,
                 "delivery/cartpage.html",
@@ -271,7 +272,10 @@ def cart(request):
                 },
             )
         else:
-            user = request.session["user"]
+            if request.session.has_key("user"):
+                user = request.session["user"]
+            else:
+                user = None
             return render(
                 request,
                 "delivery/cartpage.html",

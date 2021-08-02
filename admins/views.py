@@ -19,6 +19,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 # Create AdminView to see user value----------------------------------
 class AdminView(TemplateView):
@@ -124,8 +125,11 @@ class AdminUserView(TemplateView):
     def get(self, request):
         # select all the data from user to render in userview
         user = User.objects.all()
+        paginator = Paginator(user, 5)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
         # rendering the userview template to see them
-        return render(request, self.template_name, {"users": user})
+        return render(request, self.template_name, {"users": page_obj})
 
 
 # user with admin access can delete other user
