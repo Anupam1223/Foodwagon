@@ -260,20 +260,18 @@
                                             <h5 class="mb-0 fw-bold text-1000">£ {{products.price}}</h5>
                                         </div>
                                     </div>
-                                    <div class="d-grid">
-                                        <a class="btn btn-lg btn-primary add-to-cart" href="" data-id={{products.id}}
-                                            role="button">Order
-                                            now</a>
-                                    </div>
                                 </div>
+                            </div>
+                            <div class="d-grid">
+                                <a class="btn btn-lg btn-primary add-to-cart" href="" data-id={{products.id}}
+                                    role="button">Order
+                                    now</a>
                             </div>
 
                         </div>
                         {% endif %}
                         {%endfor%}
-
                     </div>
-
                     <div class="pagination">
                         <span>
 
@@ -297,10 +295,6 @@
     {%endblock body%}
     {%block footer%}
     {%endblock footer%}
-
-    <script src="http://code.jquery.com/jquery-3.4.0.min.js"
-        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/ajax/cart_related.js'%}"></script>
 </body>
 
 </html>

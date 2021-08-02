@@ -227,7 +227,6 @@
                         {{products.name}}
                       </h5>
                       <div>
-
                         {% for traders in traderss%}
                         {%if products.trader_id == traders.id%}
                         <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span
@@ -262,7 +261,7 @@
                       </h5>
                       <div>
 
-                        {% for traders in trader%}
+                        {% for traders in traderss%}
                         {%if products.trader_id == traders.id%}
                         <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span
                           class="text-primary">{{traders.address}}</span>

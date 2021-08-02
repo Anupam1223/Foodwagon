@@ -126,7 +126,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: "changepassword",
+            url: "../changecustomerpassword",
             method: "POST",
             data: { pass: password, pass1: password1, pass2: password2 },
             dataType: 'json',
@@ -137,7 +137,7 @@ $(document).ready(function () {
                 if (res.hasOwnProperty('success')) {
                     $('#changePassword2').prepend('<div class="alert alert-success">password changed successfully</div>');
                     setTimeout(function () { location.reload(); }, 1000);
-                    window.location.href = '../';
+                    window.location.href = '../../../login';
                 } else if (res.hasOwnProperty('error')) {
                     $('#changePassword2').prepend('<div class="alert alert-danger">' + res.error + '</div>');
                 }

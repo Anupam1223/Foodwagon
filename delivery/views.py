@@ -25,6 +25,7 @@ class CategoryView(TemplateView):
         # return render(request, self.template_name, {'product':product})
         product = Product.objects.all()
         traders = User.objects.filter(is_staff=True, is_active=True)
+        print(traders)
         trader = traders[0:4]
         offerss = Offer.objects.all()
         offer = offerss[0:4]

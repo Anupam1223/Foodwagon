@@ -6,7 +6,6 @@
     color: rgb(153, 40, 59)
 }
 
-
 nav {
     padding: 0px 100px
 }
@@ -35,16 +34,6 @@ label {
 }
 
 @media(min-width:1200px) {
-    #search {
-        width: 300px;
-        padding: 5px;
-        padding-left: 20px
-    }
-
-    .search-nav-item {
-        margin-left: 400px;
-        width: 350px
-    }
 
     .text {
         display: none

@@ -5,7 +5,7 @@ $(document).ready(function () {
         var p_id = $(this).attr('data-id');
         console.log(p_id);
         $.ajax({
-            url: 'add_to_cart/',
+            url: '../../add_to_cart/',
             method: 'GET',
             data: {
                 addCart: p_id

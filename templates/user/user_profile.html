@@ -166,7 +166,7 @@
                       <br />
                       <div class="middle">
 
-                        <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data"
+                        <form action="{% url 'admins:updatecustomer' %}" method="POST" enctype="multipart/form-data"
                           novalidate>
                           {% csrf_token %}
                           <span><a href="#"><i class="fas fa-user-edit edituser"></i></a> {{form.profile_pic}}</span>
@@ -181,7 +181,7 @@
                         src="{% static 'image/user.png' %}" alt="customer pic">
                       <br />
                       <div class="middle">
-                        <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data"
+                        <form action="{% url 'admins:updatecustomer' %}" method="POST" enctype="multipart/form-data"
                           novalidate>
                           {% csrf_token %}
                           <span><a href="#"><i class="fas fa-user-edit edituser"></i></a> {{form.profile_pic}}</span>
@@ -202,7 +202,8 @@
                 <!-- Update profile -->
                 <div class="tab-pane" id="updateProfile">
                   <h6>Update Profile</h6>
-                  <form action="{% url 'user:updateuser' %}" method="POST" enctype="multipart/form-data" novalidate>
+                  <form action="{% url 'admins:updatecustomer' %}" method="POST" enctype="multipart/form-data"
+                    novalidate>
                     {% csrf_token %}
                     {{form.address}}
                     <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Update Account">

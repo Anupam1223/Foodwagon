@@ -15,4 +15,11 @@ urlpatterns = [
     path("<int:id>/", views.UpdateUser, name="updateuser"),
     path("changePass/", views.ChangePass, name="changepass"),
     path("profile/<int:id>/", views.Profile, name="profile"),
+    path("userprofile/", views.UserProfile.as_view(), name="userprofile"),
+    path(
+        "changecustomerpassword",
+        views.ChangeCustomerPassword,
+        name="changecustomerpassword",
+    ),
+    path("updatecustomer", views.UpdateCustomerUser, name="updatecustomer"),
 ]
