@@ -458,3 +458,16 @@ def add_to_order(request):
             order_details.save()
         data = {"success": ""}
         return JsonResponse(data)
+
+
+class View_Order(TemplateView):
+    template_name = "admin/order_view.html"
+
+    def get(self, request):
+
+        order = Order.objects.all()
+        return render(
+            request,
+            self.template_name,
+            {"order":order}
+        )
