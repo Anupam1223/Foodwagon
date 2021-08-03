@@ -426,7 +426,7 @@ def add_to_order(request):
         user = User.objects.filter(email=emailid).first()
 
         order = Order()
-        order_details = Order_details()
+
         order.time = collectiontime
         order.day = collectionday
         order.address = address
@@ -450,6 +450,7 @@ def add_to_order(request):
             prices = price[i]
             orders = orderoo
 
+            order_details = Order_details()
             order_details.price = prices
             order_details.quantity = quantities
             order_details.product = productss
