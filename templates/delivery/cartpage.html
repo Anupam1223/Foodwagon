@@ -240,8 +240,6 @@
                                                                             </th>
                                                                             <th class="col-12 col-sm-6 mt-2 pr-sm-2">
                                                                                 Price</th>
-                                                                            <th class="col-12 col-sm-6 mt-2 pr-sm-2">
-                                                                                Total</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -260,9 +258,6 @@
                                                                                     class="cart-price">{{products.price}}
                                                                                 </span>
                                                                             </td>
-                                                                            <td class="col-12 col-sm-6 mt-2 pr-sm-2"
-                                                                                id="show-price">
-                                                                            </td>
                                                                         </tr>
                                                                         {%endfor%}
                                                                     </tbody>
@@ -274,8 +269,8 @@
                                                             class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue
                                                         Shopping</a>
 
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total
-                                                    Price:<span id="total_price"></span>
+                                                    &nbsp; &nbsp; &nbsp;
+                                                    Total Price: <span id="total_price">{{initial_total}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -370,11 +365,7 @@
         </div>
     </section>
     {%endblock body%}
-    <script>
-        $(function () {
-            $(".datepicker").datepicker();
-        });
-    </script>
+
 </body>
 
 </html>

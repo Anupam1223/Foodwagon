@@ -249,10 +249,13 @@ def cart(request):
         if request.session.has_key("cart_content"):
             product_objects = []
             cart_values = request.session["cart_content"]
+            initial_total = 0
 
             for values in cart_values:
                 product = Product.objects.filter(id=values).first()
                 product_objects.append(product)
+                initial_total += product.price
+
             offer = Offer.objects.all()
             paginator = Paginator(product_objects, 4)
             page_number = request.GET.get("page")
@@ -269,6 +272,7 @@ def cart(request):
                     "product": page_obj,
                     "offer": offer,
                     "cart_count": no_of_item_in_cart,
+                    "initial_total": int(initial_total),
                 },
             )
         else:
