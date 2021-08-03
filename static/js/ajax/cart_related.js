@@ -62,6 +62,7 @@ $(document).ready(function () {
 
         document.getElementById("total_price").innerHTML = "&nbsp;" + total_price;
     });
+
     $('#checkoutform').click(function (e) {
         e.preventDefault();
 
@@ -86,7 +87,7 @@ $(document).ready(function () {
             var quantityElement = cartRow.getElementsByClassName('item-qty')[0]
 
             var product = cartRow.getElementsByClassName('productid')[0]
-            proid.push(product.getAttribute('data-id'))
+            proid.push(product.value)
 
             var price = parseFloat(priceElement.innerText.replace('$', ''))
             pric.push(price)
@@ -95,11 +96,29 @@ $(document).ready(function () {
             quan.push(quantity)
 
             total = total + (price * quantity)
-            var total_quantity = total_quantity + parseInt(quantity)
         }
 
+        console.log(quan)
+        console.log(pric)
+        console.log(proid)
+
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        // set csrf header
+        $.ajaxSetup({
+            beforeSend: function (e, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    e.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
         $.ajax({
-            url: 'actions.php',
+            url: '../../add_to_order/',
             method: 'POST',
             data: {
                 price: pric,
@@ -110,14 +129,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 $('.alert').hide();
-                // console.log("response");
+
                 var res = response;
                 if (res.hasOwnProperty('success')) {
-                    $('.card').append('<div class="alert alert-success mt-3">Cart Saved</div>');
+                    $('.show_error').append('<div class="alert alert-success mt-3">Cart Saved</div>');
                     setTimeout(function () { location.reload(); }, 1000);
                     window.location.href = 'after-checkout.php';
                 } else if (res.hasOwnProperty('error')) {
-                    $('.card').append('<div class="alert alert-danger mt-3">' + res.error + '</div>');
+                    $('.show_error').append('<div class="alert alert-danger mt-3">' + res.error + '</div>');
                 }
 
             }

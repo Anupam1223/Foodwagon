@@ -316,3 +316,16 @@ def remove_from_cart(request):
             request.session["cart_content"] = cart
             data = {"sucess": total_element_count}
             return JsonResponse(data)
+
+
+def add_to_order(request):
+    if request.method == "POST":
+        price = request.POST.getlist("price[]")
+        quantity = request.POST.getlist("quantity[]")
+        product = request.POST.getlist("product[]")
+        totalprice = request.POST.get("totalprice")
+
+        print(price)
+        print(quantity)
+        print(product)
+        print(totalprice)

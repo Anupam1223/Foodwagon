@@ -250,14 +250,16 @@
                                                                     <tbody>
                                                                         {% for products in product%}
                                                                         <tr class="cart-border">
-                                                                            <td
-                                                                                class="col-12 col-sm-6 mt-2 pr-sm-2 productname">
+                                                                            <td class="col-12 col-sm-6 mt-2 pr-sm-2">
                                                                                 {{products.name}}</td>
                                                                             <td class="col-12 col-sm-6 mt-2 pr-sm-2">
                                                                                 <form class="form-inline">
-                                                                                    <input
-                                                                                        class="form-control item-qty productqty"
+                                                                                    <input class="form-control item-qty"
                                                                                         type="number" value="1" min="1">
+                                                                                    <input
+                                                                                        class="form-control item-qty productid"
+                                                                                        type="number"
+                                                                                        value="{{products.id}}" hidden>
                                                                                 </form>
                                                                             </td>
                                                                             <td class="col-12 col-sm-6 mt-2 pr-sm-2">
@@ -284,7 +286,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 show_error">
                                     <div class="row mx-4">
                                         <div class="col-12 mb-2">
                                             <label class="order-form-label">Name</label>
@@ -399,8 +401,9 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12">
-                                            <button type="button" id="btnSubmit"
+                                            <button type="button" id="checkoutform"
                                                 class="btn btn-success d-block mx-auto btn-submit">Submit</button>
+                                            {% csrf_token %}
                                         </div>
                                     </div>
 
