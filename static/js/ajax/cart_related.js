@@ -65,13 +65,19 @@ $(document).ready(function () {
 
     $('#checkoutform').click(function (e) {
         e.preventDefault();
+        var collectiontime = $('.collectiontime').find(":checked").val();
+        var collectionday = $('.collectionday').find(":checked").val();
+        var address = $('.address').val();
+        var streetaddress = $('.streetaddress').val();
+        var city = $('.city').val();
+        var region = $('.region').val();
+        var postal = $('.postal').val();
+        var country = $('.country').val();
 
         var clicks = 0;
         function linkClick() {
             document.getElementById('checkoutform').value = ++clicks;
         }
-
-        console.log(clicks);
 
         var cartRows = document.getElementsByClassName("cart-border");
 
@@ -98,12 +104,8 @@ $(document).ready(function () {
             total = total + (price * quantity)
         }
 
-        console.log(quan)
-        console.log(pric)
-        console.log(proid)
-
+        //csrf safe code settings-----------------------------------------
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -116,6 +118,7 @@ $(document).ready(function () {
                 }
             }
         });
+        //csrf settings closed--------------------------------------------
 
         $.ajax({
             url: '../../add_to_order/',
@@ -125,6 +128,14 @@ $(document).ready(function () {
                 quantity: quan,
                 product: proid,
                 totalprice: total,
+                collectiontime: collectiontime,
+                collectionday: collectionday,
+                address: address,
+                streetaddress: streetaddress,
+                city: city,
+                region: region,
+                postal: postal,
+                country: country,
             },
             dataType: 'json',
             success: function (response) {

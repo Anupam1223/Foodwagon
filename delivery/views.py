@@ -269,9 +269,6 @@ def cart(request):
             time = date.now().hour
             full_date = date.today().strftime("%B %d, %Y")
 
-            print(datenow)
-            print(time)
-
             return render(
                 request,
                 "delivery/cartpage.html",
@@ -325,7 +322,43 @@ def add_to_order(request):
         product = request.POST.getlist("product[]")
         totalprice = request.POST.get("totalprice")
 
-        print(price)
-        print(quantity)
-        print(product)
-        print(totalprice)
+        collectiontime = request.POST.get("collectiontime")
+        collectionday = request.POST.get("collectionday")
+        address = request.POST.get("address")
+        streetaddress = request.POST.get("streetaddress")
+        city = request.POST.get("city")
+        region = request.POST.get("region")
+        postal = request.POST.get("postal")
+        country = request.POST.get("country")
+
+        if collectionday == "none":
+            data = {"error": "please select food delivery day"}
+            return JsonResponse(data)
+
+        if collectiontime == "none":
+            data = {"error": "please select food delivery time"}
+            return JsonResponse(data)
+
+        if not address:
+            data = {"error": "give your address"}
+            return JsonResponse(data)
+
+        if not streetaddress:
+            data = {"error": "give your exact address"}
+            return JsonResponse(data)
+
+        if not city:
+            data = {"error": "give the name of your city"}
+            return JsonResponse(data)
+
+        if not region:
+            data = {"error": "give the name of the region you live in"}
+            return JsonResponse(data)
+
+        if not postal:
+            data = {"error": "give the postal code of your city"}
+            return JsonResponse(data)
+
+        if not country:
+            data = {"error": "name of your country"}
+            return JsonResponse(data)

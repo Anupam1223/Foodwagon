@@ -124,13 +124,19 @@
 
     .btn-success {
         color: #FFFEFE;
-        background-color: #ffb30e;
-        border-color: #ffb30e;
+        background-color: #e6a923f0;
+        border-color: #e6a923f0;
     }
 
     .order-form-input {
         padding: 5px 6px;
         font-size: 17px;
+    }
+
+    .alert-error {
+        color: #fff;
+        background-color: rgb(223, 199, 212);
+        border-color: rgb(223, 199, 212);
     }
 </style>
 {%endblock csspart%}
@@ -302,14 +308,18 @@
                                     </div>
 
                                     <div class="row mt-3 mx-4">
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label class="order-form-label" for="date-picker-example">Date</label>
                                         </div>
                                         <div class="col-6">
+                                            <label class="order-form-label" for="date-picker-example">Time</label>
+                                        </div>
+                                        <div class="col-6">
                                             {%if 'Sunday' in datenow or 'Monday' in datenow or 'Tuesday' in datenow%}
-                                            <select id="collectionDay" class="order-form-input custom-select-sm"
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="0">{{full_date}}</option>
+                                                <option selected value="none">{{full_date}}</option>
                                                 <option value="Wednesday">Wednesday</option>
                                                 <option value="Thursday">Thursday</option>
                                                 <option value="Friday">Friday</option>
@@ -317,26 +327,29 @@
 
                                             {%elif datenow == 'Wednesday'%}
 
-                                            <select id="collectionDay" class="order-form-input custom-select-sm"
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="0">{{full_date}}</option>
+                                                <option selected value="none">{{full_date}}</option>
                                                 <option value="Thursday">Thursday</option>
                                                 <option value="Friday">Friday</option>
                                             </select>
 
                                             {%elif datenow == 'Thursday' %}
 
-                                            <select id="collectionDay" class="order-form-input custom-select-sm"
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="0">{{full_date}}</option>
+                                                <option selected value="none">{{full_date}}</option>
                                                 <option value="Friday">Friday</option>
                                                 <option value="Wednesday">Wednesday</option>
                                             </select>
                                             {%elif 'Friday' in datenow or 'Saturday' in datenow %}
 
-                                            <select id="collectionDay" class="order-form-input custom-select-sm"
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="0">{{full_date}}</option>
+                                                <option selected value="none">{{full_date}}</option>
                                                 <option value="Wednesday">Wednesday</option>
                                                 <option value="Thursday">Thursday</option>
                                             </select>
@@ -344,30 +357,27 @@
                                         </div>
                                         <div class="col-6">
                                             {% if time >= 16 or time < 10 %} <select id="collectionTime"
-                                                class="order-form-input custom-select-sm mt-2 mt-md-0"
+                                                class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
                                                 name="collectionTime">
-                                                <option selected value="0">Collection Time</option>
-                                                <option value="10-13">10 AM - 1 PM
-
-
-                                                </option>
+                                                <option selected value="none">Collection Time</option>
+                                                <option value="10-13">10 AM - 1 PM</option>
                                                 <option value="13-16">1 PM - 4 PM</option>
                                                 <option value="16-19">4 PM - 7 PM</option>
 
                                                 </select>
 
                                                 {% elif time < 13 %} <select id="collectionTime"
-                                                    class="order-form-input custom-select-sm mt-2 mt-md-0"
+                                                    class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
                                                     name="collectionTime">
-                                                    <option selected value="0">Collection Time</option>
+                                                    <option selected value="none">Collection Time</option>
                                                     <option value="13-16">1 PM - 4 PM</option>
                                                     <option value="16-19">4 PM - 7 PM</option>
                                                     </select>
 
                                                     {% elif time < 16 %}<select id="collectionTime"
-                                                        class="order-form-input custom-select-sm mt-2 mt-md-0"
+                                                        class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
                                                         name="collectionTime">
-                                                        <option selected value="0">Collection Time</option>
+                                                        <option selected value="none">Collection Time</option>
                                                         <option value="16-19">4 PM - 7 PM</option>
                                                         </select>
                                                         {%endif%}
@@ -376,27 +386,28 @@
 
                                     <div class="row mt-3 mx-4">
                                         <div class="col-12">
-                                            <label class="order-form-label">Adress</label>
+                                            <label class="order-form-label">Address</label>
                                         </div>
                                         <div class="col-12">
-                                            <input class="order-form-input" placeholder="Street Address"
+                                            <input class="order-form-input address" placeholder="Street Address"
                                                 value="{{user.address}}">
                                         </div>
                                         <div class="col-12 mt-2">
-                                            <input class="order-form-input" placeholder="Street Address Line 2">
+                                            <input class="order-form-input streetaddress"
+                                                placeholder="Street Address Line 2">
                                         </div>
                                         <div class="col-12 col-sm-6 mt-2 pr-sm-2">
-                                            <input class="order-form-input" placeholder="City">
+                                            <input class="order-form-input city" placeholder="City">
                                         </div>
                                         <div class="col-12 col-sm-6 mt-2 pl-sm-0">
-                                            <input class="order-form-input" placeholder="Region">
+                                            <input class="order-form-input region" placeholder="Region">
                                         </div>
                                         <div class="col-12 col-sm-6 mt-2 pr-sm-2">
-                                            <input class="order-form-input" placeholder="Postal / Zip Code"
+                                            <input class="order-form-input postal" placeholder="Postal / Zip Code"
                                                 value="44600">
                                         </div>
                                         <div class="col-12 col-sm-6 mt-2 pl-sm-0">
-                                            <input class="order-form-input" placeholder="Country" value="Nepal">
+                                            <input class="order-form-input country" placeholder="Country" value="Nepal">
                                         </div>
                                     </div>
                                     <div class="row mt-3">
