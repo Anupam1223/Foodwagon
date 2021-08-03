@@ -143,9 +143,9 @@ $(document).ready(function () {
 
                 var res = response;
                 if (res.hasOwnProperty('success')) {
-                    $('.show_error').append('<div class="alert alert-success mt-3">Cart Saved</div>');
+                    $('.show_error').append('<div class="alert alert-success mt-3">Order placed successfully</div>');
                     setTimeout(function () { location.reload(); }, 1000);
-                    window.location.href = 'after-checkout.php';
+                    //window.location.href = 'after-checkout.php';
                 } else if (res.hasOwnProperty('error')) {
                     $('.show_error').append('<div class="alert alert-danger mt-3">' + res.error + '</div>');
                 }

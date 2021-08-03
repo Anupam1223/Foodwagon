@@ -6,7 +6,10 @@ from product.models import Offer
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from datetime import datetime as date
+from datetime import datetime as date, timedelta
+from .models import Order, Order_details
+from uuid import uuid4
+import datetime
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -269,6 +272,58 @@ def cart(request):
             time = date.now().hour
             full_date = date.today().strftime("%B %d, %Y")
 
+            if datenow == "Sunday":
+                wed = date.today() + timedelta(days=3)
+                wednesday = date.strftime(wed, "%Y-%m-%d")
+
+                thu = date.today() + timedelta(days=4)
+                thursday = date.strftime(thu, "%Y-%m-%d")
+
+                fri = date.today() + timedelta(days=5)
+                friday = date.strftime(fri, "%Y-%m-%d")
+
+            if datenow == "Monday":
+                wednesday = date.today() + timedelta(days=2)
+                wednesday = date.strftime(wed, "%Y-%m-%d")
+
+                thu = date.today() + timedelta(days=3)
+                thursday = date.strftime(thu, "%Y-%m-%d")
+
+                fri = date.today() + timedelta(days=4)
+                friday = date.strftime(fri, "%Y-%m-%d")
+
+            if datenow == "Tuesday":
+                wed = date.today() + timedelta(days=1)
+                wednesday = date.strftime(wed, "%Y-%m-%d")
+
+                thu = date.today() + timedelta(days=2)
+                thursday = date.strftime(thu, "%Y-%m-%d")
+
+                fri = date.today() + timedelta(days=3)
+                friday = date.strftime(fri, "%Y-%m-%d")
+
+            print("Friday ->", friday)
+
+            if datenow == "Wednesday":
+                wednesday = None
+                thu = date.today() + timedelta(days=1)
+                thursday = date.strftime(thu, "%Y-%m-%d")
+
+                fri = date.today() + timedelta(days=2)
+                friday = date.strftime(fri, "%Y-%m-%d")
+
+            if datenow == "Thursday":
+                wednesday = None
+                thursday = None
+                fri = date.today() + timedelta(days=1)
+                friday = date.strftime(fri, "%Y-%m-%d")
+
+            if datenow == "Friday":
+                wednesday = None
+                thursday = None
+                fri = date.today()
+                friday = date.strftime(fri, "%Y-%m-%d")
+
             return render(
                 request,
                 "delivery/cartpage.html",
@@ -280,6 +335,9 @@ def cart(request):
                     "datenow": datenow,
                     "time": time,
                     "full_date": full_date,
+                    "wednesday": wednesday,
+                    "thursday": thursday,
+                    "friday": friday,
                 },
             )
         else:
@@ -320,7 +378,6 @@ def add_to_order(request):
         price = request.POST.getlist("price[]")
         quantity = request.POST.getlist("quantity[]")
         product = request.POST.getlist("product[]")
-        totalprice = request.POST.get("totalprice")
 
         collectiontime = request.POST.get("collectiontime")
         collectionday = request.POST.get("collectionday")
@@ -330,6 +387,7 @@ def add_to_order(request):
         region = request.POST.get("region")
         postal = request.POST.get("postal")
         country = request.POST.get("country")
+        totalprice = request.POST.get("totalprice")
 
         if collectionday == "none":
             data = {"error": "please select food delivery day"}
@@ -362,3 +420,40 @@ def add_to_order(request):
         if not country:
             data = {"error": "name of your country"}
             return JsonResponse(data)
+
+        rand_token = uuid4()
+        emailid = request.session["user"]
+        user = User.objects.filter(email=emailid).first()
+
+        order = Order()
+        order_details = Order_details()
+        order.time = collectiontime
+        order.day = collectionday
+        order.address = address
+        order.streetaddress = streetaddress
+        order.city = city
+        order.region = region
+        order.postal = postal
+        order.country = country
+        order.total_price = totalprice
+        order.user = user
+        order.token = rand_token
+        order.save()
+
+        orderoo = Order.objects.filter(token=rand_token).first()
+
+        for i in range(len(product)):
+            products = product[i]
+            productss = Product.objects.filter(id=products).first()
+
+            quantities = quantity[i]
+            prices = price[i]
+            orders = orderoo
+
+            order_details.price = prices
+            order_details.quantity = quantities
+            order_details.product = productss
+            order_details.order = orders
+            order_details.save()
+        data = {"success": ""}
+        return JsonResponse(data)

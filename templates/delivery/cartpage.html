@@ -138,6 +138,12 @@
         background-color: rgb(223, 199, 212);
         border-color: rgb(223, 199, 212);
     }
+
+    .alert-success {
+        color: #fff;
+        background-color: rgb(223, 199, 212);
+        border-color: rgb(223, 199, 212);
+    }
 </style>
 {%endblock csspart%}
 
@@ -320,9 +326,9 @@
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
                                                 <option selected value="none">{{full_date}}</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
+                                                <option value="{{wednesday}}">Wednesday</option>
+                                                <option value="{{thursday}}">Thursday</option>
+                                                <option value="{{friday}}">Friday</option>
                                             </select>
 
                                             {%elif datenow == 'Wednesday'%}
@@ -331,8 +337,8 @@
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
                                                 <option selected value="none">{{full_date}}</option>
-                                                <option value="Thursday">Thursday</option>
-                                                <option value="Friday">Friday</option>
+                                                <option value="{{thursday}}}">Thursday</option>
+                                                <option value="{{friday}}">Friday</option>
                                             </select>
 
                                             {%elif datenow == 'Thursday' %}
@@ -341,8 +347,7 @@
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
                                                 <option selected value="none">{{full_date}}</option>
-                                                <option value="Friday">Friday</option>
-                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="{{friday}}">Friday</option>
                                             </select>
                                             {%elif 'Friday' in datenow or 'Saturday' in datenow %}
 
@@ -350,8 +355,7 @@
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
                                                 <option selected value="none">{{full_date}}</option>
-                                                <option value="Wednesday">Wednesday</option>
-                                                <option value="Thursday">Thursday</option>
+                                                <option value="{{friday}}">Friday</option>
                                             </select>
                                             {%endif%}
                                         </div>
