@@ -6,6 +6,7 @@ from product.models import Offer
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from datetime import datetime as date
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -264,6 +265,12 @@ def cart(request):
                 no_of_item_in_cart = request.session["cart_count"]
             else:
                 no_of_item_in_cart = None
+            datenow = date.today().strftime("%A")
+            time = date.now().hour
+            full_date = date.today().strftime("%B %d, %Y")
+
+            print(datenow)
+            print(time)
 
             return render(
                 request,
@@ -273,6 +280,9 @@ def cart(request):
                     "offer": offer,
                     "cart_count": no_of_item_in_cart,
                     "initial_total": int(initial_total),
+                    "datenow": datenow,
+                    "time": time,
+                    "full_date": full_date,
                 },
             )
         else:
