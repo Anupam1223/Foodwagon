@@ -1,4 +1,3 @@
-from django.db.models.fields import NOT_PROVIDED
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from login.models import User, VendorInfo
@@ -10,6 +9,10 @@ from django.http import JsonResponse
 from datetime import datetime as date, timedelta
 from .models import Order, Order_details
 from decimal import *
+from django.views.generic import View
+from django.http import HttpResponse
+from mulberry.utils import render_to_pdf
+from django.template.loader import get_template
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -523,16 +526,74 @@ def view_bill(request, id):
             ) * (subtotal)
 
             to_pay = subtotal - vat_amount
-        return render(
-            request,
-            "admin/invoice.html",
-            {
-                "invoice": invoice,
-                "invoice_data": invoice_data,
-                "vat": vat,
-                "vat_amount": vat_amount,
-                "service_charge": service_charge,
-                "subtotal": subtotal,
-                "to_pay": to_pay,
-            },
-        )
+        contexts = {
+            "invoice": invoice,
+            "invoice_data": invoice_data,
+            "vat": vat,
+            "vat_amount": vat_amount,
+            "service_charge": service_charge,
+            "subtotal": subtotal,
+            "to_pay": to_pay,
+        }
+        return render(request, "admin/invoice.html", contexts)
+
+
+def generatePDF(request, id):
+
+    if request.method == "GET":
+        semail = request.session["user"]
+        verifyUser = User.objects.filter(email=semail).first()
+        order_id = id
+        invoice_data = Order.objects.filter(id=order_id).first()
+
+        if verifyUser.admin:
+
+            invoice = Order_details.objects.filter(order=order_id)
+
+            vat = None
+            service_charge = None
+            subtotal = None
+            vat_amount = None
+            to_pay = None
+
+        else:
+            individual_invoice = []
+            invoices = Order_details.objects.filter(order=order_id)
+            for invoc in invoices:
+                if invoc.product.trader_id == verifyUser.id:
+                    individual_invoice.append(invoc)
+
+            user_extra_info = VendorInfo.objects.filter(user_id=verifyUser.id).first()
+            vat = user_extra_info.additional_vat
+            service_charge = user_extra_info.additional_service_charge
+            invoice = individual_invoice
+
+            subtotal = 0
+            for info in invoice:
+                subtotal = subtotal + (info.quantity * info.price)
+
+            vat_amount = Decimal(vat / 100).quantize(
+                Decimal(".01"), rounding=ROUND_DOWN
+            ) * (subtotal)
+
+            to_pay = subtotal - vat_amount
+        contexts = {
+            "invoice": invoice,
+            "invoice_data": invoice_data,
+            "vat": vat,
+            "vat_amount": vat_amount,
+            "service_charge": service_charge,
+            "subtotal": subtotal,
+            "to_pay": to_pay,
+        }
+        pdf = render_to_pdf("invoice.html", contexts)
+        if pdf:
+            response = HttpResponse(pdf, content_type="application/pdf")
+            filename = "Invoice_%s.pdf" % ("12341231")
+            content = "inline; filename='%s'" % (filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" % (filename)
+            response["Content-Disposition"] = content
+            return response
+        return HttpResponse("Not found")

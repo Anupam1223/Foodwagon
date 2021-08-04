@@ -126,6 +126,22 @@
                     </div>
                     <!-- /.container-fluid -->
                 </section>
+                <div class="pagination">
+                    <span>
+
+                        {%if order.has_previous%}
+                        <a href="?page={{order.previous_page_number}}"> Previous </a>
+                        {%endif%}
+
+                        <a><span>{{order.number}}</span></a>
+
+                        {%if order.has_next%}
+                        <a href="?page={{order.next_page_number}}"> Next </a>
+                        {%endif%}
+
+                    </span>
+
+                </div>
                 {%else%}
                 <!--content for offer-->
                 <section class="content">

@@ -1,5 +1,5 @@
 {%extends "admin/base.html" %} {% load static %}
-<!-- Font Awesome -->
+<!--  Font Awesome -->
 
 {% block csspart %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -189,7 +189,8 @@
                                     <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
                                     Print
                                 </a>
-                                <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
+                                <a class="btn bg-white btn-light mx-1px text-95"
+                                    href="{% url 'delivery:download_file' invoice_data.id %}" data-title="PDF">
                                     <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
                                     Export
                                 </a>
@@ -271,7 +272,8 @@
                                             <div class="d-none d-sm-block col-2">{{invoices.quantity}}</div>
                                             <div class="d-none d-sm-block col-2 text-95">{{invoices.price}}</div>
                                             <div class="col-2 text-secondary-d2">
-                                                {{invoices.quantity}}*{{invoices.price}}</div>
+
+                                            </div>
                                         </div>
 
                                         {%endfor%}
