@@ -89,24 +89,29 @@
                                     <div class="card-body">
                                         <table id="example2" class="table table-bordered table-hover">
                                             <thead>
+
                                                 <tr>
-                                                    <th>Order Date</th>
+                                                    <th>Customer</th>
+                                                    <th>Mail</th>
+                                                    <th>Order Placed Date</th>
                                                     <th>Receiving Date</th>
                                                     <th>address</th>
-                                                    <th>Customer</th>
                                                     <th>Status</th>
-                                                    <th>TotalPrice</th>
                                                 </tr>
+
                                             </thead>
                                             <tbody>
                                                 {% for orders in order %}
-                                                <tr>
+                                                <tr class='clickable-row'
+                                                    data-href="{% url 'delivery:view_bill' orders.id %}">
+
+                                                    <td>{{orders.user.first_name}}</td>
+                                                    <td>{{orders.user.email}}</td>
                                                     <td>{{orders.date_of_order}}</td>
                                                     <td>{{orders.day}}</td>
-                                                    <td>{{orders.address}}</td>
-                                                    <td>{{orders.user.first_name}}</td>
+                                                    <td>{{orders.streetaddress}}</td>
                                                     <td>{{orders.status}}</td>
-                                                    <td>{{orders.total_price}}</td>
+
                                                 </tr>
                                                 {% endfor%}
                                             </tbody>
@@ -183,6 +188,11 @@
                     "info": true,
                     "autoWidth": false,
                     "responsive": true,
+                });
+            });
+            jQuery(document).ready(function ($) {
+                $(".clickable-row").click(function () {
+                    window.location = $(this).data("href");
                 });
             });
         </script>

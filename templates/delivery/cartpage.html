@@ -318,7 +318,7 @@
                                             <label class="order-form-label" for="date-picker-example">Date</label>
                                         </div>
                                         <div class="col-6">
-                                            <label class="order-form-label" for="date-picker-example">Time</label>
+                                            <label class="order-form-label" for="date-picker-example">Address</label>
                                         </div>
                                         <div class="col-6">
                                             {%if 'Sunday' in datenow or 'Monday' in datenow or 'Tuesday' in datenow%}
@@ -360,48 +360,16 @@
                                             {%endif%}
                                         </div>
                                         <div class="col-6">
-                                            {% if time >= 16 or time < 10 %} <select id="collectionTime"
-                                                class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
-                                                name="collectionTime">
-                                                <option selected value="none">Collection Time</option>
-                                                <option value="10-13">10 AM - 1 PM</option>
-                                                <option value="13-16">1 PM - 4 PM</option>
-                                                <option value="16-19">4 PM - 7 PM</option>
-
-                                                </select>
-
-                                                {% elif time < 13 %} <select id="collectionTime"
-                                                    class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
-                                                    name="collectionTime">
-                                                    <option selected value="none">Collection Time</option>
-                                                    <option value="13-16">1 PM - 4 PM</option>
-                                                    <option value="16-19">4 PM - 7 PM</option>
-                                                    </select>
-
-                                                    {% elif time < 16 %}<select id="collectionTime"
-                                                        class="order-form-input custom-select-sm mt-2 mt-md-0 collectiontime"
-                                                        name="collectionTime">
-                                                        <option selected value="none">Collection Time</option>
-                                                        <option value="16-19">4 PM - 7 PM</option>
-                                                        </select>
-                                                        {%endif%}
+                                            <input class="order-form-input address" placeholder="Street Address"
+                                                value="{{user.address}}">
                                         </div>
                                     </div>
 
                                     <div class="row mt-3 mx-4">
-                                        <div class="col-12">
-                                            <label class="order-form-label">Address</label>
-                                        </div>
-                                        <div class="col-12">
-                                            <input class="order-form-input address" placeholder="Street Address"
-                                                value="{{user.address}}">
-                                        </div>
-                                        <div class="col-12 mt-2">
+
+                                        <div class="col-12 col-sm-6 mt-2 pr-sm-2">
                                             <input class="order-form-input streetaddress"
                                                 placeholder="Street Address Line 2">
-                                        </div>
-                                        <div class="col-12 col-sm-6 mt-2 pr-sm-2">
-                                            <input class="order-form-input city" placeholder="City">
                                         </div>
                                         <div class="col-12 col-sm-6 mt-2 pl-sm-0">
                                             <input class="order-form-input region" placeholder="Region">

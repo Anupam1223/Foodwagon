@@ -8,8 +8,6 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from datetime import datetime as date, timedelta
 from .models import Order, Order_details
-from uuid import uuid4
-import datetime
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -302,8 +300,6 @@ def cart(request):
                 fri = date.today() + timedelta(days=3)
                 friday = date.strftime(fri, "%Y-%m-%d")
 
-            print("Friday ->", friday)
-
             if datenow == "Wednesday":
                 wednesday = None
                 thu = date.today() + timedelta(days=1)
@@ -379,11 +375,9 @@ def add_to_order(request):
         quantity = request.POST.getlist("quantity[]")
         product = request.POST.getlist("product[]")
 
-        collectiontime = request.POST.get("collectiontime")
         collectionday = request.POST.get("collectionday")
         address = request.POST.get("address")
         streetaddress = request.POST.get("streetaddress")
-        city = request.POST.get("city")
         region = request.POST.get("region")
         postal = request.POST.get("postal")
         country = request.POST.get("country")
@@ -393,20 +387,12 @@ def add_to_order(request):
             data = {"error": "please select food delivery day"}
             return JsonResponse(data)
 
-        if collectiontime == "none":
-            data = {"error": "please select food delivery time"}
-            return JsonResponse(data)
-
         if not address:
             data = {"error": "give your address"}
             return JsonResponse(data)
 
         if not streetaddress:
             data = {"error": "give your exact address"}
-            return JsonResponse(data)
-
-        if not city:
-            data = {"error": "give the name of your city"}
             return JsonResponse(data)
 
         if not region:
@@ -421,26 +407,20 @@ def add_to_order(request):
             data = {"error": "name of your country"}
             return JsonResponse(data)
 
-        rand_token = uuid4()
         emailid = request.session["user"]
         user = User.objects.filter(email=emailid).first()
 
         order = Order()
 
-        order.time = collectiontime
         order.day = collectionday
         order.address = address
         order.streetaddress = streetaddress
-        order.city = city
         order.region = region
         order.postal = postal
         order.country = country
         order.total_price = totalprice
         order.user = user
-        order.token = rand_token
         order.save()
-
-        orderoo = Order.objects.filter(token=rand_token).first()
 
         for i in range(len(product)):
             products = product[i]
@@ -448,14 +428,14 @@ def add_to_order(request):
 
             quantities = quantity[i]
             prices = price[i]
-            orders = orderoo
 
             order_details = Order_details()
             order_details.price = prices
             order_details.quantity = quantities
             order_details.product = productss
-            order_details.order = orders
+            order_details.order = order
             order_details.save()
+
         data = {"success": ""}
         return JsonResponse(data)
 
@@ -464,10 +444,50 @@ class View_Order(TemplateView):
     template_name = "admin/order_view.html"
 
     def get(self, request):
+        semail = request.session["user"]
+        verifyUser = User.objects.filter(email=semail).first()
 
-        order = Order.objects.all()
+        if verifyUser.admin:
+            order = Order.objects.all()
+
+            paginator = Paginator(order, 5)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            return render(
+                request,
+                self.template_name,
+                {"order": page_obj},
+            )
+        else:
+            id = verifyUser.id
+            order_details_for_trader = []
+            all_order_details = Order_details.objects.all()
+            for details in all_order_details:
+                if details.product.trader_id == id:
+                    order_details_for_trader.append(details.order)
+
+            details_for_trader = set(order_details_for_trader)
+            unique_details_for_trader = list(details_for_trader)
+
+            paginator = Paginator(unique_details_for_trader, 5)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+            return render(
+                request,
+                self.template_name,
+                {"order": page_obj},
+            )
+
+
+def view_bill(request, id):
+    if request.method == "POST":
+        pass
+    else:
+        order_id = id
+        invoice = Order_details.objects.filter(order=order_id)
+        invoice_data = Order.objects.filter(id=order_id).first()
         return render(
             request,
-            self.template_name,
-            {"order":order}
+            "admin/invoice.html",
+            {"invoice": invoice, "invoice_data": invoice_data},
         )

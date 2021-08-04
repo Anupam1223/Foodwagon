@@ -65,11 +65,9 @@ $(document).ready(function () {
 
     $('#checkoutform').click(function (e) {
         e.preventDefault();
-        var collectiontime = $('.collectiontime').find(":checked").val();
         var collectionday = $('.collectionday').find(":checked").val();
         var address = $('.address').val();
         var streetaddress = $('.streetaddress').val();
-        var city = $('.city').val();
         var region = $('.region').val();
         var postal = $('.postal').val();
         var country = $('.country').val();
@@ -128,11 +126,9 @@ $(document).ready(function () {
                 quantity: quan,
                 product: proid,
                 totalprice: total,
-                collectiontime: collectiontime,
                 collectionday: collectionday,
                 address: address,
                 streetaddress: streetaddress,
-                city: city,
                 region: region,
                 postal: postal,
                 country: country,
