@@ -517,18 +517,18 @@ def view_bill(request, id):
                 total = invoc.price * invoc.quantity
                 totals.append(total)
 
-                if restaurent.additional_vat not in vat:
-                    vat_amt = (
-                        Decimal(restaurent.additional_vat / 100).quantize(
-                            Decimal(".01"), rounding=ROUND_DOWN
-                        )
-                        * invoc.price
+                # if restaurent.additional_vat not in vat:
+                vat_amt = (
+                    Decimal(restaurent.additional_vat / 100).quantize(
+                        Decimal(".01"), rounding=ROUND_DOWN
                     )
-                    servicecharge = restaurent.additional_service_charge
+                    * invoc.price
+                )
+                servicecharge = restaurent.additional_service_charge
 
-                    vat_amount.append(vat_amt)
-                    vat.append(restaurent.additional_vat)
-                    service_charge.append(servicecharge)
+                vat_amount.append(vat_amt)
+                vat.append(restaurent.additional_vat)
+                service_charge.append(servicecharge)
 
                 sub_total = total + (vat_amt + Decimal(servicecharge))
                 subtotal.append(sub_total)
