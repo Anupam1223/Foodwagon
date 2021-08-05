@@ -581,19 +581,59 @@ def generatePDF(request, id):
 
     if request.method == "GET":
         semail = request.session["user"]
+
         verifyUser = User.objects.filter(email=semail).first()
+
         order_id = id
         invoice_data = Order.objects.filter(id=order_id).first()
 
         if verifyUser.admin:
 
+            vat = []
+            service_charge = []
+            totals = []
+            subtotal = []
+            vat_amount = []
+            total = 0
+            to_pay = 0
+            sub_total = 0
+
             invoice = Order_details.objects.filter(order=order_id)
 
-            vat = None
-            service_charge = None
-            subtotal = None
-            vat_amount = None
-            to_pay = None
+            for invoc in invoice:
+                product = Product.objects.filter(id=invoc.product.id).first()
+                restaurent = VendorInfo.objects.filter(
+                    user_id=product.trader_id
+                ).first()
+
+                total = invoc.price * invoc.quantity
+                totals.append(total)
+
+                if restaurent.additional_vat not in vat:
+                    vat_amt = (
+                        Decimal(restaurent.additional_vat / 100).quantize(
+                            Decimal(".01"), rounding=ROUND_DOWN
+                        )
+                        * invoc.price
+                    )
+                    servicecharge = restaurent.additional_service_charge
+
+                    vat_amount.append(vat_amt)
+                    vat.append(restaurent.additional_vat)
+                    service_charge.append(servicecharge)
+
+                sub_total = total + (vat_amt + Decimal(servicecharge))
+                subtotal.append(sub_total)
+
+            for subtotals in subtotal:
+                to_pay = to_pay + subtotals
+
+            print("vat->", vat)
+            print("vat_amount->", vat_amount)
+            print("service_charge->", service_charge)
+            print("total->", totals)
+            print("subtotal->", subtotal)
+            print("to_pay->", to_pay)
 
         else:
             individual_invoice = []
@@ -615,7 +655,7 @@ def generatePDF(request, id):
                 Decimal(".01"), rounding=ROUND_DOWN
             ) * (subtotal)
 
-            to_pay = subtotal - vat_amount
+            to_pay = subtotal + (vat_amount + Decimal(service_charge))
         contexts = {
             "invoice": invoice,
             "invoice_data": invoice_data,
@@ -624,6 +664,7 @@ def generatePDF(request, id):
             "service_charge": service_charge,
             "subtotal": subtotal,
             "to_pay": to_pay,
+            "subtotal": subtotal,
         }
         pdf = render_to_pdf("invoice.html", contexts)
         if pdf:
