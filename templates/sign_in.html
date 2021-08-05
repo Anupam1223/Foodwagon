@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Mulberry</title>
-
   <!-- Font Icon -->
   <link rel="stylesheet" href="{% static 'css/material-design-iconic-font.min.css' %}" />
   <!-- Main css -->
@@ -30,6 +29,16 @@
           </div>
 
           <div class="signin-form">
+            <div>
+              {% for message in messages %}
+              <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+              </div>
+              {% endfor %}
+            </div>
             <h2 class="form-title">Sign in</h2>
             <form class="register-form" id="login-form" novalidate>
               {% csrf_token %}
@@ -77,6 +86,7 @@
   <script src="{% static 'js/ajax/actions.js'%}"></script>
   <script src="http://code.jquery.com/jquery-3.4.0.min.js"
     integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script src="{%static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 

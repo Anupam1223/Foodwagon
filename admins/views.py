@@ -219,7 +219,7 @@ def ChangePass(request):
                 User.objects.filter(id=userid).update(password=password_to_save)
                 # if updated than message is shown in the dashboard
                 messages.success(request, "password updated successfully")
-                return HttpResponseRedirect("/login/")
+                return HttpResponseRedirect("../../login/logout")
 
             else:
                 messages.error(request, "reenter password didnt matched")
@@ -245,9 +245,6 @@ def Profile(request, id):
     fm = UserProfileForm(instance=datas)
 
     return render(request, "admin/admin_profile.html", {"form": fm})
-
-
-# working on user----------------------------------------------------
 
 
 # Create UserView to see user value----------------------------------

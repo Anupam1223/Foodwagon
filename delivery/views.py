@@ -455,7 +455,7 @@ class View_Order(TemplateView):
         if verifyUser.admin:
             order = Order.objects.all()
 
-            paginator = Paginator(order, 5)
+            paginator = Paginator(order, 10)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
             return render(
