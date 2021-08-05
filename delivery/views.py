@@ -507,8 +507,8 @@ def view_bill(request, id):
             sub_total = 0
 
             invoice = Order_details.objects.filter(order=order_id)
-            for invoc in invoice:
 
+            for invoc in invoice:
                 product = Product.objects.filter(id=invoc.product.id).first()
                 restaurent = VendorInfo.objects.filter(
                     user_id=product.trader_id
@@ -533,11 +533,15 @@ def view_bill(request, id):
                 sub_total = total + (vat_amt + Decimal(servicecharge))
                 subtotal.append(sub_total)
 
+            for subtotals in subtotal:
+                to_pay = to_pay + subtotals
+
             print("vat->", vat)
             print("vat_amount->", vat_amount)
             print("service_charge->", service_charge)
             print("total->", totals)
             print("subtotal->", subtotal)
+            print("to_pay->", to_pay)
 
         else:
             individual_invoice = []
@@ -568,6 +572,7 @@ def view_bill(request, id):
             "service_charge": service_charge,
             "subtotal": subtotal,
             "to_pay": to_pay,
+            "subtotal": subtotal,
         }
         return render(request, "admin/invoice.html", contexts)
 

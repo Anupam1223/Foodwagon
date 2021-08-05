@@ -1,4 +1,4 @@
-{%extends "admin/base.html" %} {% load static %}{% load mathfilters %}
+{%extends "admin/base.html" %} {% load static %}{% load mathfilters %}{%load extra_filters%}
 <!--  Font Awesome -->
 
 {% block csspart %}
@@ -276,18 +276,35 @@
                                             </div>
                                             <div class="col-12 col-sm-12 text-grey text-90 order-first order-sm-last">
                                                 <div class="row my-2">
-                                                    {%with i=vat.forloop.counter0 %}
-                                                    <div class="col-7 text-right">
-                                                        Vat ({{i}}%)
+                                                    <div class="col-10 text-right">
+                                                        Vat ({{vat|index:forloop.counter0}}%)
                                                     </div>
-                                                    <div class="col-5">
+                                                    <div class="col-2">
                                                         <span class="text-110 text-secondary-d1">£
-                                                            {{i}}</span>
+                                                            {{vat_amount|index:forloop.counter0}}</span>
                                                     </div>
-                                                    {%endwith%}
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-10 text-right">
+                                                        Service Charge
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <span class="text-110 text-secondary-d1">£
+                                                            {{service_charge|index:forloop.counter0}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-2">
+                                                    <div class="col-10 text-right">
+                                                        Subtotal
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <span class="text-110 text-secondary-d1">£
+                                                            {{subtotal|index:forloop.counter0}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr class="row brc-default-l1 mx-n1 mb-4" />
                                         {%endfor%}
                                         {%else%}
                                         {%for invoices in invoice%}
