@@ -497,12 +497,35 @@ def view_bill(request, id):
 
         if verifyUser.admin:
 
+            vat = []
+            service_charge = []
+            subtotal = []
+            vat_amount = []
             invoice = Order_details.objects.filter(order=order_id)
+            for invoc in invoice:
 
-            vat = None
-            service_charge = None
-            subtotal = None
-            vat_amount = None
+                product = Product.objects.filter(id=invoc.product.id).first()
+                restaurent = VendorInfo.objects.filter(
+                    user_id=product.trader_id
+                ).first()
+
+                if restaurent.additional_vat not in vat:
+
+                    vat_amt = (
+                        Decimal(restaurent.additional_vat / 100).quantize(
+                            Decimal(".01"), rounding=ROUND_DOWN
+                        )
+                        * invoc.price
+                    )
+
+                    subtotal = invoc.price + (
+                        vat_amt + Decimal(restaurent.additional_service_charge)
+                    )
+
+                    vat_amount.append(vat_amt)
+                    vat.append(restaurent.additional_vat)
+                    service_charge.append(restaurent.additional_service_charge)
+
             to_pay = None
 
         else:
@@ -525,7 +548,7 @@ def view_bill(request, id):
                 Decimal(".01"), rounding=ROUND_DOWN
             ) * (subtotal)
 
-            to_pay = subtotal - vat_amount
+            to_pay = subtotal + (vat_amount + Decimal(service_charge))
         contexts = {
             "invoice": invoice,
             "invoice_data": invoice_data,

@@ -264,7 +264,32 @@
                                     </div>
 
                                     <div class="text-95 text-secondary-d3">
-
+                                        {%if user.admin%}
+                                        {%for invoices in invoice%}
+                                        <div class="row mb-2 mb-sm-0 py-25">
+                                            <div class="d-none d-sm-block col-1">{{forloop.counter}}</div>
+                                            <div class="col-9 col-sm-5">{{invoices.product.name}}</div>
+                                            <div class="d-none d-sm-block col-2">{{invoices.quantity}}</div>
+                                            <div class="d-none d-sm-block col-2 text-95">{{invoices.price}}</div>
+                                            <div class="col-2 text-secondary-d2">
+                                                {{invoices.quantity|mul:invoices.price}}
+                                            </div>
+                                            <div class="col-12 col-sm-12 text-grey text-90 order-first order-sm-last">
+                                                <div class="row my-2">
+                                                    {%with i=vat.forloop.counter0 %}
+                                                    <div class="col-7 text-right">
+                                                        Vat ({{i}}%)
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <span class="text-110 text-secondary-d1">£
+                                                            {{i}}</span>
+                                                    </div>
+                                                    {%endwith%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {%endfor%}
+                                        {%else%}
                                         {%for invoices in invoice%}
                                         <div class="row mb-2 mb-sm-0 py-25">
                                             <div class="d-none d-sm-block col-1">{{forloop.counter}}</div>
@@ -275,8 +300,8 @@
                                                 {{invoices.quantity|mul:invoices.price}}
                                             </div>
                                         </div>
-
                                         {%endfor%}
+                                        {%endif%}
 
                                     </div>
 
@@ -302,6 +327,14 @@
                                                 </div>
                                                 <div class="col-5">
                                                     <span class="text-110 text-secondary-d1">£ {{vat_amount}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-7 text-right">
+                                                    Service Charge
+                                                </div>
+                                                <div class="col-5">
+                                                    <span class="text-110 text-secondary-d1">£ {{service_charge}}</span>
                                                 </div>
                                             </div>
                                             <div class="row my-2 align-items-center bgc-primary-l3 p-2">
