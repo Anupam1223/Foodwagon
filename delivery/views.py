@@ -92,6 +92,11 @@ def filter_category(request):
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         # ----------------------------------------
+        if request.session.has_key("cart_count"):
+            no_of_item_in_cart = request.session["cart_count"]
+        else:
+            no_of_item_in_cart = None
+
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:4]
@@ -104,6 +109,7 @@ def filter_category(request):
                 "offer": offer,
                 "selected_category": selected_category,
                 "total_trader": total_trader_count,
+                "cart_count": no_of_item_in_cart,
             },
         )
     else:
@@ -112,7 +118,7 @@ def filter_category(request):
         total_trader_count = trader.count()
         category = Categories.objects.all()
         offerss = Offer.objects.all()
-        offer = offerss[0:4]
+        offer = offerss[0:3]
         # paginaton code--------------------------
         paginator = Paginator(trader, 4)
         page_number = request.GET.get("page")
@@ -185,7 +191,6 @@ def filter_product(request, id):
             },
         )
     else:
-
         sort = request.GET.get("sort")
         print(sort)
         if sort:
@@ -489,7 +494,6 @@ def view_bill(request, id):
         pass
     else:
         semail = request.session["user"]
-
         verifyUser = User.objects.filter(email=semail).first()
 
         order_id = id
@@ -505,6 +509,7 @@ def view_bill(request, id):
             total = 0
             to_pay = 0
             sub_total = 0
+            traders = []
 
             invoice = Order_details.objects.filter(order=order_id)
 
@@ -516,6 +521,7 @@ def view_bill(request, id):
 
                 total = invoc.price * invoc.quantity
                 totals.append(total)
+                traders.append(restaurent.user.first_name)
 
                 # if restaurent.additional_vat not in vat:
                 vat_amt = (
@@ -544,6 +550,7 @@ def view_bill(request, id):
             print("to_pay->", to_pay)
 
         else:
+            traders = None
             individual_invoice = []
             invoices = Order_details.objects.filter(order=order_id)
             for invoc in invoices:
@@ -573,6 +580,7 @@ def view_bill(request, id):
             "subtotal": subtotal,
             "to_pay": to_pay,
             "subtotal": subtotal,
+            "trader": traders,
         }
         return render(request, "admin/invoice.html", contexts)
 

@@ -266,7 +266,7 @@
                           <td>{{offers.offer_amount}}</td>
                           <td>{{offers.offer_time}}</td>
                           <td>
-                            {%if offers.trader_offer.is_active %}
+                            {%if offers.product_offer.status and offers.trader_offer.is_active %}
                             <form action="{% url 'product:deleteoffer' offers.id %}" method="POST" class=d-inline>
                               {% csrf_token %}
                               <button type="submit"><i class="fas fa-trash-alt text-danger"></i></button>

@@ -257,7 +257,10 @@
                                 <div class="mt-4">
                                     <div class="row text-600 text-white bgc-default-tp1 py-25">
                                         <div class="d-none d-sm-block col-1">#</div>
-                                        <div class="col-9 col-sm-5">Description</div>
+                                        <div class="col-5 col-sm-3">Description</div>
+                                        {% if user.admin%}
+                                        <div class="d-none d-sm-block col-1 col-sm-2">Trader</div>
+                                        {%endif%}
                                         <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
                                         <div class="d-none d-sm-block col-sm-2">Unit Price</div>
                                         <div class="col-2">Amount</div>
@@ -268,12 +271,16 @@
                                         {%for invoices in invoice%}
                                         <div class="row mb-2 mb-sm-0 py-25">
                                             <div class="d-none d-sm-block col-1">{{forloop.counter}}</div>
-                                            <div class="col-9 col-sm-5">{{invoices.product.name}}</div>
+                                            <div class="col-5 col-sm-3">{{invoices.product.name}}</div>
+                                            <div class="d-none d-sm-block col-1 col-sm-2">
+                                                {{trader|index:forloop.counter0}}</div>
                                             <div class="d-none d-sm-block col-2">{{invoices.quantity}}</div>
                                             <div class="d-none d-sm-block col-2 text-95">{{invoices.price}}</div>
                                             <div class="col-2 text-secondary-d2">
                                                 {{invoices.quantity|mul:invoices.price}}
                                             </div>
+                                            <br />
+                                            <br>
                                             <div class="col-12 col-sm-12 text-grey text-90 order-first order-sm-last">
                                                 <div class="row my-2">
                                                     <div class="col-10 text-right">
