@@ -99,7 +99,7 @@ def filter_category(request):
 
         category = Categories.objects.all()
         offerss = Offer.objects.all()
-        offer = offerss[0:4]
+        offer = offerss[0:2]
         return render(
             request,
             "delivery/vendors.html",
@@ -118,7 +118,7 @@ def filter_category(request):
         total_trader_count = trader.count()
         category = Categories.objects.all()
         offerss = Offer.objects.all()
-        offer = offerss[0:3]
+        offer = offerss[0:2]
         # paginaton code--------------------------
         paginator = Paginator(trader, 4)
         page_number = request.GET.get("page")
@@ -178,7 +178,7 @@ def filter_product(request, id):
         # ----------------------------------------
         category = Categories.objects.all()
         offerss = Offer.objects.all()
-        offer = offerss[0:4]
+        offer = offerss[0:2]
         return render(
             request,
             "delivery/productpage.html",
