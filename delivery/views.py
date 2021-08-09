@@ -291,7 +291,7 @@ def cart(request):
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Monday":
-                wednesday = date.today() + timedelta(days=2)
+                wed = date.today() + timedelta(days=2)
                 wednesday = date.strftime(wed, "%Y-%m-%d")
 
                 thu = date.today() + timedelta(days=3)
