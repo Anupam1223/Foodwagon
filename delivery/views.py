@@ -542,13 +542,6 @@ def view_bill(request, id):
             for subtotals in subtotal:
                 to_pay = to_pay + subtotals
 
-            print("vat->", vat)
-            print("vat_amount->", vat_amount)
-            print("service_charge->", service_charge)
-            print("total->", totals)
-            print("subtotal->", subtotal)
-            print("to_pay->", to_pay)
-
         else:
             traders = None
             individual_invoice = []
@@ -635,13 +628,6 @@ def generatePDF(request, id):
 
             for subtotals in subtotal:
                 to_pay = to_pay + subtotals
-
-            print("vat->", vat)
-            print("vat_amount->", vat_amount)
-            print("service_charge->", service_charge)
-            print("total->", totals)
-            print("subtotal->", subtotal)
-            print("to_pay->", to_pay)
 
         else:
             individual_invoice = []
