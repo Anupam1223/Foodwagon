@@ -5,13 +5,12 @@ from .models import Categories, Product
 class ProductAddForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "quantity", "stock", "price", "image", "category"]
+        fields = ["name", "price", "image", "category"]
         error_messages = {
             "name": {"required": ""},
-            "quantity": {"required": ""},
-            "stock": {"required": ""},
             "price": {"required": ""},
-            "image": {"required": "please provide image"},
+            "image": {"required": ""},
+            "category": {"required": ""},
         }
         widgets = {
             "name": forms.TextInput(
@@ -20,22 +19,15 @@ class ProductAddForm(forms.ModelForm):
                     "placeholder": "name",
                 }
             ),
-            "quantity": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "quantity",
-                }
-            ),
-            "stock": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "stock",
-                }
-            ),
             "price": forms.NumberInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "price",
+                }
+            ),
+            "category": forms.Select(
+                attrs={
+                    "class": "form-control",
                 }
             ),
         }
@@ -47,17 +39,17 @@ class ProductAddForm(forms.ModelForm):
         if not name:
             raise forms.ValidationError("please provide product name", code="invalid")
 
-        quantity = self.cleaned_data.get("quantity", None)
-        if not quantity:
-            raise forms.ValidationError("please provide quantity", code="invalid")
-
-        stock = self.cleaned_data.get("stock", None)
-        if not stock:
-            raise forms.ValidationError("please provide stock", code="invalid")
-
         price = self.cleaned_data.get("price", None)
         if not price:
             raise forms.ValidationError("please provide price", code="invalid")
+
+        image = self.cleaned_data.get("image", None)
+        if not image:
+            raise forms.ValidationError("please provide image", code="invalid")
+
+        category = self.cleaned_data.get("category", None)
+        if not category:
+            raise forms.ValidationError("please provide category", code="invalid")
 
 
 class CategoryAddForm(forms.ModelForm):

@@ -281,6 +281,15 @@ def cart(request):
             full_date = date.today().strftime("%B %d, %Y")
 
             if datenow == "Sunday":
+                sun = date.today()
+                sunday = date.strftime(sun, "%Y-%m-%d")
+
+                mon = date.today() + timedelta(days=1)
+                monday = date.strftime(mon, "%Y-%m-%d")
+
+                tue = date.today() + timedelta(days=2)
+                tuesday = date.strftime(tue, "%Y-%m-%d")
+
                 wed = date.today() + timedelta(days=3)
                 wednesday = date.strftime(wed, "%Y-%m-%d")
 
@@ -291,6 +300,16 @@ def cart(request):
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Monday":
+
+                sunday = None
+                tuesday = None
+
+                mon = date.today()
+                monday = date.strftime(mon, "%Y-%m-%d")
+
+                tue = date.today() + timedelta(days=1)
+                tuesday = date.strftime(tue, "%Y-%m-%d")
+
                 wed = date.today() + timedelta(days=2)
                 wednesday = date.strftime(wed, "%Y-%m-%d")
 
@@ -301,6 +320,13 @@ def cart(request):
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Tuesday":
+
+                sunday = None
+                monday = None
+
+                tue = date.today()
+                tuesday = date.strftime(tue, "%Y-%m-%d")
+
                 wed = date.today() + timedelta(days=1)
                 wednesday = date.strftime(wed, "%Y-%m-%d")
 
@@ -311,7 +337,12 @@ def cart(request):
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Wednesday":
-                wednesday = None
+                sunday = None
+                monday = None
+                tuesday = None
+                wed = date.today()
+                wednesday = date.strftime(wed, "%Y-%m-%d")
+
                 thu = date.today() + timedelta(days=1)
                 thursday = date.strftime(thu, "%Y-%m-%d")
 
@@ -319,12 +350,21 @@ def cart(request):
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Thursday":
+                sunday = None
+                monday = None
+                tuesday = None
                 wednesday = None
-                thursday = None
+
+                thu = date.today()
+                thursday = date.strftime(thu, "%Y-%m-%d")
+
                 fri = date.today() + timedelta(days=1)
                 friday = date.strftime(fri, "%Y-%m-%d")
 
             if datenow == "Friday":
+                sunday = None
+                monday = None
+                tuesday = None
                 wednesday = None
                 thursday = None
                 fri = date.today()
@@ -341,6 +381,9 @@ def cart(request):
                     "datenow": datenow,
                     "time": time,
                     "full_date": full_date,
+                    "sunday": sunday,
+                    "monday": monday,
+                    "tuesday": tuesday,
                     "wednesday": wednesday,
                     "thursday": thursday,
                     "friday": friday,

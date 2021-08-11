@@ -321,22 +321,47 @@
                                             <label class="order-form-label" for="date-picker-example">Address</label>
                                         </div>
                                         <div class="col-6">
-                                            {%if 'Sunday' in datenow or 'Monday' in datenow or 'Tuesday' in datenow%}
+                                            {%if datenow == 'sunday'%}
                                             <select id="collectionDay"
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="none">{{full_date}}</option>
+                                                <option selected value="{{sunday}}">{{full_date}}</option>
+                                                <option value="{{monday}}">Monday</option>
+                                                <option value="{{tuesday}}">Tuesday</option>
                                                 <option value="{{wednesday}}">Wednesday</option>
                                                 <option value="{{thursday}}">Thursday</option>
                                                 <option value="{{friday}}">Friday</option>
                                             </select>
+                                            {%elif datenow == 'monday'%}
+
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
+                                                name="collectionDay">
+                                                <option selected value="{{monday}}">{{full_date}}</option>
+                                                <option value="{{tuesday}}">Tuesday</option>
+                                                <option value="{{wednesday}}">Wednesday</option>
+                                                <option value="{{thursday}}">Thursday</option>
+                                                <option value="{{friday}}">Friday</option>
+                                            </select>
+
+                                            {%elif datenow == 'tuesday'%}
+
+                                            <select id="collectionDay"
+                                                class="order-form-input custom-select-sm collectionday"
+                                                name="collectionDay">
+                                                <option selected value="{{tuesday}}">{{full_date}}</option>
+                                                <option value="{{wednesday}}">Wednesday</option>
+                                                <option value="{{thursday}}">Thursday</option>
+                                                <option value="{{friday}}">Friday</option>
+                                            </select>
+
 
                                             {%elif datenow == 'Wednesday'%}
 
                                             <select id="collectionDay"
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="none">{{full_date}}</option>
+                                                <option selected value="{{wednesday}}">{{full_date}}</option>
                                                 <option value="{{thursday}}">Thursday</option>
                                                 <option value="{{friday}}">Friday</option>
                                             </select>
@@ -346,7 +371,7 @@
                                             <select id="collectionDay"
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="none">{{full_date}}</option>
+                                                <option selected value="{{thursday}}">{{full_date}}</option>
                                                 <option value="{{friday}}">Friday</option>
                                             </select>
                                             {%elif 'Friday' in datenow or 'Saturday' in datenow %}
@@ -354,8 +379,7 @@
                                             <select id="collectionDay"
                                                 class="order-form-input custom-select-sm collectionday"
                                                 name="collectionDay">
-                                                <option selected value="none">{{full_date}}</option>
-                                                <option value="{{friday}}">Friday</option>
+                                                <option selected value="{{friday}}">{{full_date}}</option>
                                             </select>
                                             {%endif%}
                                         </div>

@@ -122,7 +122,7 @@
                                 {% endfor %}
                               </select>
 
-                              <label for="text" class="mt-3">Discount Amount</label>
+                              <label for="text" class="mt-3">Discount</label>
                               <input type="text" name="offerAmount" value="" class="form-control" required>
                               <label for="text" class="mt-3">Valid Until</label>
                               <input type="text" name="validtime" value="" class="form-control" required><br>
@@ -150,8 +150,6 @@
                       <thead>
                         <tr>
                           <th>Product Name</th>
-                          <th>Product Quantity</th>
-                          <th>Stock</th>
                           <th>Price</th>
                           <th>Status</th>
                           <th>Image</th>
@@ -166,8 +164,6 @@
                         {% for products in product %}
                         <tr>
                           <td>{{products.name}}</td>
-                          <td>{{products.quantity}}</td>
-                          <td>{{products.stock}}</td>
                           <td>£ {{products.price}}</td>
                           <td>{{products.status}}</td>
                           <td>
@@ -251,7 +247,7 @@
                           {% if user.admin%}
                           <th>Trader Name</th>
                           {%endif%}
-                          <th>Offer Amount</th>
+                          <th>Offer</th>
                           <th>Offer Time</th>
                           <th>Action</th>
                         </tr>
@@ -305,7 +301,7 @@
                                 {% endfor %}
                               </select>
 
-                              <label for="text" class="mt-3">Discount Amount</label>
+                              <label for="text" class="mt-3">Discount</label>
                               <input type="text" name="offerAmount" value="" class="form-control" required>
                               <label for="text" class="mt-3">Valid Until</label>
                               <input type="text" name="validtime" value="" class="form-control" required><br>
