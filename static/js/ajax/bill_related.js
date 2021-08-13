@@ -47,7 +47,6 @@ $(document).ready(function () {
                     quantity.push(value.fields.quantity)
                 });
 
-
                 for (let i = 0; i < invoice.length; i++) {
                     count = count + 1;
                     document.getElementById("toreplace").innerHTML = `
