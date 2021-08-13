@@ -22,4 +22,5 @@ urlpatterns = [
         name="changecustomerpassword",
     ),
     path("updatecustomer", views.UpdateCustomerUser, name="updatecustomer"),
+    path("view_bill/", views.view_bill, name="view_bill"),
 ]

@@ -1,4 +1,4 @@
-{%extends '../base.html'%}{% load static%}
+{%extends '../base.html'%}{% load static%}{% load mathfilters %}{%load extra_filters%}
 
 {%block csspart%}
 <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -8,6 +8,8 @@
   integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="{% static 'css/userprofile.css' %}" />
 <link href="{%static 'assets/css/theme.css' %}" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'css/invoicemodal.css' %}">
+
 <style>
   .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
@@ -60,6 +62,9 @@
     opacity: 1;
     transition: .5s ease;
     backface-visibility: hidden;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
   }
 
   .middle {
@@ -109,6 +114,58 @@
     top: 0;
     left: 0;
     opacity: 0;
+  }
+
+  #invoice section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .pagination {
+    display: inline-block;
+    width: 80%;
+    padding-left: 50%;
+  }
+
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+  }
+
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  .pagination_no {
+    color: black;
+  }
+
+  .noorder {
+    color: black
+  }
+
+  .linkcolor {
+    color: black
+  }
+
+  .btn-info {
+    color: #616161;
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+
+  .js-open-modal {
+    display: none;
   }
 </style>
 {%endblock csspart%}
@@ -227,6 +284,265 @@
                 <!-- Invoice -->
                 <div class="tab-pane" id="invoice">
                   <h6>Invoice</h6>
+                  {% if order%}
+                  <section class="content">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h3 class="card-title">Orders</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <table id="order-table" class="table table-bordered table-hover">
+                                <thead>
+
+                                  <tr>
+                                    <th>Order Id</th>>
+                                    <th>Order Placed Date</th>
+                                    <th>Receiving Date</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                  </tr>
+
+                                </thead>
+                                <tbody>
+                                  {% for orders in order %}
+                                  {% if orders.status%}
+                                  <tr>
+                                    <td>{{orders.id}}</td>
+                                    <td>{{orders.date_of_order}}</td>
+                                    <td>{{orders.day}}</td>
+                                    <td>{{orders.streetaddress}}</td>
+                                    <td>{{orders.status}}</td>
+                                  </tr>
+                                  {%endif%}
+                                  {% endfor%}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+
+
+                    <!-- data modal for data -->
+                    <div id="popup" class="modal-box manage-modal">
+                      <div class="modal-body">
+                        <!-- /.container-fluid -->
+                        <div class="page-content container">
+                          <div class="page-header text-blue-d2">
+                            <h1 class="page-title text-secondary-d1">
+                              Invoice
+                              <small class="page-info">
+                                <i class="fa fa-angle-double-right text-80"></i>
+                                ID:
+                                <span id="oid"></span>
+                              </small>
+                            </h1>
+
+                            <div class="page-tools">
+                              <div class="action-buttons">
+                                <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print">
+                                  <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+                                  Print
+                                </a>
+                                <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
+                                  <i class="mr-1 far fa-file-pdf text-danger-m1 text-120 w-2"></i>
+                                  Export
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="container px-0">
+                            <div class="row mt-4">
+                              <div class="col-12 col-lg-10 offset-lg-1">
+                                <div class="row">
+                                  <div class="col-sm-6">
+                                    <div>
+                                      <span class="text-sm text-grey-m2 align-middle">To:</span>
+                                      <span class="text-600 text-110 text-blue align-middle">{{user.first_name}}</span>
+                                    </div>
+                                    <div class="text-grey-m2">
+                                      <div class="my-1">
+                                        <span id="streetaddress"></span>
+                                      </div>
+                                      <div class="my-1">
+                                        <span id="address"></span>
+                                      </div>
+                                      <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b
+                                          class="text-600">111-111-111</b></div>
+                                    </div>
+                                  </div>
+                                  <!-- /.col -->
+
+                                  <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                    <hr class="d-sm-none" />
+                                    <div class="text-grey-m2">
+                                      <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                        Invoice
+                                      </div>
+                                      <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                                        Issue Date:
+                                        <span class="text-600 text-90" id="date"></span>
+
+                                      </div>
+                                      <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                                        Receiving Date:
+                                        <span class="text-600 text-90" id="day"></span>
+
+                                      </div>
+                                      <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                                        <span class="text-600 text-90">Status:</span>
+                                        <span class="badge badge-warning badge-pill px-25">Paid</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- /.col -->
+                                </div>
+
+                                <div class="mt-4">
+                                  <div class="row text-600 text-white bgc-default-tp1 py-25">
+                                    <div class="d-none d-sm-block col-1">#</div>
+                                    <div class="col-5 col-sm-3">Description</div>
+                                    <div class="d-none d-sm-block col-1 col-sm-2">Restaurent</div>
+                                    <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
+                                    <div class="d-none d-sm-block col-sm-2">Unit Price</div>
+                                    <div class="col-2">Amount</div>
+                                  </div>
+
+                                  <div class="text-95 text-secondary-d3" id="toreplace">
+
+                                    <div class="row mb-2 mb-sm-0 py-25">
+                                      <div class="d-none d-sm-block col-1 linkcolor" id="count"></div>
+                                      <div class="col-5 col-sm-3 linkcolor" id="desc"></div>
+                                      <div class="d-none d-sm-block col-1 col-sm-2 linkcolor" id="restaurent">
+                                      </div>
+                                      <div class="d-none d-sm-block col-2 linkcolor" id="qty"></div>
+                                      <div class="d-none d-sm-block col-2 text-95 linkcolor" id="uprice"></div>
+                                      <div class="col-2 text-secondary-d2 linkcolor" id="amt">
+
+                                      </div>
+                                      <br />
+                                      <br>
+                                      <div class="col-12 col-sm-12 text-grey text-90 order-first order-sm-last">
+                                        <div class="row my-2">
+                                          <div class="col-10 text-right linkcolor">
+                                            VAT
+                                          </div>
+                                          <div class="col-2">
+                                            <span class="text-110 text-secondary-d1 linkcolor" id="vat">£
+                                            </span>
+                                          </div>
+                                        </div>
+
+                                        <div class="row my-2">
+                                          <div class="col-10 text-right linkcolor">
+                                            Service Charge
+                                          </div>
+                                          <div class="col-2">
+                                            <span class="text-110 text-secondary-d1 linkcolor" id="service">£
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div class="row my-2">
+                                          <div class="col-10 text-right linkcolor">
+                                            Subtotal
+                                          </div>
+                                          <div class="col-2">
+                                            <span class="text-110 text-secondary-d1 linkcolor" id="subtotal">£
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                                  </div>
+
+                                  <div class="row border-b-2 brc-default-l2"></div>
+
+                                  <div class="row mt-3">
+                                    <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0 linkcolor">
+                                      Extra note such as company or payment information...
+                                    </div>
+                                    <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                      <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                        <div class="col-7 text-right linkcolor">
+                                          Total Amount
+                                        </div>
+                                        <div class="col-5">
+                                          <span class="text-150 text-success-d3 opacity-2 linkcolor" id="total">£
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <hr />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <footer>
+                        <a href="#" class="js-modal-close">Close Button</a>
+                      </footer>
+                    </div>
+
+                    <a class="js-open-modal" href="#popup" data-modal-id="popup"> Click me </a>
+
+                  </section>
+                  <div class="pagination">
+                    <span>
+
+                      {%if order.has_previous%}
+                      <a href="?page={{order.previous_page_number}}"> Previous </a>
+                      {%endif%}
+
+                      <a><span class="pagination_no">{{order.number}}</span></a>
+
+                      {%if order.has_next%}
+                      <a href="?page={{order.next_page_number}}"> Next </a>
+                      {%endif%}
+
+                    </span>
+
+                  </div>
+                  {%else%}
+                  <!--content for offer-->
+                  <section class="content">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h3 class="card-title">Orders</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body noorder">
+                              No orders are placed yet
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                          <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                  </section>
+                  {%endif%}
+                  <!-- /.content -->
                 </div>
                 <!-- Invoice Ends-->
 
@@ -258,8 +574,42 @@
     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
     </script>
   <script src="{% static 'js/ajax/actions.js'%}"></script>
+  <script src="{% static 'js/ajax/bill_related.js'%}"></script>
   <script src="http://code.jquery.com/jquery-3.4.0.min.js"
     integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script>
+    jQuery(document).ready(function ($) {
+      $(".clickable-row").click(function () {
+        window.location = $(this).data("href");
+      });
+    });
+
+    $(function () {
+      var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
+      $('a[data-modal-id]').click(function (e) {
+        e.preventDefault();
+        $("body").append(appendthis);
+        $(".modal-overlay").fadeTo(500, 0.7);
+        //$(".js-modalbox").fadeIn(500);
+        var modalBox = $(this).attr('data-modal-id');
+        $('#' + modalBox).fadeIn($(this).data());
+
+      });
+      $(".js-modal-close, .modal-overlay").click(function () {
+        $(".modal-box, .modal-overlay").fadeOut(500, function () {
+          $(".modal-overlay").remove();
+        });
+
+      });
+      $(window).resize(function () {
+        $(".modal-box").css({
+          top: -50,
+          left: -50
+        });
+      });
+      $(window).resize();
+    });
+  </script>
   {%endblock script%}
 </body>
 

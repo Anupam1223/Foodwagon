@@ -1,5 +1,5 @@
 from product.forms import ProductAddForm
-from login.models import User
+from login.models import User, VendorInfo
 from product.models import Product
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
@@ -20,6 +20,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from delivery.models import Order, Order_details
+from decimal import *
+from django.core import serializers
 
 # Create AdminView to see user value----------------------------------
 class AdminView(TemplateView):
@@ -260,14 +263,25 @@ class UserProfile(TemplateView):
                 no_of_item_in_cart = request.session["cart_count"]
             else:
                 no_of_item_in_cart = None
+
+            semail = request.session["user"]
+            verifyUser = User.objects.filter(email=semail).first()
+            id = verifyUser.id
+            orders_for_customer = []
+            orders_for_customers = Order.objects.filter(user_id=id)
+            for order_for_customer in orders_for_customers:
+                if order_for_customer.status:
+                    orders_for_customer.append(order_for_customer)
+
+            paginator = Paginator(orders_for_customer, 5)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
+
             # rendering the userview template to see them
             return render(
                 request,
                 self.template_name,
-                {
-                    "form": fm,
-                    "cart_count": no_of_item_in_cart,
-                },
+                {"form": fm, "cart_count": no_of_item_in_cart, "order": page_obj},
             )
         else:
             return HttpResponseRedirect("../login/")
@@ -356,3 +370,71 @@ def UpdateCustomerUser(request):
         else:
             messages.error(request, "user update unsuccessfull")
             return HttpResponseRedirect("../admins/userprofile")
+
+
+def view_bill(request):
+    if request.method == "GET":
+        order_id = request.GET.get("id")
+        invoice_data = serializers.serialize("json", Order.objects.filter(id=order_id))
+
+        vat = []
+        service_charge = []
+        totals = []
+        subtotal = []
+        vat_amount = []
+        total = 0
+        to_pay = 0
+        sub_total = 0
+        traders = []
+        productsss = []
+
+        invoices = serializers.serialize(
+            "json", Order_details.objects.filter(order=order_id)
+        )
+        invoice = Order_details.objects.filter(order=order_id)
+
+        for invoc in invoice:
+            if invoc.order.status:
+                product = Product.objects.filter(id=invoc.product.id).first()
+                restaurent = VendorInfo.objects.filter(
+                    user_id=product.trader_id
+                ).first()
+
+                total = invoc.price * invoc.quantity
+                totals.append(total)
+                traders.append(restaurent.user.first_name)
+                productsss.append(product.name)
+
+                # if restaurent.additional_vat not in vat:
+                vat_amt = (
+                    Decimal(restaurent.additional_vat / 100).quantize(
+                        Decimal(".01"), rounding=ROUND_DOWN
+                    )
+                    * invoc.price
+                )
+                servicecharge = restaurent.additional_service_charge
+
+                vat_amount.append(vat_amt)
+                vat.append(restaurent.additional_vat)
+                service_charge.append(servicecharge)
+
+                sub_total = total + (vat_amt + Decimal(servicecharge))
+
+                subtotal.append(sub_total)
+
+        for subtotals in subtotal:
+            to_pay = to_pay + subtotals
+
+    contexts = {
+        "invoice": invoices,
+        "invoice_data": invoice_data,
+        "vat": vat,
+        "vat_amount": vat_amount,
+        "service_charge": service_charge,
+        "subtotal": subtotal,
+        "to_pay": to_pay,
+        "total": totals,
+        "trader": traders,
+        "product": productsss,
+    }
+    return JsonResponse(contexts)

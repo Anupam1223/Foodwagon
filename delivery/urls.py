@@ -13,4 +13,5 @@ urlpatterns = [
     path("view_order/", views.View_Order.as_view(), name="view_order"),
     path("view_bill/<int:id>", views.view_bill, name="view_bill"),
     path("download_file/<int:id>", views.generatePDF, name="download_file"),
+    path("paid/<int:id>", views.paid, name="paid"),
 ]

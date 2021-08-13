@@ -9,10 +9,8 @@ from django.http import JsonResponse
 from datetime import datetime as date, timedelta
 from .models import Order, Order_details
 from decimal import *
-from django.views.generic import View
 from django.http import HttpResponse
 from mulberry.utils import render_to_pdf
-from django.template.loader import get_template
 
 # Create your views here.
 class CategoryView(TemplateView):
@@ -714,3 +712,10 @@ def generatePDF(request, id):
             response["Content-Disposition"] = content
             return response
         return HttpResponse("Not found")
+
+
+def paid(request, id):
+    if request.method == "GET":
+        order_id = id
+        Order.objects.filter(id=order_id).update(status=True)
+        return HttpResponseRedirect("../view_bill/" + str(id))
