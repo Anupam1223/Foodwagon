@@ -391,8 +391,10 @@
 
                                     <div>
                                         <span class="text-secondary-d1 text-105">Thank you for your business</span>
+                                        {%if not invoice_data.status%}
                                         <a href="{% url 'delivery:paid' invoice_data.id %}"
                                             class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Paid</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

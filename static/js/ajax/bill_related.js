@@ -46,10 +46,11 @@ $(document).ready(function () {
                     price.push(value.fields.price)
                     quantity.push(value.fields.quantity)
                 });
+                document.getElementById("toreplace").innerHTML = "";
 
                 for (let i = 0; i < invoice.length; i++) {
                     count = count + 1;
-                    document.getElementById("toreplace").innerHTML = `
+                    document.getElementById("toreplace").innerHTML += `
                     <div class="text-95 text-secondary-d3">
                         <div class="row mb-2 mb-sm-0 py-25">
                             <div class="d-none d-sm-block col-1 linkcolor">`+ count + `</div>
@@ -98,7 +99,6 @@ $(document).ready(function () {
 
                   </div>`;
                 }
-
             }
         });
     });

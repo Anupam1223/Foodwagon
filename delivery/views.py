@@ -13,34 +13,48 @@ from django.http import HttpResponse
 from mulberry.utils import render_to_pdf
 
 # Create your views here.
+
+# ----- CategoryView sends all the data from backend to main page -------
 class CategoryView(TemplateView):
     template_name = "delivery.html"
 
     def get(self, request):
 
+        # -- checks if user is logged-in or not, if user is logged in then we can see
+        # -- username in the top navigation panel, we can click the name and see the user profile
         if request.session.has_key("user"):
             # extract session value to extract the user password from database
             semail = request.session["user"]
 
             # extract the user with matching email taken from session
             verifyUser = User.objects.filter(email=semail).first()
+
+            # -- if the user logged in is super-admin or admin then he/she is
+            # -- logged in another admin panel
             if verifyUser.admin or verifyUser.is_staff:
                 return HttpResponseRedirect("../admins/admin")
 
-        # return render(request, self.template_name, {'product':product})
         product = Product.objects.all()
         traders = User.objects.filter(is_staff=True, is_active=True)
-        print(traders)
+
+        # -- just sending only four trader in main panel, after clicking view all we can see all restaurent
         trader = traders[0:4]
         offerss = Offer.objects.all()
+
+        # -- only sending four product with offer
         offer = offerss[0:4]
+
+        # -- sending different lists of for slider
         product1 = product[0:5]
         product2 = product[5:10]
+
+        # -- checking whether there is an item in cart, if so show the no of items in cart
         if request.session.has_key("cart_count"):
             no_of_item_in_cart = request.session["cart_count"]
         else:
             no_of_item_in_cart = None
 
+        # -- rendering all the data with the above information as dictionary
         return render(
             request,
             self.template_name,
@@ -57,47 +71,68 @@ class CategoryView(TemplateView):
 
 
 def filter_category(request):
+
+    # -- if user selects offer or category and search for it
+    # -- post data hits this url then this condition will work
     if request.method == "POST":
 
+        # -- for searching according to category
         categoryid = request.POST.get("categoryid")
+
+        # -- for searching according to offer
         offerid = request.POST.get("offerid")
 
+        # -- if all is selected than all the restaurent is shown
         if categoryid == "all" or offerid == "all":
             trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
             selected_category = None
             total_trader_count = trader.count()
+        # -- else only selected restaurent according to category is shown
         else:
             traders = []
+
+            # -- if user wants to search according to category
             if categoryid:
                 selected_category = Categories.objects.filter(id=categoryid).first()
                 products = Product.objects.filter(category=categoryid)
+                # -- trader with only selected category is shown
                 for product in products:
                     traders.append(product.trader)
+
+            # -- if user wants to search according to offer
             else:
                 selected_category = Offer.objects.filter(id=offerid).first()
                 offersss = Offer.objects.filter(id=offerid)
                 for product in offersss:
                     traders.append(product.trader_offer)
+
+            # -- converting the list containing trader to set so that same trader wont be saved for two times
             trade = set(traders)
+            # -- again converting it to list becuase nopw we have filtered data, and its way easier to work with list
             trader = list(trade)
 
             count = 0
             for traders in trader:
                 count = count + 1
             total_trader_count = count
+
         # paginaton code--------------------------
         paginator = Paginator(trader, 4)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         # ----------------------------------------
+
+        # -- if cart has food than it will show count of food else it will store none
         if request.session.has_key("cart_count"):
             no_of_item_in_cart = request.session["cart_count"]
         else:
             no_of_item_in_cart = None
 
+        # -- to show in the tempalte, so that user can select the category
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:2]
+
         return render(
             request,
             "delivery/vendors.html",
@@ -110,6 +145,8 @@ def filter_category(request):
                 "cart_count": no_of_item_in_cart,
             },
         )
+    # -- if user hits the url to show restaurent page than this part of code will send required
+    # -- data
     else:
         product = Product.objects.all()
         trader = User.objects.filter(is_staff=True, is_active=True).order_by("id")
@@ -117,6 +154,7 @@ def filter_category(request):
         category = Categories.objects.all()
         offerss = Offer.objects.all()
         offer = offerss[0:2]
+
         # paginaton code--------------------------
         paginator = Paginator(trader, 4)
         page_number = request.GET.get("page")
@@ -142,7 +180,6 @@ def filter_category(request):
 
 def filter_product(request, id):
     if request.method == "POST":
-
         categoryid = request.POST.get("categoryid")
         offerid = request.POST.get("offerid")
 
@@ -300,7 +337,6 @@ def cart(request):
             if datenow == "Monday":
 
                 sunday = None
-                tuesday = None
 
                 mon = date.today()
                 monday = date.strftime(mon, "%Y-%m-%d")
@@ -389,7 +425,9 @@ def cart(request):
             )
         else:
             if request.session.has_key("user"):
-                user = request.session["user"]
+                users = request.session["user"]
+                user = User.objects.filter(email=users).first()
+
             else:
                 user = None
             return render(
