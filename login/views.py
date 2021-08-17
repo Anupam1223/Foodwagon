@@ -22,7 +22,7 @@ from django.contrib.auth import (
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 
-
+# ------------------------------------------- Create your views here---------------------------
 # ------------------ Views for logging in --------------------------
 def loginUser(request):
 
@@ -95,7 +95,7 @@ def loginUser(request):
 
 # ------------------------------------------------------------------------------------------------------------
 
-# Create your views here--------------------------------------------------------------------------------------
+
 def UserRegister(request):
 
     if request.method == "POST":
