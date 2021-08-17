@@ -160,6 +160,7 @@ def filter_category(request):
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         # ----------------------------------------
+
         if request.session.has_key("cart_count"):
             no_of_item_in_cart = request.session["cart_count"]
         else:
@@ -178,7 +179,9 @@ def filter_category(request):
         )
 
 
+# -- when we hit this url we will get filtered restaurents
 def filter_product(request, id):
+    # -- if
     if request.method == "POST":
         categoryid = request.POST.get("categoryid")
         offerid = request.POST.get("offerid")
@@ -227,7 +230,6 @@ def filter_product(request, id):
         )
     else:
         sort = request.GET.get("sort")
-        print(sort)
         if sort:
             product = Product.objects.filter(trader_id=id).order_by(sort)
         else:
@@ -263,14 +265,20 @@ def filter_product(request, id):
         )
 
 
+# -- we hit this url to add food in cart
 def add_to_cart(request):
+    # -- if user is not logged-in then he she cannot add food to the cart
+    # -- instead a jsonresponse of error is sent
     if not request.session.has_key("user"):
         data = {"error": "login"}
         return JsonResponse(data)
 
+    # -- data or product id is sent from ajax, that product id is catched in a variable
     if request.method == "GET":
         p_id = request.GET.get("addCart")
         if p_id:
+            # -- if the cart already contains food then newly selected
+            # -- food id is appended to the list cart
             if request.session.has_key("cart_content"):
                 cart = request.session["cart_content"]
             else:
@@ -283,38 +291,63 @@ def add_to_cart(request):
             for no_of_element in user_cart:
                 count = count + 1
             total_element_count = count
+
+            # -- cart count, total number of food in cart is saved in session
             request.session["cart_count"] = total_element_count
+
+            # -- cart content, total food in cart is saved in this session
             request.session["cart_content"] = user_cart
+
+            # -- if all the session is saved successully then success response is sent to ajax
             data = {"sucess": total_element_count}
             return JsonResponse(data)
 
 
+# -- actuall cart page
 def cart(request):
-    if request.method == "POST":
-        pass
-    else:
+    # -- if we are initially viewing the cart
+    if request.method == "GET":
+        # -- if there is atleast one food in cart then this condition is runned
         if request.session.has_key("cart_content"):
+
+            # -- list to store food in cart
             product_objects = []
+
+            # --accessing cart value so that we can extract all the food selected by user
             cart_values = request.session["cart_content"]
             initial_total = 0
 
+            # -- going through all the values inside of list to save each of them in product_objects
             for values in cart_values:
                 product = Product.objects.filter(id=values).first()
                 product_objects.append(product)
                 initial_total += product.price
 
+            # -- creating a object of Offer table
             offer = Offer.objects.all()
+
+            # -------pagination code -----------------------------
             paginator = Paginator(product_objects, 4)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
+            # ----------------------------------------------------
+
+            # -- checking if cart contains any food
+            # -- if it contains then it is send as a context to template
             if request.session.has_key("cart_count"):
                 no_of_item_in_cart = request.session["cart_count"]
             else:
                 no_of_item_in_cart = None
+
+            # -- working for time, user need to select date and time of order
+            # -- datenow stores todays date
             datenow = date.today().strftime("%A")
             time = date.now().hour
+
+            # -- full_date stores todays date in format -> AUGUST 17, 2021
             full_date = date.today().strftime("%B %d, %Y")
 
+            # -- condition of day, if today is sunday then user can select sun, mon, tue, wed, thu, fri
             if datenow == "Sunday":
                 sun = date.today()
                 sunday = date.strftime(sun, "%Y-%m-%d")
@@ -423,6 +456,7 @@ def cart(request):
                     "friday": friday,
                 },
             )
+        # -- if user is not logged-in then this data is rendered to cart page
         else:
             if request.session.has_key("user"):
                 users = request.session["user"]
@@ -439,6 +473,7 @@ def cart(request):
             )
 
 
+# -- we hit this url if we want to remove food from cart
 def remove_from_cart(request):
     if request.method == "GET":
         p_id = request.GET.get("removeCartItem")
