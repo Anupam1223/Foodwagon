@@ -273,7 +273,7 @@ class UserProfile(TemplateView):
                 if order_for_customer.status:
                     orders_for_customer.append(order_for_customer)
 
-            paginator = Paginator(orders_for_customer, 5)
+            paginator = Paginator(orders_for_customer, 10)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
 
