@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "admins",
     "product",
     "mathfilters",
+    "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
