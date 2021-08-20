@@ -1,27 +1,24 @@
 from django.test import TestCase
-from login.models import VendorInfo
+from login.models import User
 
 
 class VendorInfoTestClass(TestCase):
     @classmethod
     def setUpTestData(cls):
-        print(
-            "setUpTestData: Run once to set up non-modified data for all class methods."
-        )
-        pass
+        # Set up non-modified objects used by all test methods
+        User.objects.create(first_name="Big", last_name="Bob")
 
-    def setUp(self):
-        print("setUp: Run once for every test method to setup clean data.")
-        pass
+    def test_first_name_label(self):
+        user = User.objects.get(id=1)
+        field_label = user._meta.get_field("first_name").verbose_name
+        self.assertEqual(field_label, "first name")
 
-    def test_false_is_false(self):
-        print("Method: test_false_is_false.")
-        self.assertFalse(False)
+    def test_date_of_last_login(self):
+        user = User.objects.get(id=1)
+        field_label = user._meta.get_field("last_login").verbose_name
+        self.assertEqual(field_label, "last login")
 
-    def test_false_is_true(self):
-        print("Method: test_false_is_true.")
-        self.assertTrue(False)
-
-    def test_one_plus_one_equals_two(self):
-        print("Method: test_one_plus_one_equals_two.")
-        self.assertEqual(1 + 1, 2)
+    def test_first_name_max_length(self):
+        user = User.objects.get(id=1)
+        max_length = user._meta.get_field("first_name").max_length
+        self.assertEqual(max_length, 30)
