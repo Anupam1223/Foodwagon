@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "product",
     "mathfilters",
     "rest_framework",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [

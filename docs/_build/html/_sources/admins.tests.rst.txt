@@ -1,0 +1,10 @@
+admins.tests package
+====================
+
+Module contents
+---------------
+
+.. automodule:: admins.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,77 @@
+product.migrations package
+==========================
+
+Submodules
+----------
+
+product.migrations.0001\_initial module
+---------------------------------------
+
+.. automodule:: product.migrations.0001_initial
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0002\_remove\_product\_category module
+---------------------------------------------------------
+
+.. automodule:: product.migrations.0002_remove_product_category
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0003\_auto\_20210726\_1222 module
+----------------------------------------------------
+
+.. automodule:: product.migrations.0003_auto_20210726_1222
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0004\_categories\_status module
+--------------------------------------------------
+
+.. automodule:: product.migrations.0004_categories_status
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0005\_alter\_product\_unique\_together module
+----------------------------------------------------------------
+
+.. automodule:: product.migrations.0005_alter_product_unique_together
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0006\_alter\_offer\_offer\_amount module
+-----------------------------------------------------------
+
+.. automodule:: product.migrations.0006_alter_offer_offer_amount
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0007\_alter\_product\_image module
+-----------------------------------------------------
+
+.. automodule:: product.migrations.0007_alter_product_image
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+product.migrations.0008\_auto\_20210811\_1021 module
+----------------------------------------------------
+
+.. automodule:: product.migrations.0008_auto_20210811_1021
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: product.migrations
+   :members:
+   :undoc-members:
+   :show-inheritance:

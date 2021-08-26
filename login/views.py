@@ -25,7 +25,6 @@ from django.http import JsonResponse
 # ------------------------------------------- Create your views here---------------------------
 # ------------------ Views for logging in --------------------------
 def loginUser(request):
-
     if not request.session.has_key("user"):
         if request.method == "POST":
 

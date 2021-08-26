@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Cart and Order &#8212; Foodwagon 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Website" href="main_template.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cart-and-order">
+<h1>Cart and Order<a class="headerlink" href="#cart-and-order" title="Permalink to this headline">¶</a></h1>
+<p><strong>METHOD:GET</strong></p>
+<p><em>Add to Cart</em></p>
+<p><a href="#id4"><span class="problematic" id="id5">`/delivery/add_to_cart/`_</span></a></p>
+<ul class="simple">
+<li><p>when order now button is clicked program flow moves to ajax and ajax call the above URL</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">program execution</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="n">Program</span> <span class="n">flow</span> <span class="ow">is</span> <span class="n">redirected</span> <span class="n">to</span> <span class="n">above</span> <span class="n">url</span> <span class="ow">and</span> <span class="n">after</span> <span class="n">that</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">selected</span> <span class="n">product</span> <span class="ow">is</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">a</span> <span class="nb">list</span><span class="p">,</span>
+ <span class="n">this</span> <span class="nb">list</span> <span class="ow">is</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">session</span> <span class="n">so</span> <span class="n">that</span> <span class="n">we</span> <span class="n">can</span> <span class="n">access</span> <span class="n">it</span> <span class="n">afterwards</span><span class="o">.</span> <span class="n">Duplicate</span> <span class="n">values</span> <span class="n">cant</span> <span class="n">be</span> <span class="n">stored</span> <span class="ow">in</span>
+ <span class="n">this</span> <span class="n">cart</span> <span class="n">because</span> <span class="n">we</span> <span class="n">convert</span> <span class="n">this</span> <span class="n">cart</span> <span class="nb">list</span> <span class="n">into</span> <span class="nb">set</span> <span class="ow">and</span> <span class="n">again</span> <span class="n">that</span> <span class="nb">set</span> <span class="n">to</span> <span class="nb">list</span>
+</pre></div>
+</div>
+</div>
+<p><em>Remove from Cart</em></p>
+<p><a href="#id6"><span class="problematic" id="id7">`/delivery/remove_from_cart/`_</span></a></p>
+<ul class="simple">
+<li><p>when remove button clicked, program flow moves to ajax and ajax call the above URL</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">program execution</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="n">food</span> <span class="nb">id</span> <span class="n">that</span> <span class="n">we</span> <span class="n">select</span> <span class="n">to</span> <span class="n">remove</span> <span class="kn">from</span> <span class="nn">cart</span> <span class="ow">is</span> <span class="n">sent</span> <span class="n">to</span> <span class="n">ajax</span><span class="p">,</span> <span class="n">ajax</span> <span class="n">calls</span> <span class="n">the</span> <span class="n">above</span> <span class="n">view</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">removes</span> <span class="n">the</span>
+ <span class="n">selected</span> <span class="n">food</span> <span class="kn">from</span> <span class="nn">the</span> <span class="nb">list</span>
+</pre></div>
+</div>
+</div>
+<p><em>View Order</em></p>
+<p><a href="#id8"><span class="problematic" id="id9">`/delivery/view_order/`_</span></a></p>
+<ul class="simple">
+<li><p>when we hit this url we will get to see all the placed order with date and time</p></li>
+</ul>
+<p><em>program execution</em></p>
+<ul class="simple">
+<li><p>If incase of normal user, paid order are shown in user profile(in website)</p></li>
+<li><p>If incase, admin then all the order either paid or un-paid related to it is shown(in admin panel)</p></li>
+<li><p>If incase, super-admin then all the order either paid or un-paid is shown(in admin panel)</p></li>
+</ul>
+<p><em>View Cart</em></p>
+<p><a href="#id10"><span class="problematic" id="id11">`/delivery/cart/`_</span></a></p>
+<ul class="simple">
+<li><p>when we hit this url we will get to see all the food ordered and kept in cart</p></li>
+</ul>
+<p><em>program execution</em></p>
+<ul class="simple">
+<li><p>in this cart page, all the food kept in cart is shown</p></li>
+<li><p>We can remove food from cart</p></li>
+<li><p>Just below the list of food, there is an order form</p></li>
+<li><p>We select quantity of order and other details such as address etc for delivery</p></li>
+<li><dl class="simple">
+<dt>When we click place order, all od this information is sent to ajax, where ajax call</dt><dd><p>‘/delivery/cart/’ url and all the information is stored in database, all of the
+validation is done inside this cart view</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><em>View Bill</em></p>
+<p><a href="#id12"><span class="problematic" id="id13">`/delivery/view_bill/`_</span></a></p>
+<ul class="simple">
+<li><p>when we hit this url we will get all the paid orders by logged-in user</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">program execution</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="n">Ajax</span> <span class="ow">is</span> <span class="n">called</span> <span class="n">when</span> <span class="n">we</span> <span class="n">click</span> <span class="n">on</span> <span class="n">the</span> <span class="n">orders</span><span class="p">,</span> <span class="n">ajax</span> <span class="n">will</span> <span class="n">indeed</span> <span class="n">call</span> <span class="s2">&quot;/admins/view_bill/&quot;</span> <span class="n">url</span> <span class="ow">and</span> <span class="n">after</span> <span class="n">that</span>
+ <span class="nb">all</span> <span class="n">the</span> <span class="n">data</span> <span class="n">manipulation</span> <span class="ow">is</span> <span class="n">done</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">order</span> <span class="ow">and</span> <span class="n">its</span> <span class="n">details</span> <span class="n">are</span> <span class="n">made</span> <span class="n">ready</span> <span class="n">to</span> <span class="n">be</span> <span class="n">shown</span><span class="p">,</span> <span class="n">json</span> <span class="n">data</span>
+ <span class="ow">is</span> <span class="n">sent</span> <span class="n">back</span> <span class="n">to</span> <span class="n">ajax</span> <span class="ow">and</span> <span class="n">ajax</span> <span class="n">will</span> <span class="n">show</span> <span class="n">the</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">html</span> <span class="n">template</span>
+</pre></div>
+</div>
+</div>
+<p><em>Generate PDF</em></p>
+<p><a href="#id14"><span class="problematic" id="id15">`/delivery/download_file/&lt;int:id&gt;/`_</span></a></p>
+<ul class="simple">
+<li><p>when we hit this url we see the provided bill in pdf format and also can download it</p></li>
+</ul>
+<p><em>program execution</em></p>
+<ul class="simple">
+<li><p>we declared different template for invoice alone</p></li>
+<li><p>when we hit <cite>/delivery/download_file/&lt;int:id&gt;/</cite> url with order id then this view will return all the values to be shown in pdf</p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Foodwagon</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="signin.html">SignIn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signup.html">SignUp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="userprofile.html">User Profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main_template.html">Website</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cart and Order</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="main_template.html" title="previous chapter">Website</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Anupam Siwakoti.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/orders.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

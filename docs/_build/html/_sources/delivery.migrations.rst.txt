@@ -1,0 +1,93 @@
+delivery.migrations package
+===========================
+
+Submodules
+----------
+
+delivery.migrations.0001\_initial module
+----------------------------------------
+
+.. automodule:: delivery.migrations.0001_initial
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0002\_order\_token module
+---------------------------------------------
+
+.. automodule:: delivery.migrations.0002_order_token
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0003\_auto\_20210803\_1323 module
+-----------------------------------------------------
+
+.. automodule:: delivery.migrations.0003_auto_20210803_1323
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0004\_alter\_order\_date\_of\_order module
+--------------------------------------------------------------
+
+.. automodule:: delivery.migrations.0004_alter_order_date_of_order
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0005\_auto\_20210803\_1345 module
+-----------------------------------------------------
+
+.. automodule:: delivery.migrations.0005_auto_20210803_1345
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0006\_alter\_order\_day module
+--------------------------------------------------
+
+.. automodule:: delivery.migrations.0006_alter_order_day
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0007\_remove\_order\_time module
+----------------------------------------------------
+
+.. automodule:: delivery.migrations.0007_remove_order_time
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0008\_auto\_20210803\_2049 module
+-----------------------------------------------------
+
+.. automodule:: delivery.migrations.0008_auto_20210803_2049
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0009\_remove\_order\_city module
+----------------------------------------------------
+
+.. automodule:: delivery.migrations.0009_remove_order_city
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+delivery.migrations.0010\_remove\_order\_token module
+-----------------------------------------------------
+
+.. automodule:: delivery.migrations.0010_remove_order_token
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: delivery.migrations
+   :members:
+   :undoc-members:
+   :show-inheritance:
