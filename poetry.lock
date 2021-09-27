@@ -121,6 +121,17 @@ optional = false
 python-versions = ">=3.6,<4.0"
 
 [[package]]
+name = "djangorestframework"
+version = "3.12.4"
+description = "Web APIs for Django, made easy."
+category = "dev"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+django = ">=2.2"
+
+[[package]]
 name = "flake8"
 version = "3.9.2"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -390,7 +401,7 @@ six = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b287fed9c6f8f3f1269fc09fb57f0324d6b587a500a6e7ac5bf780c325334f15"
+content-hash = "9a754d749d7c33e118ebeec4c31af0bbc82889d6771c1116d889bdcbf45e3e14"
 
 [metadata.files]
 appdirs = [
@@ -433,6 +444,10 @@ django-mathfilters = [
 django-utils-six = [
     {file = "django-utils-six-2.0.tar.gz", hash = "sha256:4ef9d20de679a5b2448429476452493661fe08f23d6e788a8e9816ec05e3c5b0"},
     {file = "django_utils_six-2.0-py3-none-any.whl", hash = "sha256:8f0e77289d911069a6a15bab5a25ccf2c0fcb8fc4177461dd17470cfdeb94aa6"},
+]
+djangorestframework = [
+    {file = "djangorestframework-3.12.4-py3-none-any.whl", hash = "sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf"},
+    {file = "djangorestframework-3.12.4.tar.gz", hash = "sha256:f747949a8ddac876e879190df194b925c177cdeb725a099db1460872f7c0a7f2"},
 ]
 flake8 = [
     {file = "flake8-3.9.2-py2.py3-none-any.whl", hash = "sha256:bf8fd333346d844f616e8d47905ef3a3384edae6b4e9beb0c5101e25e3110907"},
